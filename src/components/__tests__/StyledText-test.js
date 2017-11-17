@@ -1,10 +1,11 @@
-import 'react-native';
-import React from 'react';
-import { MonoText } from '../StyledText';
-import renderer from 'react-test-renderer';
+import 'react-native'
+import React from 'react'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import renderer from 'react-test-renderer'
+import { MonoText } from '../StyledText'
 
 it('renders correctly', () => {
-  const tree = renderer.create(<MonoText>Snapshot test!</MonoText>).toJSON();
+  const tree = renderer.create(<MonoText>Snapshot test!</MonoText>).toJSON()
 
-  expect(tree).toMatchSnapshot();
-});
+  expect(tree).toMatchSnapshot()
+})

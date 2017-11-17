@@ -1,8 +1,8 @@
-import React from 'react';
-import { Text } from 'react-native';
+import React from 'react'
+import { Text } from 'react-native'
 
-export class MonoText extends React.Component {
-  render() {
-    return <Text {...this.props} style={[this.props.style, { fontFamily: 'space-mono' }]} />;
-  }
-}
+// eslint-disable-next-line import/prefer-default-export
+export const MonoText = props => (
+  // eslint-disable-next-line react/prop-types
+  <Text {...props} style={[props.style, { fontFamily: 'space-mono' }]} />
+)
