@@ -4,23 +4,31 @@ import {
   Text,
   View,
 } from 'react-native'
+import { connect } from 'react-redux'
 
 import { MonoText } from '../components/StyledText'
 
-export default class HomeScreen extends React.Component {
+class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
   }
 
   render() {
+    const { message } = this.props
     return (
       <View style={styles.container}>
         <Text>A message for you:</Text>
-        <MonoText style={styles.codeHighlightText}>hey</MonoText>
+        <MonoText style={styles.codeHighlightText}>{ message }</MonoText>
       </View>
     )
   }
 }
+
+const mapStateToProps = state => ({
+  message: state,
+})
+
+export default connect(mapStateToProps)(HomeScreen)
 
 const styles = StyleSheet.create({
   container: {
