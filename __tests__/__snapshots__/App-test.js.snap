@@ -147,9 +147,9 @@ exports[`renders the root without loading screen 1`] = `
                   <View
                     style={
                       Object {
-                        "alignItems": "center",
                         "flex": 1,
-                        "justifyContent": "center",
+                        "margin": 50,
+                        "marginTop": 80,
                       }
                     }
                   >
@@ -160,7 +160,7 @@ exports[`renders the root without loading screen 1`] = `
                       style={
                         Array [
                           Object {
-                            "margin": 30,
+                            "marginBottom": 40,
                           },
                           Object {
                             "fontFamily": "space-mono",
@@ -168,8 +168,208 @@ exports[`renders the root without loading screen 1`] = `
                         ]
                       }
                     >
-                      Press the button.
+                      I want a room in NYC at 11:07 AM EST for 1 minute.
                     </Text>
+                    <View>
+                      <View
+                        style={
+                          Object {
+                            "alignItems": "flex-end",
+                            "flex": 1,
+                            "flexDirection": "row",
+                            "marginBottom": 30,
+                          }
+                        }
+                      >
+                        <Text
+                          accessible={true}
+                          allowFontScaling={true}
+                          ellipsizeMode="tail"
+                          style={
+                            Object {
+                              "color": "#555555",
+                              "width": 50,
+                            }
+                          }
+                        >
+                          Start
+                        </Text>
+                        <View
+                          accessibilityComponentType={undefined}
+                          accessibilityLabel={undefined}
+                          accessibilityTraits={undefined}
+                          accessible={true}
+                          hasTVPreferredFocus={undefined}
+                          hitSlop={undefined}
+                          isTVSelectable={true}
+                          nativeID={undefined}
+                          onLayout={undefined}
+                          onResponderGrant={[Function]}
+                          onResponderMove={[Function]}
+                          onResponderRelease={[Function]}
+                          onResponderTerminate={[Function]}
+                          onResponderTerminationRequest={[Function]}
+                          onStartShouldSetResponder={[Function]}
+                          style={
+                            Array [
+                              Object {
+                                "backgroundColor": "transparent",
+                              },
+                              undefined,
+                            ]
+                          }
+                          testID={undefined}
+                          tvParallaxProperties={undefined}
+                        >
+                          <Text
+                            accessible={true}
+                            allowFontScaling={true}
+                            ellipsizeMode="tail"
+                            style={
+                              Object {
+                                "color": "tomato",
+                                "fontSize": 18,
+                              }
+                            }
+                          >
+                            11:07 AM EST
+                          </Text>
+                        </View>
+                      </View>
+                      <Modal
+                        hardwareAccelerated={false}
+                        visible={false}
+                      >
+                        <Text
+                          accessible={true}
+                          allowFontScaling={true}
+                          ellipsizeMode="tail"
+                          style={
+                            Object {
+                              "fontSize": 30,
+                              "fontWeight": "bold",
+                              "marginBottom": 50,
+                              "marginLeft": 30,
+                              "marginTop": 60,
+                            }
+                          }
+                        >
+                          Start
+                           time
+                        </Text>
+                        <View
+                          style={undefined}
+                        >
+                          <RCTDatePicker
+                            date={1511107636231}
+                            maximumDate={undefined}
+                            minimumDate={undefined}
+                            minuteInterval={15}
+                            mode="datetime"
+                            onChange={[Function]}
+                            onResponderTerminationRequest={[Function]}
+                            onStartShouldSetResponder={[Function]}
+                            style={
+                              Object {
+                                "height": 216,
+                              }
+                            }
+                            timeZoneOffsetInMinutes={-300}
+                          />
+                        </View>
+                        <View
+                          accessibilityComponentType="button"
+                          accessibilityLabel={undefined}
+                          accessibilityTraits={
+                            Array [
+                              "button",
+                            ]
+                          }
+                          accessible={true}
+                          collapsable={undefined}
+                          hitSlop={undefined}
+                          isTVSelectable={true}
+                          nativeID={undefined}
+                          onLayout={undefined}
+                          onResponderGrant={[Function]}
+                          onResponderMove={[Function]}
+                          onResponderRelease={[Function]}
+                          onResponderTerminate={[Function]}
+                          onResponderTerminationRequest={[Function]}
+                          onStartShouldSetResponder={[Function]}
+                          style={
+                            Object {
+                              "opacity": 1,
+                            }
+                          }
+                          testID={undefined}
+                          tvParallaxProperties={undefined}
+                        >
+                          <View
+                            style={
+                              Array [
+                                Object {},
+                              ]
+                            }
+                          >
+                            <Text
+                              accessible={true}
+                              allowFontScaling={true}
+                              disabled={undefined}
+                              ellipsizeMode="tail"
+                              style={
+                                Array [
+                                  Object {
+                                    "color": "#007AFF",
+                                    "fontSize": 18,
+                                    "padding": 8,
+                                    "textAlign": "center",
+                                  },
+                                  Object {
+                                    "color": "#dddddd",
+                                  },
+                                ]
+                              }
+                            >
+                              OK
+                            </Text>
+                          </View>
+                        </View>
+                      </Modal>
+                    </View>
+                    <RCTScrollView
+                      data={Array []}
+                      disableVirtualization={false}
+                      extraData={
+                        Object {
+                          "bookingDuration": "PT1M",
+                          "selectedBookableId": null,
+                          "start": "2017-11-19T11:07:16.231-05:00",
+                        }
+                      }
+                      getItem={[Function]}
+                      getItemCount={[Function]}
+                      horizontal={false}
+                      initialNumToRender={10}
+                      keyExtractor={[Function]}
+                      maxToRenderPerBatch={10}
+                      numColumns={1}
+                      onContentSizeChange={[Function]}
+                      onEndReachedThreshold={2}
+                      onLayout={[Function]}
+                      onMomentumScrollEnd={[Function]}
+                      onScroll={[Function]}
+                      onScrollBeginDrag={[Function]}
+                      onScrollEndDrag={[Function]}
+                      renderItem={[Function]}
+                      scrollEventThrottle={50}
+                      stickyHeaderIndices={Array []}
+                      updateCellsBatchingPeriod={50}
+                      viewabilityConfigCallbackPairs={Array []}
+                      windowSize={21}
+                    >
+                      <View />
+                    </RCTScrollView>
                     <View
                       accessibilityComponentType={undefined}
                       accessibilityLabel={undefined}

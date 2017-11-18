@@ -1,4 +1,4 @@
-import moment from 'moment-timezone'
+import { DateTime } from 'luxon'
 
 const baseUrl = 'http://integration-bookit-api.buildit.tools/v1/'
 
@@ -16,7 +16,7 @@ const receiveBookables = (locationId, json) => ({
 const receiveBookings = json => ({
   type: 'RECEIVE_BOOKINGS',
   bookings: json,
-  receivedAt: moment(),
+  receivedAt: DateTime.local(),
 })
 
 const bookingSuccess = json => ({
@@ -53,13 +53,14 @@ export const createBooking =
     },
   })
     .then((response) => {
-      if (response.status > 400) {
-        throw new Error('Failed to create booking.')
+      if (response.status >= 400) {
+        return response.text()
       }
       return response.json()
     })
     .then((newBooking) => {
       dispatch(bookingSuccess(newBooking))
+      dispatch(fetchBookings())
     })
     .catch((error) => {
       dispatch(bookingFail(error.message))

@@ -5,7 +5,7 @@ import {
   FlatList,
 } from 'react-native'
 import { connect } from 'react-redux'
-import moment from 'moment-timezone'
+import { DateTime, Duration } from 'luxon'
 
 import {
   fetchLocations,
@@ -16,6 +16,7 @@ import {
 import { MonoText } from '../components/StyledText'
 import BookableItem from '../components/BookableItem'
 import Button from '../components/Button'
+import TimePicker from '../components/TimePicker'
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -28,6 +29,8 @@ class HomeScreen extends React.Component {
 
   state = {
     selectedBookableId: this.props.selectedBookableId,
+    start: this.props.start,
+    bookingDuration: this.props.bookingDuration,
   }
 
   componentDidMount() {
@@ -53,15 +56,35 @@ class HomeScreen extends React.Component {
       newBookingBookableName,
       bookingSucceeded,
     } = this.props
-    let message = 'Press the button.'
+
+    const formattedStart =
+      this.state.start.toLocaleString({
+        hour: 'numeric',
+        minute: '2-digit',
+        timeZoneName: 'short',
+      })
+    const bookingDurationMinutes =
+      this.state.bookingDuration.as('minutes')
+    let message = `I want a room in ${location.name} at ${formattedStart} for ${bookingDurationMinutes} minute.`
     if (bookingSucceeded) {
       message = `You booked the ${newBookingBookableName}!`
     } else if (bookingSucceeded === false) {
       message = "Hm, that didn't work."
     }
+
     return (
       <View style={styles.container}>
-        <MonoText style={{ margin: 30 }}>{message}</MonoText>
+        <MonoText style={{ marginBottom: 40 }}>{message}</MonoText>
+
+        <TimePicker
+          label="Start"
+          date={this.state.start}
+          onDateChange={(value) => {
+            this.setState({ start: value })
+          }}
+          bookableTimeZone={location.timeZone}
+        />
+
         <FlatList
           data={bookables}
           extraData={this.state}
@@ -77,13 +100,13 @@ class HomeScreen extends React.Component {
         <Button
           label="Bookit"
           onPress={() => {
-            const start = moment().add(1, 'hour')
-            const end = start.clone().add(1, 'minute')
+            const { start } = this.state
+            const end = start.plus(this.state.bookingDuration)
             const booking = {
               bookableId: this.state.selectedBookableId,
-              start: start.tz(location.timeZone).format('YYYY-MM-DDTHH:mm'),
-              end: end.tz(location.timeZone).format('YYYY-MM-DDTHH:mm'),
-              subject: `Created: ${start.format()}`,
+              start: start.setZone('utc').toString(), // QUESTION: Why doesn't start.toISO() work?
+              end: end.setZone('utc').toString(),
+              subject: 'From Bookit mobile',
             }
             this.handleBookitPress(booking)
           }}
@@ -94,17 +117,25 @@ class HomeScreen extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const { bookables } = state
-  const { newBooking } = state.createBookingStatus
+  const { location, locations, bookables } = state
+
+  // Set Booking defaults
+  const start = DateTime.local().setZone(location.timeZone)
+  const bookingDuration = Duration.fromObject({ minutes: 1 })
+
+  // Get results of posting a booking, once that happens
+  const { newBooking, bookingSucceeded } = state.createBookingStatus
   const newBookingBookableName = bookables.reduce((acc, current) => (
     current.id === newBooking.bookableId ? current.name : acc
   ), '')
 
   return ({
-    location: state.location,
-    locations: state.locations,
+    start,
+    bookingDuration,
+    location,
+    locations,
     bookables,
-    bookingSucceeded: state.createBookingStatus.bookingSucceeded,
+    bookingSucceeded,
     newBookingBookableName,
   })
 }
@@ -114,7 +145,10 @@ export default connect(mapStateToProps)(HomeScreen)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    margin: 50,
+    marginTop: 80,
+
+    // justifyContent: 'center',
+    // alignItems: 'center',
   },
 })

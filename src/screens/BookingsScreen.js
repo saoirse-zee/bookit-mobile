@@ -16,10 +16,15 @@ class BookingsScreen extends React.Component {
 
   render() {
     const { bookings, lastUpdated } = this.props
+    const formattedLastUpdated = lastUpdated && lastUpdated.toLocaleString({
+      hour: 'numeric',
+      minute: '2-digit',
+      timeZoneName: 'short',
+    })
     return (
       <View style={styles.container}>
         { lastUpdated ? (
-          <Text>Last updated: { lastUpdated.format('dddd h:mm a')}</Text>
+          <Text>Last updated: { formattedLastUpdated }</Text>
         ) : (
           <Text>Loading...</Text>
         )}
