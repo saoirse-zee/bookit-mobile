@@ -1,21 +1,21 @@
-import React from 'react';
-import { Platform } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { TabNavigator, TabBarBottom } from 'react-navigation';
+import React from 'react'
+import { Platform } from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
+import { TabNavigator, TabBarBottom } from 'react-navigation'
 
-import Colors from '../constants/Colors';
+import Colors from '../constants/Colors'
 
-import HomeScreen from '../src/screens/HomeScreen';
-import LinksScreen from '../src/screens/LinksScreen';
-import SettingsScreen from '../src/screens/SettingsScreen';
+import HomeScreen from '../src/screens/HomeScreen'
+import BookingsScreen from '../src/screens/BookingsScreen'
+import SettingsScreen from '../src/screens/SettingsScreen'
 
 export default TabNavigator(
   {
     Home: {
       screen: HomeScreen,
     },
-    Links: {
-      screen: LinksScreen,
+    Bookings: {
+      screen: BookingsScreen,
     },
     Settings: {
       screen: SettingsScreen,
@@ -24,21 +24,21 @@ export default TabNavigator(
   {
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused }) => {
-        const { routeName } = navigation.state;
-        let iconName;
+        const { routeName } = navigation.state
+        let iconName
         switch (routeName) {
           case 'Home':
             iconName =
               Platform.OS === 'ios'
                 ? `ios-information-circle${focused ? '' : '-outline'}`
-                : 'md-information-circle';
-            break;
-          case 'Links':
-            iconName = Platform.OS === 'ios' ? `ios-link${focused ? '' : '-outline'}` : 'md-link';
-            break;
+                : 'md-information-circle'
+            break
+          case 'Bookings':
+            iconName = Platform.OS === 'ios' ? `ios-link${focused ? '' : '-outline'}` : 'md-link'
+            break
           case 'Settings':
             iconName =
-              Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-options';
+              Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-options'
         }
         return (
           <Ionicons
@@ -47,12 +47,12 @@ export default TabNavigator(
             style={{ marginBottom: -3 }}
             color={focused ? Colors.tabIconSelected : Colors.tabIconDefault}
           />
-        );
+        )
       },
     }),
     tabBarComponent: TabBarBottom,
     tabBarPosition: 'bottom',
     animationEnabled: false,
     swipeEnabled: false,
-  }
-);
+  },
+)

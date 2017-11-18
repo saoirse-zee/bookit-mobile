@@ -26,7 +26,6 @@ class HomeScreen extends React.Component {
       location,
       locations,
       bookables,
-      bookings,
     } = this.props
 
     return (
@@ -37,19 +36,15 @@ class HomeScreen extends React.Component {
         <MonoText>Bookables in { location.name }</MonoText>
         { bookables.map(b => <Text key={`bookable-${b.id}`}>{b.name}</Text>)}
         <Text>-----------------</Text>
-        <MonoText>Bookings</MonoText>
-        { bookings.map(b => <Text key={`bookable-${b.id}`}>{b.subject}</Text>) }
       </View>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  message: state.hi,
   location: state.location,
   locations: state.locations,
   bookables: state.bookables,
-  bookings: state.bookings,
 })
 
 export default connect(mapStateToProps)(HomeScreen)

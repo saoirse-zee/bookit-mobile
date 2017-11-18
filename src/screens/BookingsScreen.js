@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import { fetchBookings } from '../actions'
 
-class LinksScreen extends React.Component {
+class BookingsScreen extends React.Component {
   static navigationOptions = {
     title: 'Bookings',
   }
@@ -29,7 +29,7 @@ const mapStateToProps = state => ({
   bookings: state.bookings,
 })
 
-export default connect(mapStateToProps)(LinksScreen)
+export default connect(mapStateToProps)(BookingsScreen)
 
 const styles = StyleSheet.create({
   container: {
