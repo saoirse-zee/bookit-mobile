@@ -13,9 +13,11 @@
     "compat/compat": 2,
     "no-use-before-define": 0,
     "react/jsx-filename-extension": 0,
-    "react/prop-types": 1
+    "react/prop-types": 1,
+    "compat/compat": 1
   },
   "env": {
     "jest": true
-  }
+  },
+  "globals": { "fetch": false }
 }

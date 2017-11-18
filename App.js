@@ -1,13 +1,17 @@
 import React from 'react';
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
+import thunk from 'redux-thunk'
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 import RootNavigation from './navigation/RootNavigation';
+import root from './src/reducers'
 
-const hi = (hiMessage = 'Hi from Redux.') => hiMessage
-const store = createStore(hi)
+const store = createStore(
+  root,
+  applyMiddleware(thunk),
+)
 
 export default class App extends React.Component {
   state = {
