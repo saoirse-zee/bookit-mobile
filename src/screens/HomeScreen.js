@@ -2,6 +2,7 @@ import React from 'react'
 import {
   StyleSheet,
   View,
+  FlatList,
 } from 'react-native'
 import { connect } from 'react-redux'
 import moment from 'moment-timezone'
@@ -13,11 +14,20 @@ import {
   createBooking,
 } from '../actions'
 import { MonoText } from '../components/StyledText'
+import BookableItem from '../components/BookableItem'
 import Button from '../components/Button'
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
+  }
+
+  static defaultProps = {
+    selectedBookableId: null,
+  }
+
+  state = {
+    selectedBookableId: this.props.selectedBookableId,
   }
 
   componentDidMount() {
@@ -30,6 +40,10 @@ class HomeScreen extends React.Component {
   handleBookitPress = (booking) => {
     const { dispatch } = this.props
     dispatch(createBooking(booking))
+  }
+
+  handleBookablePress = (bookableId) => {
+    this.setState({ selectedBookableId: bookableId })
   }
 
   render() {
@@ -48,14 +62,25 @@ class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         <MonoText style={{ margin: 30 }}>{message}</MonoText>
+        <FlatList
+          data={bookables}
+          extraData={this.state}
+          renderItem={({ item }) => (
+            <BookableItem
+              room={item}
+              selected={this.state.selectedBookableId}
+              onPressItem={this.handleBookablePress}
+            />
+          )}
+          keyExtractor={(item => item.id)}
+        />
         <Button
           label="Bookit"
           onPress={() => {
-            const bookableId = bookables[0].id // Just pick the first one, what the hell.
             const start = moment().add(1, 'hour')
             const end = start.clone().add(1, 'minute')
             const booking = {
-              bookableId,
+              bookableId: this.state.selectedBookableId,
               start: start.tz(location.timeZone).format('YYYY-MM-DDTHH:mm'),
               end: end.tz(location.timeZone).format('YYYY-MM-DDTHH:mm'),
               subject: `Created: ${start.format()}`,
