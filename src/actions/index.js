@@ -1,3 +1,5 @@
+import moment from 'moment-timezone'
+
 const baseUrl = 'http://integration-bookit-api.buildit.tools/v1/'
 
 const receiveLocations = json => ({
@@ -14,6 +16,17 @@ const receiveBookables = (locationId, json) => ({
 const receiveBookings = json => ({
   type: 'RECEIVE_BOOKINGS',
   bookings: json,
+  receivedAt: moment(),
+})
+
+const bookingSuccess = json => ({
+  type: 'BOOKING_SUCCESS',
+  newBooking: json,
+})
+
+const bookingFail = reason => ({
+  type: 'BOOKING_FAIL',
+  reason,
 })
 
 export const fetchLocations =
@@ -30,3 +43,24 @@ export const fetchBookings =
   () => dispatch => fetch(`${baseUrl}booking`)
     .then(response => response.json())
     .then(json => dispatch(receiveBookings(json)))
+
+export const createBooking =
+  booking => dispatch => fetch(`${baseUrl}booking`, {
+    method: 'POST',
+    body: JSON.stringify(booking),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => {
+      if (response.status > 400) {
+        throw new Error('Failed to create booking.')
+      }
+      return response.json()
+    })
+    .then((newBooking) => {
+      dispatch(bookingSuccess(newBooking))
+    })
+    .catch((error) => {
+      dispatch(bookingFail(error.message))
+    })

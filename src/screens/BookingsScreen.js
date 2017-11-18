@@ -15,11 +15,16 @@ class BookingsScreen extends React.Component {
   }
 
   render() {
-    const { bookings } = this.props
+    const { bookings, lastUpdated } = this.props
     return (
       <View style={styles.container}>
-        <Text>Bookings list</Text>
-        { bookings.map(b => <Text key={`bookable-${b.id}`}>{b.subject}</Text>) }
+        { lastUpdated ? (
+          <Text>Last updated: { lastUpdated.format('dddd h:mm a')}</Text>
+        ) : (
+          <Text>Loading...</Text>
+        )}
+        <Text>-----------------</Text>
+        { bookings.items.map(b => <Text key={`bookable-${b.id}`}>{b.subject}</Text>) }
       </View>
     )
   }
@@ -27,6 +32,7 @@ class BookingsScreen extends React.Component {
 
 const mapStateToProps = state => ({
   bookings: state.bookings,
+  lastUpdated: state.bookings.lastUpdated,
 })
 
 export default connect(mapStateToProps)(BookingsScreen)
