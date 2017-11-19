@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, View, TouchableHighlight, Text } from 'react-native'
+import colors from '../../constants/Colors'
 
 const PickerButton = ({ label, value, onPress }) => (
   <View style={styles.button}>
@@ -25,6 +26,6 @@ const styles = StyleSheet.create({
   },
   value: {
     fontSize: 18,
-    color: 'tomato',
+    color: colors.tintColor,
   },
 })

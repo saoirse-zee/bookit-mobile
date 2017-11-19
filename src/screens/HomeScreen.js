@@ -70,29 +70,32 @@ class HomeScreen extends React.Component {
     const message = `I want a room in NYC at ${formattedStart} for ${formattedBookingDuration}.`
     return (
       <View style={styles.container}>
-        <ShoutyText>{ message }</ShoutyText>
 
-        <TimePicker
-          label="Start"
-          date={this.state.start}
-          onDateChange={(value) => {
-            this.setState({ start: value })
-          }}
-          bookableTimeZone={location.timeZone}
-        />
-
-      <FlatList
-          data={bookables}
-          extraData={this.state}
-          renderItem={({ item }) => (
-            <BookableItem
-              room={item}
-              selected={this.state.selectedBookableId}
-              onPressItem={this.handleBookablePress}
+        <View style={styles.formFields}>
+          <ShoutyText>{ message }</ShoutyText>
+          <TimePicker
+            label="Start"
+            date={this.state.start}
+            onDateChange={(value) => {
+              this.setState({ start: value })
+            }}
+            bookableTimeZone={location.timeZone}
             />
-          )}
-          keyExtractor={(item => item.id)}
-        />
+
+          <FlatList
+            data={bookables}
+            extraData={this.state}
+            renderItem={({ item }) => (
+              <BookableItem
+                room={item}
+                selected={this.state.selectedBookableId}
+                onPressItem={this.handleBookablePress}
+                />
+            )}
+            keyExtractor={(item => item.id)}
+            />
+        </View>
+
         <Button
           label="Bookit"
           onPress={() => {
@@ -142,10 +145,10 @@ export default connect(mapStateToProps)(HomeScreen)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 50,
     marginTop: 80,
-
-    // justifyContent: 'center',
-    // alignItems: 'center',
+    justifyContent: 'space-between'
   },
-})
+  formFields: {
+    marginLeft: 30,
+  }
+});

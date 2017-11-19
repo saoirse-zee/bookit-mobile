@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native'
+import colors from '../../constants/Colors'
 
 const Button = ({ label, onPress }) => (
   <TouchableHighlight
@@ -15,10 +16,10 @@ export default Button
 
 const styles = StyleSheet.create({
   button: {
-    // flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    backgroundColor: 'tomato',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.tintColor,
     padding: 30,
   },
   buttonLabel: {

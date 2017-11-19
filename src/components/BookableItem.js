@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native'
+import colors from '../../constants/Colors'
 
 const BookableItem = ({ room, onPressItem, selected }) => (
   <TouchableHighlight
@@ -30,6 +31,6 @@ const styles = StyleSheet.create({
     borderLeftColor: '#eee',
   },
   selected: {
-    borderLeftColor: 'tomato',
+    borderLeftColor: colors.tintColor,
   },
 })
