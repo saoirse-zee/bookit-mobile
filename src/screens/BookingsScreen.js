@@ -19,7 +19,7 @@ const BookingItem = ({
   <View style={{ margin: 20 }}>
     <Text>{bookableName} in {bookableLocationName}</Text>
     <Text>Start: {formatDate(booking.start, location.timeZone)}</Text>
-    <Text>End: {formatDate(booking.start, location.timeZone)}</Text>
+    <Text>End: {formatDate(booking.end, location.timeZone)}</Text>
   </View>
 )
 
