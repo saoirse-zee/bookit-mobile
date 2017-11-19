@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   },
   label: {
     color: '#555555',
-    width: 50,
+    width: 60,
   },
   value: {
     fontSize: 18,

@@ -2,7 +2,6 @@ import React from 'react'
 import {
   StyleSheet,
   View,
-  Text,
   FlatList,
 } from 'react-native'
 import { connect } from 'react-redux'
@@ -18,6 +17,7 @@ import { ShoutyText } from '../components/StyledText'
 import BookableItem from '../components/BookableItem'
 import Button from '../components/Button'
 import TimePicker from '../components/TimePicker'
+import DurationPicker from '../components/DurationPicker'
 import { getBookableNameFromId } from '../utils'
 
 class HomeScreen extends React.Component {
@@ -55,8 +55,8 @@ class HomeScreen extends React.Component {
     const {
       location,
       bookables,
-      newBookingBookableName,
-      bookingSucceeded,
+      // newBookingBookableName,
+      // bookingSucceeded,
     } = this.props
 
     const formattedStart =
@@ -80,7 +80,16 @@ class HomeScreen extends React.Component {
               this.setState({ start: value })
             }}
             bookableTimeZone={location.timeZone}
-            />
+          />
+
+          <DurationPicker
+            label="Length"
+            initialDuration={this.state.bookingDuration.minutes}
+            onDurationChange={(value) => {
+              const bookingDuration = Duration.fromObject({ minutes: value })
+              this.setState({ bookingDuration })
+            }}
+          />
 
           <FlatList
             data={bookables}
@@ -90,10 +99,10 @@ class HomeScreen extends React.Component {
                 room={item}
                 selected={this.state.selectedBookableId}
                 onPressItem={this.handleBookablePress}
-                />
+              />
             )}
             keyExtractor={(item => item.id)}
-            />
+          />
         </View>
 
         <Button
@@ -102,12 +111,12 @@ class HomeScreen extends React.Component {
             const { start } = this.state
             const end = start.plus(this.state.bookingDuration)
             // QUESTION: Is the server expecting a standard format? .toISO() would be nice.
-            const formattedStart = `${start.toFormat('yyyy-MM-dd')}T${start.toFormat('TT')}Z`
-            const formattedEnd = `${end.toFormat('yyyy-MM-dd')}T${end.toFormat('TT')}Z`
+            const formattedStartForAPI = `${start.toFormat('yyyy-MM-dd')}T${start.toFormat('TT')}Z`
+            const formattedEndForAPI = `${end.toFormat('yyyy-MM-dd')}T${end.toFormat('TT')}Z`
             const booking = {
               bookableId: this.state.selectedBookableId,
-              start: formattedStart,
-              end: formattedEnd,
+              start: formattedStartForAPI,
+              end: formattedEndForAPI,
               subject: 'Booked by Bookit mobile',
             }
             this.handleBookitPress(booking)
@@ -123,7 +132,7 @@ const mapStateToProps = (state) => {
 
   // Set Booking defaults
   const start = DateTime.local().plus({ hour: 1 }).setZone(location.timeZone)
-  const bookingDuration = Duration.fromObject({ minutes: 5 })
+  const bookingDuration = Duration.fromObject({ minutes: 30 })
 
   // Get results of posting a booking, once that happens
   const { newBooking, bookingSucceeded } = state.createBookingStatus
@@ -146,9 +155,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 80,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   formFields: {
     marginLeft: 30,
-  }
-});
+  },
+})

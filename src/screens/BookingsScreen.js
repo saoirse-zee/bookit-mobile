@@ -14,7 +14,7 @@ const BookingItem = ({
   booking,
   bookableName,
   bookableLocationName,
-  location
+  location,
 }) => (
   <View style={{ margin: 20 }}>
     <Text>{bookableName} in {bookableLocationName}</Text>
@@ -34,7 +34,12 @@ class BookingsScreen extends React.Component {
   }
 
   render() {
-    const { bookings, bookables, locations, lastUpdated } = this.props
+    const {
+      bookings,
+      bookables,
+      locations,
+      lastUpdated,
+    } = this.props
     const formattedLastUpdated = lastUpdated && lastUpdated.toLocaleString({
       hour: 'numeric',
       minute: '2-digit',
