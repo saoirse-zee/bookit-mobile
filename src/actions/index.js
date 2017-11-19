@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
 
-const baseUrl = 'http://integration-bookit-api.buildit.tools/v1/'
+// const baseUrl = 'http://integration-bookit-api.buildit.tools/v1/'
+const baseUrl = 'http://0f5091f3.ngrok.io/v1/'
 
 const receiveLocations = json => ({
   type: 'RECEIVE_LOCATIONS',

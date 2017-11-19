@@ -2,6 +2,7 @@ import React from 'react'
 import {
   StyleSheet,
   View,
+  Text,
   FlatList,
 } from 'react-native'
 import { connect } from 'react-redux'
@@ -13,7 +14,7 @@ import {
   fetchBookings,
   createBooking,
 } from '../actions'
-import { MonoText } from '../components/StyledText'
+import { ShoutyText } from '../components/StyledText'
 import BookableItem from '../components/BookableItem'
 import Button from '../components/Button'
 import TimePicker from '../components/TimePicker'
@@ -62,20 +63,14 @@ class HomeScreen extends React.Component {
       this.state.start.toLocaleString({
         hour: 'numeric',
         minute: '2-digit',
-        timeZoneName: 'short',
       })
-    const bookingDurationMinutes =
-      this.state.bookingDuration.as('minutes')
-    let message = `I want a room in ${location.name} at ${formattedStart} for ${bookingDurationMinutes} minute.`
-    if (bookingSucceeded) {
-      message = `You booked the ${newBookingBookableName}!`
-    } else if (bookingSucceeded === false) {
-      message = "Hm, that didn't work."
-    }
+    const formattedBookingDuration =
+      `${this.state.bookingDuration.as('minutes')} minutes`
 
+    const message = `I want a room in NYC at ${formattedStart} for ${formattedBookingDuration}.`
     return (
       <View style={styles.container}>
-        <MonoText style={{ marginBottom: 40 }}>{message}</MonoText>
+        <ShoutyText>{ message }</ShoutyText>
 
         <TimePicker
           label="Start"
@@ -86,7 +81,7 @@ class HomeScreen extends React.Component {
           bookableTimeZone={location.timeZone}
         />
 
-        <FlatList
+      <FlatList
           data={bookables}
           extraData={this.state}
           renderItem={({ item }) => (
@@ -125,7 +120,7 @@ const mapStateToProps = (state) => {
 
   // Set Booking defaults
   const start = DateTime.local().plus({ hour: 1 }).setZone(location.timeZone)
-  const bookingDuration = Duration.fromObject({ minutes: 1 })
+  const bookingDuration = Duration.fromObject({ minutes: 5 })
 
   // Get results of posting a booking, once that happens
   const { newBooking, bookingSucceeded } = state.createBookingStatus
