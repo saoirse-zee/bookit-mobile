@@ -17,6 +17,7 @@ import { MonoText } from '../components/StyledText'
 import BookableItem from '../components/BookableItem'
 import Button from '../components/Button'
 import TimePicker from '../components/TimePicker'
+import getBookableNameFromId from '../utils/getBookableNameFromId'
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -125,9 +126,7 @@ const mapStateToProps = (state) => {
 
   // Get results of posting a booking, once that happens
   const { newBooking, bookingSucceeded } = state.createBookingStatus
-  const newBookingBookableName = bookables.reduce((acc, current) => (
-    current.id === newBooking.bookableId ? current.name : acc
-  ), '')
+  const newBookingBookableName = getBookableNameFromId(newBooking.bookableId, bookables)
 
   return ({
     start,
