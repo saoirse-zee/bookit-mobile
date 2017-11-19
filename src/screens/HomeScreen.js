@@ -17,7 +17,7 @@ import { MonoText } from '../components/StyledText'
 import BookableItem from '../components/BookableItem'
 import Button from '../components/Button'
 import TimePicker from '../components/TimePicker'
-import getBookableNameFromId from '../utils/getBookableNameFromId'
+import { getBookableNameFromId } from '../utils'
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -103,11 +103,14 @@ class HomeScreen extends React.Component {
           onPress={() => {
             const { start } = this.state
             const end = start.plus(this.state.bookingDuration)
+            // QUESTION: Is the server expecting a standard format? .toISO() would be nice.
+            const formattedStart = `${start.toFormat('yyyy-MM-dd')}T${start.toFormat('TT')}Z`
+            const formattedEnd = `${end.toFormat('yyyy-MM-dd')}T${end.toFormat('TT')}Z`
             const booking = {
               bookableId: this.state.selectedBookableId,
-              start: start.setZone('utc').toString(), // QUESTION: Why doesn't start.toISO() work?
-              end: end.setZone('utc').toString(),
-              subject: 'From Bookit mobile',
+              start: formattedStart,
+              end: formattedEnd,
+              subject: 'Booked by Bookit mobile',
             }
             this.handleBookitPress(booking)
           }}
@@ -121,7 +124,7 @@ const mapStateToProps = (state) => {
   const { location, locations, bookables } = state
 
   // Set Booking defaults
-  const start = DateTime.local().setZone(location.timeZone)
+  const start = DateTime.local().plus({ hour: 1 }).setZone(location.timeZone)
   const bookingDuration = Duration.fromObject({ minutes: 1 })
 
   // Get results of posting a booking, once that happens
