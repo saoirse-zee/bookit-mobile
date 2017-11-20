@@ -13,10 +13,12 @@ wait_for_tests_to_finish () {
   done
 }
 
-# Prep Work
+# Setup
 "${SCRIPTPATH}"/helpers/install_aws_cli.sh && \
 apt-get -y install jq && \
 pip install virtualenv && \
+yarn global add exp && \
+"${SCRIPTPATH}"/helpers/login_exp.sh && \
 cd bookit-with-deps && \
 
 # upload the android APK
