@@ -1,3 +1,4 @@
 node_modules/**/*
 .expo/**/*
 config.js
+credentials.yml

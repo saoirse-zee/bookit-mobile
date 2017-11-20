@@ -39,6 +39,8 @@ jobs:
     - get: dependency-cache
     - task: handle dependencies
       file: bookit-prototype-3/concourse/tasks/dependencies.yml
+      params:
+        BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_INTEGRATION}}
     - task: lint the project
       file: bookit-prototype-3/concourse/tasks/lint.yml
 - name: Run Unit Tests
@@ -50,6 +52,8 @@ jobs:
     - get: dependency-cache
     - task: handle dependencies
       file: bookit-prototype-3/concourse/tasks/dependencies.yml
+      params:
+        BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_INTEGRATION}}
     - task: run the unit tests
       file: bookit-prototype-3/concourse/tasks/run_unit_tests.yml
 - name: Build Android Image
@@ -62,6 +66,8 @@ jobs:
     - get: dependency-cache
     - task: handle dependencies
       file: bookit-prototype-3/concourse/tasks/dependencies.yml
+      params:
+        BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_INTEGRATION}}
     - task: Build Android Project
       params:
         EXPO_USERNAME: {{EXPO_USERNAME}}

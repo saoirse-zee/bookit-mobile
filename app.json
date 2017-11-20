@@ -18,7 +18,7 @@
       "supportsTablet": false,
       "bundleIdentifier": "buildit.bookit.prototype-3",
       "config": {
-        "usesNonExemptEncryption": false,
+        "usesNonExemptEncryption": false
       }
     }
   }

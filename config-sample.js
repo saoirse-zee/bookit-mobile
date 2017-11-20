@@ -1,5 +1,5 @@
 const config = {
-  bookitApiBaseUrl: 'http://some.url.to.bookit.api/v1/',
+  bookitApiBaseUrl: '<bookitApiBaseUrl>',
 }
 
 export default config
