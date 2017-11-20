@@ -1,0 +1,69 @@
+---
+resource_types:
+  - name: npm-cache
+    type: docker-image
+    source:
+      repository: ymedlop/npm-cache-resource
+      tag: "latest"
+  - name: slack-notification
+    type: docker-image
+    source:
+      repository: cfcommunity/slack-notification-resource
+      tag: latest
+
+resources:
+- name: bookit-prototype-3
+  type: git
+  source: &repo-source
+    uri: https://github.com/BenAychh/bookit-prototype-3.git
+    branch: {{BRANCH}}
+- name: dependency-cache
+  type: npm-cache
+  source:
+    <<: *repo-source
+    paths:
+      - package.json
+
+jobs:
+- name: Install Dependencies
+  plan:
+    - get: bookit-prototype-3
+      trigger: true
+    - get: dependency-cache
+- name: Lint Bookit-Mobile Code Base
+  plan:
+    - get: bookit-prototype-3
+      trigger: true
+      passed:
+        - Install Dependencies
+    - get: dependency-cache
+    - task: handle dependencies
+      file: bookit-prototype-3/concourse/tasks/dependencies.yml
+    - task: lint the project
+      file: bookit-prototype-3/concourse/tasks/lint.yml
+- name: Run Unit Tests
+  plan:
+    - get: bookit-prototype-3
+      trigger: true
+      passed:
+        - Install Dependencies
+    - get: dependency-cache
+    - task: handle dependencies
+      file: bookit-prototype-3/concourse/tasks/dependencies.yml
+    - task: run the unit tests
+      file: bookit-prototype-3/concourse/tasks/run_unit_tests.yml
+- name: Build Android Image
+  plan:
+    - get: bookit-prototype-3
+      trigger: true
+      passed:
+        - Lint Bookit-Mobile Code Base
+        - Run Unit Tests
+    - get: dependency-cache
+    - task: handle dependencies
+      file: bookit-prototype-3/concourse/tasks/dependencies.yml
+    - task: Build Android Project
+      params:
+        EXPO_USERNAME: {{EXPO_USERNAME}}
+        EXPO_PASSWORD: {{EXPO_PASSWORD}}
+      file: bookit-prototype-3/concourse/tasks/build_android.yml
