@@ -1,0 +1,26 @@
+{
+  "name": "bookit-prototype-3-integration",
+  "description": "Prototype of a booking app.",
+  "slug": "bookit-prototype-3-integration",
+  "privacy": "unlisted",
+  "sdkVersion": "23.0.0",
+  "version": "0.0.1",
+  "orientation": "portrait",
+  "primaryColor": "#ffffff",
+  "icon": "./assets/images/icon.png",
+  "splash": {
+    "image": "./assets/images/splash.png",
+    "resizeMode": "contain",
+    "backgroundColor": "#ffffff"
+  },
+  "ios": {
+    "supportsTablet": false,
+    "bundleIdentifier": "buildit.bookit.prototype-3",
+    "config": {
+      "usesNonExemptEncryption": false
+    }
+  },
+  "android": {
+    "package": "buildit.bookit.prototype3"
+  }
+}
