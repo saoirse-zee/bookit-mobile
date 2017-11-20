@@ -1,13 +1,13 @@
 {
   "expo": {
     "name": "bookit-prototype-3",
-    "description": "No description",
+    "description": "Prototype of a booking app.",
     "slug": "bookit-prototype-3",
-    "privacy": "public",
+    "privacy": "unlisted",
     "sdkVersion": "23.0.0",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "orientation": "portrait",
-    "primaryColor": "#cccccc",
+    "primaryColor": "#ffffff",
     "icon": "./assets/images/icon.png",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -15,7 +15,11 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "buildit.bookit.prototype-3",
+      "config": {
+        "usesNonExemptEncryption": false,
+      }
     }
   }
 }
