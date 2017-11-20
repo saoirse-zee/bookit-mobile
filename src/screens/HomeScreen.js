@@ -18,6 +18,7 @@ import BookableItem from '../components/BookableItem'
 import Button from '../components/Button'
 import TimePicker from '../components/TimePicker'
 import DurationPicker from '../components/DurationPicker'
+import BookingConfirmationModal from '../components/BookingConfirmationModal'
 import { getBookableNameFromId } from '../utils'
 
 class HomeScreen extends React.Component {
@@ -33,6 +34,7 @@ class HomeScreen extends React.Component {
     selectedBookableId: this.props.selectedBookableId,
     start: this.props.start,
     bookingDuration: this.props.bookingDuration,
+    isModalVisible: false,
   }
 
   componentDidMount() {
@@ -45,6 +47,7 @@ class HomeScreen extends React.Component {
   handleBookitPress = (booking) => {
     const { dispatch } = this.props
     dispatch(createBooking(booking))
+    this.setState({ isModalVisible: true })
   }
 
   handleBookablePress = (bookableId) => {
@@ -55,9 +58,11 @@ class HomeScreen extends React.Component {
     const {
       location,
       bookables,
-      // newBookingBookableName,
-      // bookingSucceeded,
+      newBookingBookableName,
+      bookingSucceeded,
     } = this.props
+
+    const { isModalVisible } = this.state
 
     const formattedStart =
       this.state.start.toLocaleString({
@@ -66,11 +71,16 @@ class HomeScreen extends React.Component {
       })
     const formattedBookingDuration =
       `${this.state.bookingDuration.as('minutes')} minutes`
-
     const message = `I want a room in NYC at ${formattedStart} for ${formattedBookingDuration}.`
     return (
       <View style={styles.container}>
-
+        { isModalVisible ? (
+          <BookingConfirmationModal
+            newBookingBookableName={newBookingBookableName}
+            success={bookingSucceeded}
+            onOkayPress={() => { this.setState({ isModalVisible: false }) }}
+          />
+        ) : null }
         <View style={styles.formFields}>
           <ShoutyText>{ message }</ShoutyText>
           <TimePicker
