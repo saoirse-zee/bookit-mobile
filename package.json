@@ -3,8 +3,8 @@
   "private": true,
   "scripts": {
     "test": "yarn lint && yarn test:unit",
-    "test:unit": "jest",
-    "test:unit-watch": "jest --watch",
+    "test:unit": "node ./node_modules/jest/bin/jest.js",
+    "test:unit-watch": "node ./node_modules/jest/bin/jest.js --watch",
     "lint": "eslint src/"
   },
   "jest": {
