@@ -73,3 +73,52 @@ jobs:
         EXPO_USERNAME: {{EXPO_USERNAME}}
         EXPO_PASSWORD: {{EXPO_PASSWORD}}
       file: bookit-prototype-3/concourse/tasks/build_android.yml
+- name: Build iPhone Image
+  plan:
+    - get: bookit-prototype-3
+      trigger: true
+      passed:
+        - Lint Bookit-Mobile Code Base
+        - Run Unit Tests
+    - get: dependency-cache
+    - task: handle dependencies
+      file: bookit-prototype-3/concourse/tasks/dependencies.yml
+      params:
+        BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_INTEGRATION}}
+    - task: Build iPhone Project
+      params:
+        EXPO_USERNAME: {{EXPO_USERNAME}}
+        EXPO_PASSWORD: {{EXPO_PASSWORD}}
+      file: bookit-prototype-3/concourse/tasks/build_iphone.yml
+- name: Test Android Image
+  plan:
+    - get: bookit-prototype-3
+      trigger: true
+      passed:
+        - Build Android Image
+    - get: dependency-cache
+    - task: handle dependencies
+      file: bookit-prototype-3/concourse/tasks/dependencies.yml
+      params:
+        BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_INTEGRATION}}
+    - task: Test Android Project
+      params:
+        PROJECT_ARN: {{PROJECT_ARN}}
+        DEVICE_POOL_ARN: {{ANDROID_DEVICE_POOL_ARN}}
+      file: bookit-prototype-3/concourse/tasks/integration_tests_android.yml
+- name: Test iPhone Image
+  plan:
+    - get: bookit-prototype-3
+      trigger: true
+      passed:
+        - Build iPhone Image
+    - get: dependency-cache
+    - task: handle dependencies
+      file: bookit-prototype-3/concourse/tasks/dependencies.yml
+      params:
+        BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_INTEGRATION}}
+    - task: Test iPhone Project
+      params:
+        PROJECT_ARN: {{PROJECT_ARN}}
+        DEVICE_POOL_ARN: {{IPHONE_DEVICE_POOL_ARN}}
+      file: bookit-prototype-3/concourse/tasks/integration_tests_iphone.yml
