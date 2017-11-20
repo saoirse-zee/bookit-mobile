@@ -1,5 +1,7 @@
 #!/bin/bash
 
+SCRIPTPATH=$(dirname "$(readlink -f "$0")")
+
 wait_for_tests_to_finish () {
   COUNT=0
   RESULT=$(aws devicefarm get-run --arn "$RUN_ARN" | jq -r '.run.result')
@@ -12,8 +14,8 @@ wait_for_tests_to_finish () {
 }
 
 # Prep Work
-apt-get update && \
-apt-get install python-pip jq && \
+"${SCRIPTPATH}"/helpers/install_aws_cli.sh && \
+apt-get install jq && \
 pip install virtualenv && \
 cd bookit-with-deps && \
 
@@ -24,7 +26,7 @@ curl -L -o ./builds/android.apk "$LATEST_UPLOAD" && \
 APK=$(aws devicefarm create-upload --project-arn "$PROJECT_ARN" --name android.apk --type ANDROID_APP) && \
 APK_ARN=$(echo "$APK" | jq -r '.upload.arn') && \
 APK_URL=$(echo "$APK" | jq -r '.upload.url') && \
-curl -T ./builds/android.apk $APK_URL && \
+curl -T ./builds/android.apk "$APK_URL" && \
 
 # prepare and upload the tests
 virtualenv workspace && \

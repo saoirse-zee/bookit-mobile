@@ -103,6 +103,9 @@ jobs:
         BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_INTEGRATION}}
     - task: Test Android Project
       params:
+        AWS_ACCESS_KEY: {{DEVICEFARM_ACCESS_KEY}}
+        AWS_SECRET_KEY: {{DEVICEFARM_SECRET_KEY}}
+        AWS_REGION: us-west-2
         PROJECT_ARN: {{PROJECT_ARN}}
         DEVICE_POOL_ARN: {{ANDROID_DEVICE_POOL_ARN}}
       file: bookit-prototype-3/concourse/tasks/integration_tests_android.yml
@@ -119,6 +122,9 @@ jobs:
         BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_INTEGRATION}}
     - task: Test iPhone Project
       params:
+        AWS_ACCESS_KEY: {{DEVICEFARM_ACCESS_KEY}}
+        AWS_SECRET_KEY: {{DEVICEFARM_SECRET_KEY}}
+        AWS_REGION: us-west-2
         PROJECT_ARN: {{PROJECT_ARN}}
         DEVICE_POOL_ARN: {{IPHONE_DEVICE_POOL_ARN}}
       file: bookit-prototype-3/concourse/tasks/integration_tests_iphone.yml
