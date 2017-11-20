@@ -15,7 +15,7 @@ wait_for_tests_to_finish () {
 
 # Prep Work
 "${SCRIPTPATH}"/helpers/install_aws_cli.sh && \
-apt-get install jq && \
+apt-get -y install jq && \
 pip install virtualenv && \
 cd bookit-with-deps && \
 
