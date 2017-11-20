@@ -15,7 +15,7 @@ resources:
 - name: bookit-prototype-3
   type: git
   source: &repo-source
-    uri: https://github.com/BenAychh/bookit-prototype-3.git
+    uri: https://github.com/saoirse-zee/bookit-prototype-3
     branch: {{BRANCH}}
 - name: dependency-cache
   type: npm-cache
