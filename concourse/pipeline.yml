@@ -103,6 +103,8 @@ jobs:
         BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_INTEGRATION}}
     - task: Test Android Project
       params:
+        EXPO_USERNAME: {{EXPO_USERNAME}}
+        EXPO_PASSWORD: {{EXPO_PASSWORD}}
         AWS_ACCESS_KEY: {{DEVICEFARM_ACCESS_KEY}}
         AWS_SECRET_KEY: {{DEVICEFARM_SECRET_KEY}}
         AWS_REGION: us-west-2
@@ -122,6 +124,8 @@ jobs:
         BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_INTEGRATION}}
     - task: Test iPhone Project
       params:
+        EXPO_USERNAME: {{EXPO_USERNAME}}
+        EXPO_PASSWORD: {{EXPO_PASSWORD}}
         AWS_ACCESS_KEY: {{DEVICEFARM_ACCESS_KEY}}
         AWS_SECRET_KEY: {{DEVICEFARM_SECRET_KEY}}
         AWS_REGION: us-west-2
