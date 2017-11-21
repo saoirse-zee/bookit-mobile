@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon'
+import { postBooking } from '../api'
 import config from '../../config'
 
 const baseUrl = config.bookitApiBaseUrl
@@ -45,24 +46,11 @@ export const fetchBookings =
     .then(response => response.json())
     .then(json => dispatch(receiveBookings(json)))
 
-export const createBooking =
-  booking => dispatch => fetch(`${baseUrl}booking`, {
-    method: 'POST',
-    body: JSON.stringify(booking),
-    headers: {
-      'Content-Type': 'application/json',
-    },
+export const createBooking = booking => dispatch => postBooking(booking)
+  .then((newBooking) => {
+    dispatch(bookingSuccess(newBooking))
+    dispatch(fetchBookings())
   })
-    .then((response) => {
-      if (response.status >= 400) {
-        return response.text()
-      }
-      return response.json()
-    })
-    .then((newBooking) => {
-      dispatch(bookingSuccess(newBooking))
-      dispatch(fetchBookings())
-    })
-    .catch((error) => {
-      dispatch(bookingFail(error.message))
-    })
+  .catch((error) => {
+    dispatch(bookingFail(error.message))
+  })
