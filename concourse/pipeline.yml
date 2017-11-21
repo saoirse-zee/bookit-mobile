@@ -23,6 +23,10 @@ resources:
     <<: *repo-source
     paths:
       - package.json
+- name: slack-alert
+  type: slack-notification
+  source:
+    url: {{SLACK_NOTIFY_URL}}
 
 jobs:
 - name: Install Dependencies
@@ -149,3 +153,21 @@ jobs:
         EXPO_USERNAME: {{EXPO_USERNAME}}
         EXPO_PASSWORD: {{EXPO_PASSWORD}}
       file: bookit-prototype-3/concourse/tasks/push_to_staging.yml
+- name: Notify Slack
+  plan:
+    - get: bookit-prototype-3
+      trigger: true
+      passed:
+        - Push to Staging
+    - task: Get Commit Info
+      file: bookit-prototype-3/concourse/tasks/get_commit_info.yml
+      params:
+        GIT_COMMIT_URL: {{GIT_COMMIT_URL}}
+        BRANCH: {{BRANCH}}
+        STATUS: SUCCEEDED
+        COLOR: good
+    - put: slack-alert
+      params:
+        text: |
+          Successfully built [<https://concourse.buildit.tools/teams/bookit-mobile/pipelines/bookit-mobile|Bookit Mobile>]
+        attachments_file: ./commit_info/attachments.json
