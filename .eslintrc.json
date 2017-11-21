@@ -8,13 +8,13 @@
     "compat"
   ],
   "rules": {
+    "no-console": 2,
     "semi": [2, "never"],
     "no-unexpected-multiline": 2,
-    "compat/compat": 2,
     "no-use-before-define": 0,
     "react/jsx-filename-extension": 0,
     "react/prop-types": 0,
-    "compat/compat": 1
+    "compat/compat": 0
   },
   "env": {
     "jest": true

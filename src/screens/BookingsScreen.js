@@ -59,7 +59,7 @@ class BookingsScreen extends React.Component {
                 bookableName={bookableName}
                 bookableLocationName={bookableLocationName}
                 location={bookableLocation}
-                onPressItem={id => console.log(id)}
+                // onPressItem={id => console.log(id)}
               />
             )
           }) }
