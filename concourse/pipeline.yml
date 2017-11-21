@@ -132,3 +132,20 @@ jobs:
         PROJECT_ARN: {{PROJECT_ARN}}
         DEVICE_POOL_ARN: {{IPHONE_DEVICE_POOL_ARN}}
       file: bookit-prototype-3/concourse/tasks/integration_tests_iphone.yml
+- name: Push to Staging
+  plan:
+    - get: bookit-prototype-3
+      trigger: true
+      passed:
+        - Test iPhone Image
+        - Test Android Image
+    - get: dependency-cache
+    - task: handle dependencies
+      file: bookit-prototype-3/concourse/tasks/dependencies.yml
+      params:
+        BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_INTEGRATION}}
+    - task: Push to Staging
+      params:
+        EXPO_USERNAME: {{EXPO_USERNAME}}
+        EXPO_PASSWORD: {{EXPO_PASSWORD}}
+      file: bookit-prototype-3/concourse/tasks/push_to_staging.yml
