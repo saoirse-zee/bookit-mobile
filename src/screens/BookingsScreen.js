@@ -53,7 +53,7 @@ class BookingsScreen extends React.Component {
           <Text>Loading...</Text>
         )}
         <Text>-----------------</Text>
-        { bookings.items.map((booking) => {
+        { bookings.map((booking) => {
           // bookables is only populated after the user has been to the Home screen,
           // and only then with the bookables for `location`
           // This works, for now, but need a more robust scheme.
@@ -78,8 +78,11 @@ class BookingsScreen extends React.Component {
 
 const mapStateToProps = (state) => {
   const { bookings, bookables, locations } = state
+  const now = DateTime.local()
+  const upcomingBookings =
+    bookings.items.filter(booking => DateTime.fromISO(booking.end) > now)
   return {
-    bookings,
+    bookings: upcomingBookings,
     bookables,
     locations,
     lastUpdated: state.bookings.lastUpdated,
