@@ -15,7 +15,7 @@ wait_for_tests_to_finish () {
 
 # Setup
 "${SCRIPTPATH}"/helpers/install_aws_cli.sh && \
-apt-get -y install jq && \
+apt-get -y install jq expect && \
 pip install virtualenv && \
 yarn global add exp && \
 "${SCRIPTPATH}"/helpers/login_exp.sh && \
