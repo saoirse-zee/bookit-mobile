@@ -5,7 +5,8 @@
     "test": "yarn lint && yarn test:unit",
     "test:unit": "node ./node_modules/jest/bin/jest.js",
     "test:unit-watch": "node ./node_modules/jest/bin/jest.js --watch",
-    "lint": "eslint src/"
+    "lint": "eslint src/",
+    "lint:soft": "yarn lint --rule 'no-console: 1'"
   },
   "jest": {
     "preset": "jest-expo"
@@ -32,9 +33,14 @@
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.4.0",
     "jest-expo": "^23.0.0",
-    "pre-commit": "^1.2.2"
+    "pre-commit": "^1.2.2",
+    "pre-push": "^0.1.1"
   },
   "precommit": [
-    "lint"
+    "lint:soft"
+  ],
+  "prepush": [
+    "lint",
+    "test:unit"
   ]
 }
