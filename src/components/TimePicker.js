@@ -11,7 +11,6 @@ export default class TimePicker extends React.Component {
     isPickerVisible: false,
   }
 
-
   render() {
     const {
       label,
@@ -41,11 +40,6 @@ export default class TimePicker extends React.Component {
             timeZoneOffsetInMinutes={this.state.date.offset}
             onDateChange={(value) => {
               const newDate = DateTime.fromJSDate(value, { zone: bookableTimeZone })
-              console.log(newDate.toLocaleString({
-                hour: 'numeric',
-                minute: '2-digit',
-                timeZoneName: 'short',
-              }))
               this.setState({ date: newDate })
             }}
             minuteInterval={15}

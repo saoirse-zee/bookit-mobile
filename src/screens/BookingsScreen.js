@@ -2,26 +2,10 @@ import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { DateTime } from 'luxon'
-
+import BookingItem from '../components/BookingItem'
 import { fetchBookings } from '../actions'
 import { getBookableNameFromId, getBookableLocationIdFromId, getLocationNameFromLocationId, getLocationFromLocationId } from '../utils'
-
-const formatDate = (date, zoneName) => (
-  DateTime.fromISO(date, { zone: zoneName }).toLocaleString(DateTime.DATETIME_FULL)
-)
-
-const BookingItem = ({
-  booking,
-  bookableName,
-  bookableLocationName,
-  location,
-}) => (
-  <View style={{ margin: 20 }}>
-    <Text>{bookableName} in {bookableLocationName}</Text>
-    <Text>Start: {formatDate(booking.start, location.timeZone)}</Text>
-    <Text>End: {formatDate(booking.end, location.timeZone)}</Text>
-  </View>
-)
+import colors from '../../constants/Colors'
 
 class BookingsScreen extends React.Component {
   static navigationOptions = {
@@ -47,30 +31,39 @@ class BookingsScreen extends React.Component {
     })
     return (
       <View style={styles.container}>
-        { lastUpdated ? (
-          <Text>Last updated: { formattedLastUpdated }</Text>
-        ) : (
-          <Text>Loading...</Text>
-        )}
-        <Text>-----------------</Text>
-        { bookings.map((booking) => {
-          // bookables is only populated after the user has been to the Home screen,
-          // and only then with the bookables for `location`
-          // This works, for now, but need a more robust scheme.
-          const bookableName = getBookableNameFromId(booking.bookableId, bookables)
-          const bookableLocationId = getBookableLocationIdFromId(booking.bookableId, bookables)
-          const bookableLocationName = getLocationNameFromLocationId(bookableLocationId, locations)
-          const bookableLocation = getLocationFromLocationId(bookableLocationId, locations)
-          return (
-            <BookingItem
-              key={`booking-${booking.id}`}
-              booking={booking}
-              bookableName={bookableName}
-              bookableLocationName={bookableLocationName}
-              location={bookableLocation}
-            />
-          )
-        }) }
+        <View style={styles.updateMessageBox}>
+          { lastUpdated ? (
+            <Text style={styles.updateMessageText}>Last updated: { formattedLastUpdated }</Text>
+          ) : (
+            <Text style={styles.updateMessageText}>Loading...</Text>
+          )}
+        </View>
+
+        <View style={styles.bookings}>
+          { bookings.map((booking) => {
+            // bookables is only populated after the user has been to the Home screen,
+            // and only then with the bookables for `location`
+            // This works, for now, but need a more robust scheme.
+            const bookableName =
+              getBookableNameFromId(booking.bookableId, bookables)
+            const bookableLocationId =
+              getBookableLocationIdFromId(booking.bookableId, bookables)
+            const bookableLocationName =
+              getLocationNameFromLocationId(bookableLocationId, locations)
+            const bookableLocation =
+              getLocationFromLocationId(bookableLocationId, locations)
+            return (
+              <BookingItem
+                key={`booking-${booking.id}`}
+                booking={booking}
+                bookableName={bookableName}
+                bookableLocationName={bookableLocationName}
+                location={bookableLocation}
+                onPressItem={id => console.log(id)}
+              />
+            )
+          }) }
+        </View>
       </View>
     )
   }
@@ -93,7 +86,17 @@ export default connect(mapStateToProps)(BookingsScreen)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+  },
+  bookings: {
+    paddingLeft: 30,
+  },
+  updateMessageBox: {
+    backgroundColor: colors.tintColor,
+    padding: 10,
+    paddingLeft: 30,
+    marginBottom: 30,
+  },
+  updateMessageText: {
+    color: 'white',
   },
 })
