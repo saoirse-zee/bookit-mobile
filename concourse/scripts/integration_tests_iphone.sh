@@ -15,7 +15,7 @@ echo "iPhone integration test placeholder"
 
 # # Prep Work
 # apt-get update && \
-# apt-get install python-pip jq && \
+# apt-get install python-pip jq zip && \
 # pip install virtualenv && \
 # cd bookit-with-deps && \
 
