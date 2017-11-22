@@ -160,12 +160,12 @@ jobs:
       passed:
         - Push to Staging
     - task: Get Commit Info
-      file: bookit-prototype-3/concourse/tasks/get_commit_info.yml
       params:
         GIT_COMMIT_URL: {{GIT_COMMIT_URL}}
         BRANCH: {{BRANCH}}
         STATUS: SUCCEEDED
         COLOR: good
+      file: bookit-prototype-3/concourse/tasks/get_commit_info.yml
     - put: slack-alert
       params:
         text: |

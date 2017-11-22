@@ -13,4 +13,4 @@ outputs:
   - name: commit_info
 
 run:
-  path: bookit-prototype-3/concourse/scripts/dependencies.sh
+  path: bookit-prototype-3/concourse/scripts/get_commit_info.sh
