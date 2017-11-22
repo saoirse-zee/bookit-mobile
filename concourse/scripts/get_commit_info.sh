@@ -1,7 +1,6 @@
 #!/bin/sh
 
 # Get info
-apt-get install -y git
 cd bookit-prototype-3 || exit
 
 SHA=$(git rev-parse HEAD)
@@ -15,7 +14,7 @@ cat >./commit_info/attachments.json <<EOL
 [
   {
     "title": "Build $STATUS",
-    "color": "$COLOR,
+    "color": "$COLOR",
     "fields": [
       {
         "title": "Branch",
