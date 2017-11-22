@@ -2,7 +2,7 @@
 
 # Get info
 apt-get install -y git
-cd bookit-mobile || exit
+cd bookit-prototype-3 || exit
 
 SHA=$(git rev-parse HEAD)
 SHORT_SHA=$(git rev-parse --short HEAD)
