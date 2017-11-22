@@ -33,7 +33,6 @@ jobs:
   plan:
     - get: bookit-prototype-3
       trigger: true
-    - get: dependency-cache
 - name: Lint Bookit-Mobile Code Base
   plan:
     - get: bookit-prototype-3
