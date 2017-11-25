@@ -1,11 +1,8 @@
 import React from 'react'
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native'
-import { DateTime } from 'luxon'
+import { formatDate } from '../utils'
 import colors from '../../constants/Colors'
 
-const formatDate = (date, zoneName) => (
-  DateTime.fromISO(date, { zone: zoneName }).toLocaleString(DateTime.DATETIME_FULL)
-)
 
 const BookingItem = ({
   booking,

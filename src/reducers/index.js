@@ -52,7 +52,6 @@ const createBookingStatus = (state = {
 }, action) => {
   switch (action.type) {
     case 'BOOKING_SUCCESS': {
-      // console.log(action)
       return {
         bookingSucceeded: true,
         newBooking: action.newBooking,
@@ -60,12 +59,31 @@ const createBookingStatus = (state = {
       }
     }
     case 'BOOKING_FAIL': {
-      // console.log(action)
       return {
         bookingSucceeded: false,
         reason: action.reason,
         newBooking: {},
       }
+    }
+    default: return state
+  }
+}
+
+
+const initialModalState = {
+  modalType: null,
+  modalProps: {},
+}
+const modal = (state = initialModalState, action) => {
+  switch (action.type) {
+    case 'SHOW_MODAL': {
+      return {
+        modalType: action.modalType,
+        modalProps: action.modalProps,
+      }
+    }
+    case 'HIDE_MODAL': {
+      return initialModalState
     }
     default: return state
   }
@@ -78,6 +96,7 @@ const root = combineReducers({
   bookables,
   bookings,
   createBookingStatus,
+  modal,
 })
 
 export default root

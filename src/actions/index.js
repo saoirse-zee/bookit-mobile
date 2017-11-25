@@ -31,6 +31,16 @@ const bookingFail = reason => ({
   reason,
 })
 
+const showModal = ({ modalType, modalProps }) => ({
+  type: 'SHOW_MODAL',
+  modalType,
+  modalProps,
+})
+
+export const hideModal = () => ({
+  type: 'HIDE_MODAL',
+})
+
 export const fetchLocations =
   () => dispatch => fetch(`${baseUrl}location/`)
     .then(response => response.json())
@@ -50,7 +60,13 @@ export const createBooking = booking => dispatch => postBooking(booking)
   .then((newBooking) => {
     dispatch(bookingSuccess(newBooking))
     dispatch(fetchBookings())
+    dispatch(showModal({
+      modalType: 'BOOKING_SUCCESS',
+    }))
   })
   .catch((error) => {
     dispatch(bookingFail(error.message))
+    dispatch(showModal({
+      modalType: 'BOOKING_FAILURE',
+    }))
   })

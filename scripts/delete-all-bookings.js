@@ -1,4 +1,5 @@
-const baseUrl = 'http://integration-bookit-api.buildit.tools/v1/'
+// const baseUrl = 'http://integration-bookit-api.buildit.tools/v1/'
+const baseUrl = 'http://localhost:8080/v1/'
 const axios = require('axios')
 
 axios(`${baseUrl}booking`)

@@ -18,8 +18,7 @@ import BookableItem from '../components/BookableItem'
 import Button from '../components/Button'
 import TimePicker from '../components/TimePicker'
 import DurationPicker from '../components/DurationPicker'
-import BookingConfirmationModal from '../components/BookingConfirmationModal'
-import { getBookableNameFromId } from '../utils'
+import BookitModal from '../components/modals/BookitModal'
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -34,7 +33,6 @@ class HomeScreen extends React.Component {
     selectedBookableId: this.props.selectedBookableId,
     start: this.props.start,
     bookingDuration: this.props.bookingDuration,
-    isModalVisible: false,
   }
 
   componentDidMount() {
@@ -47,7 +45,6 @@ class HomeScreen extends React.Component {
   handleBookitPress = (booking) => {
     const { dispatch } = this.props
     dispatch(createBooking(booking))
-    this.setState({ isModalVisible: true })
   }
 
   handleBookablePress = (bookableId) => {
@@ -58,11 +55,7 @@ class HomeScreen extends React.Component {
     const {
       location,
       bookables,
-      newBookingBookableName,
-      bookingSucceeded,
     } = this.props
-
-    const { isModalVisible } = this.state
 
     const formattedStart =
       this.state.start.toLocaleString({
@@ -74,13 +67,7 @@ class HomeScreen extends React.Component {
     const message = `I want a room in NYC at ${formattedStart} for ${formattedBookingDuration}.`
     return (
       <View style={styles.container}>
-        { isModalVisible ? (
-          <BookingConfirmationModal
-            newBookingBookableName={newBookingBookableName}
-            success={bookingSucceeded}
-            onOkayPress={() => { this.setState({ isModalVisible: false }) }}
-          />
-        ) : null }
+        <BookitModal />
         <View style={styles.formFields}>
           <ShoutyText>{ message }</ShoutyText>
           <TimePicker
@@ -144,18 +131,12 @@ const mapStateToProps = (state) => {
   const start = DateTime.local().plus({ hour: 1 }).setZone(location.timeZone)
   const bookingDuration = Duration.fromObject({ minutes: 30 })
 
-  // Get results of posting a booking, once that happens
-  const { newBooking, bookingSucceeded } = state.createBookingStatus
-  const newBookingBookableName = getBookableNameFromId(newBooking.bookableId, bookables)
-
   return ({
     start,
     bookingDuration,
     location,
     locations,
     bookables,
-    bookingSucceeded,
-    newBookingBookableName,
   })
 }
 
