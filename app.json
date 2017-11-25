@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "bookit-prototype-3",
-    "description": "Prototype of a booking app.",
-    "slug": "bookit-prototype-3",
+    "name": "Bookit Mobile",
+    "description": "A booking app for iOS and Android.",
+    "slug": "bookit-mobile",
     "privacy": "unlisted",
     "sdkVersion": "23.0.0",
     "version": "0.0.1",
@@ -16,7 +16,7 @@
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "buildit.bookit.prototype-3",
+      "bundleIdentifier": "buildit.bookit.mobile",
       "config": {
         "usesNonExemptEncryption": false
       }
