@@ -7,7 +7,6 @@ import Colors from '../constants/Colors'
 
 import HomeScreen from '../src/screens/HomeScreen'
 import BookingsScreen from '../src/screens/BookingsScreen'
-import SettingsScreen from '../src/screens/SettingsScreen'
 
 export default TabNavigator(
   {
@@ -16,9 +15,6 @@ export default TabNavigator(
     },
     Bookings: {
       screen: BookingsScreen,
-    },
-    Settings: {
-      screen: SettingsScreen,
     },
   },
   {
@@ -36,9 +32,6 @@ export default TabNavigator(
           case 'Bookings':
             iconName = Platform.OS === 'ios' ? `ios-link${focused ? '' : '-outline'}` : 'md-link'
             break
-          case 'Settings':
-            iconName =
-              Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-options'
         }
         return (
           <Ionicons
