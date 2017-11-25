@@ -26,6 +26,7 @@ export default class DurationPicker extends React.Component {
         <PickerButton
           label={label}
           value={selectedDuration}
+          unitsLabel="minutes"
           onPress={() => { this.setState({ isPickerVisible: true }) }}
         />
 
