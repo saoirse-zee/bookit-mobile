@@ -21,18 +21,18 @@ const BookingSuccessModal = ({
 }
 
 const mapStateToProps = (state) => {
-  const { createBookingStatus, bookables, location } = state
-  const { newBooking } = createBookingStatus
+  const { createBooking, bookables, selectedLocation } = state
+  const { newBooking } = createBooking
   const { bookableId, start, end } = newBooking
   const bookableName = getBookableNameFromId(bookableId, bookables)
-  const formattedStart = formatDate(start, location.timeZone)
-  const formattedEnd = formatDate(end, location.timeZone)
+  const formattedStart = formatDate(start, selectedLocation.timeZone)
+  const formattedEnd = formatDate(end, selectedLocation.timeZone)
 
   return {
     bookableName,
     formattedStart,
     formattedEnd,
-    locationName: location.name,
+    locationName: selectedLocation.name,
   }
 }
 

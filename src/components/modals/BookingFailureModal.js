@@ -11,7 +11,7 @@ const BookingFailureModal = ({ failureReason, onOkayPress }) => (
 )
 
 const mapStateToProps = state => ({
-  failureReason: state.createBookingStatus.reason,
+  failureReason: state.createBooking.reason,
 })
 
 export default connect(mapStateToProps)(BookingFailureModal)

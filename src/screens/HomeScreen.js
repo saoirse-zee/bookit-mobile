@@ -125,16 +125,16 @@ class HomeScreen extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const { location, locations, bookables } = state
+  const { selectedLocation, locations, bookables } = state
 
   // Set Booking defaults
-  const start = DateTime.local().plus({ hour: 1 }).setZone(location.timeZone)
+  const start = DateTime.local().plus({ hour: 1 }).setZone(selectedLocation.timeZone)
   const bookingDuration = Duration.fromObject({ minutes: 30 })
 
   return ({
     start,
     bookingDuration,
-    location,
+    location: selectedLocation,
     locations,
     bookables,
   })
