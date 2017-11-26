@@ -12,7 +12,7 @@ const BookitModal = ({
 }) => {
   const MODAL_COMPONENTS = {
     BOOKING_SUCCESS: BookingSuccessModal,
-    BOOKING_FAILURE: BookingFailureModal,
+    BOOKING_FAIL: BookingFailureModal,
   }
 
   if (!modalType) {

@@ -1,4 +1,13 @@
 import { combineReducers } from 'redux'
+import {
+  RECEIVE_LOCATIONS,
+  RECEIVE_BOOKABLES,
+  RECEIVE_BOOKINGS,
+  BOOKING_SUCCESS,
+  BOOKING_FAIL,
+  SHOW_MODAL,
+  HIDE_MODAL,
+} from '../actions/types'
 
 const hi = (hiMessage = 'Hi from Redux.') => hiMessage
 
@@ -12,7 +21,7 @@ const location = (state = hardcodedLocation) => state
 
 const locations = (state = [], action) => {
   switch (action.type) {
-    case 'RECEIVE_LOCATIONS': {
+    case RECEIVE_LOCATIONS: {
       return action.locations
     }
     default: return state
@@ -21,7 +30,7 @@ const locations = (state = [], action) => {
 
 const bookables = (state = [], action) => {
   switch (action.type) {
-    case 'RECEIVE_BOOKABLES': {
+    case RECEIVE_BOOKABLES: {
       return action.bookables
     }
     default: return state
@@ -33,7 +42,7 @@ const bookings = (state = {
   lastUpdated: null,
 }, action) => {
   switch (action.type) {
-    case 'RECEIVE_BOOKINGS': {
+    case RECEIVE_BOOKINGS: {
       return {
         ...state,
         items: action.bookings,
@@ -51,14 +60,14 @@ const createBookingStatus = (state = {
   newBooking: {},
 }, action) => {
   switch (action.type) {
-    case 'BOOKING_SUCCESS': {
+    case BOOKING_SUCCESS: {
       return {
         bookingSucceeded: true,
         newBooking: action.newBooking,
         reason: '',
       }
     }
-    case 'BOOKING_FAIL': {
+    case BOOKING_FAIL: {
       return {
         bookingSucceeded: false,
         reason: action.reason,
@@ -69,20 +78,19 @@ const createBookingStatus = (state = {
   }
 }
 
-
 const initialModalState = {
   modalType: null,
   modalProps: {},
 }
 const modal = (state = initialModalState, action) => {
   switch (action.type) {
-    case 'SHOW_MODAL': {
+    case SHOW_MODAL: {
       return {
         modalType: action.modalType,
         modalProps: action.modalProps,
       }
     }
-    case 'HIDE_MODAL': {
+    case HIDE_MODAL: {
       return initialModalState
     }
     default: return state
