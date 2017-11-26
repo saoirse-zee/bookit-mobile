@@ -42,9 +42,10 @@ class HomeScreen extends React.Component {
     dispatch(fetchBookings())
   }
 
-  handleBookitPress = (booking) => {
+  handleBookitPress = () => {
     const { dispatch } = this.props
-    dispatch(createBooking(booking))
+    const formData = this.state
+    dispatch(createBooking(formData))
   }
 
   handleBookablePress = (bookableId) => {
@@ -104,20 +105,7 @@ class HomeScreen extends React.Component {
 
         <Button
           label="Bookit"
-          onPress={() => {
-            const { start } = this.state
-            const end = start.plus(this.state.bookingDuration)
-            // QUESTION: Is the server expecting a standard format? .toISO() would be nice.
-            const formattedStartForAPI = `${start.toFormat('yyyy-MM-dd')}T${start.toFormat('TT')}Z`
-            const formattedEndForAPI = `${end.toFormat('yyyy-MM-dd')}T${end.toFormat('TT')}Z`
-            const booking = {
-              bookableId: this.state.selectedBookableId,
-              start: formattedStartForAPI,
-              end: formattedEndForAPI,
-              subject: 'Booked by Bookit mobile',
-            }
-            this.handleBookitPress(booking)
-          }}
+          onPress={this.handleBookitPress}
         />
       </View>
     )
