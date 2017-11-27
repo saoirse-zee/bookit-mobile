@@ -16,10 +16,13 @@
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "buildit.bookit.mobile",
+      "bundleIdentifier": "tools.buildit.bookit.mobile",
       "config": {
         "usesNonExemptEncryption": false
       }
+    },
+    "android": {
+      "package": "tools.buildit.bookit.mobile",
     }
   }
 }

@@ -1,7 +1,7 @@
 {
-  "name": "bookit-prototype-3-integration",
-  "description": "Prototype of a booking app.",
-  "slug": "bookit-prototype-3-integration",
+  "name": "Bookit Mobile (Integration)",
+  "description": "A booking app for iOS and Android.",
+  "slug": "bookit-mobile-integration",
   "privacy": "unlisted",
   "sdkVersion": "23.0.0",
   "version": "0.0.1",
@@ -15,12 +15,12 @@
   },
   "ios": {
     "supportsTablet": false,
-    "bundleIdentifier": "buildit.bookit.prototype-3",
+    "bundleIdentifier": "tools.buildit.bookit.mobile.integration",
     "config": {
       "usesNonExemptEncryption": false
     }
   },
   "android": {
-    "package": "buildit.bookit.prototype3"
+    "package": "tools.buildit.bookit.mobile.integration",
   }
 }

@@ -6,23 +6,23 @@ echo "build android placeholder"
 # wait_until_previous_build_finishes () {
 #   COUNT_PREVIOUS=0
 #   PREVIOUS_STATUS=$(exp bs --config ./"$BUILD_JSON" | grep 'Android: ' | awk -F ": " '{print$2}')
-#   while [ "$PREVIOUS_STATUS" = "Build in progress..." ] && [ $COUNT_PREVIOUS -lt 20 ]; do  
-#     echo 'checking for the URL'
+#   while [ "$PREVIOUS_STATUS" = "Build in progress..." ] && [ $COUNT_PREVIOUS -lt 20 ]; do
+#     echo 'Waiting for previous Android build to finish...'
 #     PREVIOUS_STATUS=$(exp bs --config ./"$BUILD_JSON" | grep 'Android: ' | awk -F ": " '{print$2}')
 #     sleep 60
 #     COUNT_PREVIOUS=$((COUNT_PREVIOUS+1))
-#   done  
+#   done
 # }
 
 # wait_until_build_finishes () {
 #   COUNT_CURRENT=0
 
-#   while [ -z "$ANDROID_APP_URL" ] && [ $COUNT_CURRENT -lt 20 ]; do  
-#     echo 'checking for the URL'
+#   while [ -z "$ANDROID_APP_URL" ] && [ $COUNT_CURRENT -lt 20 ]; do
+#     echo 'Checking if Android build finished...'
 #     ANDROID_APP_URL=$(exp bs --config ./"$BUILD_JSON" | grep 'APK:' | awk -F ": " '{print$2}')
 #     sleep 60
 #     COUNT_CURRENT=$((COUNT_CURRENT+1))
-#   done  
+#   done
 # }
 
 # apt-get update && apt-get install -y expect && \
@@ -39,4 +39,3 @@ echo "build android placeholder"
 
 # echo "APK URL:"
 # exp bs --config ./"$BUILD_JSON" | grep 'APK:' | awk -F ": " '{print$2}'
-
