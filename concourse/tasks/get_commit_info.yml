@@ -7,10 +7,10 @@ image_resource:
     tag: latest
 
 inputs:
-  - name: bookit-prototype-3
+  - name: bookit-mobile
 
 outputs:
   - name: commit_info
 
 run:
-  path: bookit-prototype-3/concourse/scripts/get_commit_info.sh
+  path: bookit-mobile/concourse/scripts/get_commit_info.sh

@@ -7,11 +7,11 @@ image_resource:
     tag: latest
 
 inputs:
-  - name: bookit-prototype-3
+  - name: bookit-mobile
   - name: dependency-cache
 
 outputs:
   - name: bookit-with-deps
 
 run:
-  path: bookit-prototype-3/concourse/scripts/dependencies.sh
+  path: bookit-mobile/concourse/scripts/dependencies.sh

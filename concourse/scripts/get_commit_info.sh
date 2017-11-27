@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Get info
-cd bookit-prototype-3 || exit
+cd bookit-mobile || exit
 
 SHA=$(git rev-parse HEAD)
 SHORT_SHA=$(git rev-parse --short HEAD)
