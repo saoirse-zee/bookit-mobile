@@ -52,7 +52,7 @@ jobs:
   on_failure: &failure
     do:
       - task: Get Commit Info
-        file: twig/concourse/tasks/get_commit_info.yml
+        file: bookit-mobile/concourse/tasks/get_commit_info.yml
         params:
           GIT_COMMIT_URL: {{GIT_COMMIT_URL}}
           BRANCH: {{BRANCH}}
