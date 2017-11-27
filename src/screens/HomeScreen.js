@@ -18,7 +18,7 @@ import BookableItem from '../components/BookableItem'
 import Button from '../components/Button'
 import TimePicker from '../components/TimePicker'
 import DurationPicker from '../components/DurationPicker'
-import BookitModal from '../components/modals/BookitModal'
+import RootModal from '../components/modals/RootModal'
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -68,7 +68,7 @@ class HomeScreen extends React.Component {
     const message = `I want a room in NYC at ${formattedStart} for ${formattedBookingDuration}.`
     return (
       <View style={styles.container}>
-        <BookitModal />
+        <RootModal />
         <View style={styles.formFields}>
           <ShoutyText>{ message }</ShoutyText>
           <TimePicker
