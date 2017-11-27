@@ -12,10 +12,10 @@ resource_types:
       tag: latest
 
 resources:
-- name: bookit-prototype-3
+- name: bookit-mobile
   type: git
   source: &repo-source
-    uri: https://github.com/saoirse-zee/bookit-prototype-3
+    uri: https://github.com/saoirse-zee/bookit-mobile
     branch: {{BRANCH}}
 - name: dependency-cache
   type: npm-cache
@@ -31,21 +31,21 @@ resources:
 jobs:
 - name: Install Dependencies
   plan:
-    - get: bookit-prototype-3
+    - get: bookit-mobile
       trigger: true
 - name: Lint Bookit-Mobile Code Base
   plan:
-    - get: bookit-prototype-3
+    - get: bookit-mobile
       trigger: true
       passed:
         - Install Dependencies
     - get: dependency-cache
     - task: handle dependencies
-      file: bookit-prototype-3/concourse/tasks/dependencies.yml
+      file: bookit-mobile/concourse/tasks/dependencies.yml
       params:
         BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_INTEGRATION}}
     - task: lint the project
-      file: bookit-prototype-3/concourse/tasks/lint.yml
+      file: bookit-mobile/concourse/tasks/lint.yml
   on_failure:
     do:
       - task: Get Commit Info
@@ -62,17 +62,17 @@ jobs:
           attachments_file: ./commit_info/attachments.json
 - name: Run Unit Tests
   plan:
-    - get: bookit-prototype-3
+    - get: bookit-mobile
       trigger: true
       passed:
         - Install Dependencies
     - get: dependency-cache
     - task: handle dependencies
-      file: bookit-prototype-3/concourse/tasks/dependencies.yml
+      file: bookit-mobile/concourse/tasks/dependencies.yml
       params:
         BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_INTEGRATION}}
     - task: run the unit tests
-      file: bookit-prototype-3/concourse/tasks/run_unit_tests.yml
+      file: bookit-mobile/concourse/tasks/run_unit_tests.yml
   on_failure:
     do:
       - task: Get Commit Info
@@ -89,21 +89,21 @@ jobs:
           attachments_file: ./commit_info/attachments.json
 - name: Build Android Image
   plan:
-    - get: bookit-prototype-3
+    - get: bookit-mobile
       trigger: true
       passed:
         - Lint Bookit-Mobile Code Base
         - Run Unit Tests
     - get: dependency-cache
     - task: handle dependencies
-      file: bookit-prototype-3/concourse/tasks/dependencies.yml
+      file: bookit-mobile/concourse/tasks/dependencies.yml
       params:
         BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_INTEGRATION}}
     - task: Build Android Project
       params:
         EXPO_USERNAME: {{EXPO_USERNAME}}
         EXPO_PASSWORD: {{EXPO_PASSWORD}}
-      file: bookit-prototype-3/concourse/tasks/build_android.yml
+      file: bookit-mobile/concourse/tasks/build_android.yml
   on_failure:
     do:
       - task: Get Commit Info
@@ -120,21 +120,21 @@ jobs:
           attachments_file: ./commit_info/attachments.json
 - name: Build iPhone Image
   plan:
-    - get: bookit-prototype-3
+    - get: bookit-mobile
       trigger: true
       passed:
         - Lint Bookit-Mobile Code Base
         - Run Unit Tests
     - get: dependency-cache
     - task: handle dependencies
-      file: bookit-prototype-3/concourse/tasks/dependencies.yml
+      file: bookit-mobile/concourse/tasks/dependencies.yml
       params:
         BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_INTEGRATION}}
     - task: Build iPhone Project
       params:
         EXPO_USERNAME: {{EXPO_USERNAME}}
         EXPO_PASSWORD: {{EXPO_PASSWORD}}
-      file: bookit-prototype-3/concourse/tasks/build_iphone.yml
+      file: bookit-mobile/concourse/tasks/build_iphone.yml
   on_failure:
     do:
       - task: Get Commit Info
@@ -151,13 +151,13 @@ jobs:
           attachments_file: ./commit_info/attachments.json
 - name: Test Android Image
   plan:
-    - get: bookit-prototype-3
+    - get: bookit-mobile
       trigger: true
       passed:
         - Build Android Image
     - get: dependency-cache
     - task: handle dependencies
-      file: bookit-prototype-3/concourse/tasks/dependencies.yml
+      file: bookit-mobile/concourse/tasks/dependencies.yml
       params:
         BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_INTEGRATION}}
     - task: Test Android Project
@@ -169,7 +169,7 @@ jobs:
         AWS_REGION: us-west-2
         PROJECT_ARN: {{PROJECT_ARN}}
         DEVICE_POOL_ARN: {{ANDROID_DEVICE_POOL_ARN}}
-      file: bookit-prototype-3/concourse/tasks/integration_tests_android.yml
+      file: bookit-mobile/concourse/tasks/integration_tests_android.yml
   on_failure:
     do:
       - task: Get Commit Info
@@ -186,13 +186,13 @@ jobs:
           attachments_file: ./commit_info/attachments.json
 - name: Test iPhone Image
   plan:
-    - get: bookit-prototype-3
+    - get: bookit-mobile
       trigger: true
       passed:
         - Build iPhone Image
     - get: dependency-cache
     - task: handle dependencies
-      file: bookit-prototype-3/concourse/tasks/dependencies.yml
+      file: bookit-mobile/concourse/tasks/dependencies.yml
       params:
         BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_INTEGRATION}}
     - task: Test iPhone Project
@@ -204,7 +204,7 @@ jobs:
         AWS_REGION: us-west-2
         PROJECT_ARN: {{PROJECT_ARN}}
         DEVICE_POOL_ARN: {{IPHONE_DEVICE_POOL_ARN}}
-      file: bookit-prototype-3/concourse/tasks/integration_tests_iphone.yml
+      file: bookit-mobile/concourse/tasks/integration_tests_iphone.yml
   on_failure:
     do:
       - task: Get Commit Info
@@ -221,21 +221,21 @@ jobs:
           attachments_file: ./commit_info/attachments.json
 - name: Push to Staging
   plan:
-    - get: bookit-prototype-3
+    - get: bookit-mobile
       trigger: true
       passed:
         - Test iPhone Image
         - Test Android Image
     - get: dependency-cache
     - task: handle dependencies
-      file: bookit-prototype-3/concourse/tasks/dependencies.yml
+      file: bookit-mobile/concourse/tasks/dependencies.yml
       params:
         BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_INTEGRATION}}
     - task: Push to Staging
       params:
         EXPO_USERNAME: {{EXPO_USERNAME}}
         EXPO_PASSWORD: {{EXPO_PASSWORD}}
-      file: bookit-prototype-3/concourse/tasks/push_to_staging.yml
+      file: bookit-mobile/concourse/tasks/push_to_staging.yml
   on_failure:
     do:
       - task: Get Commit Info
@@ -252,7 +252,7 @@ jobs:
           attachments_file: ./commit_info/attachments.json
 - name: Notify Slack
   plan:
-    - get: bookit-prototype-3
+    - get: bookit-mobile
       trigger: true
       passed:
         - Push to Staging
@@ -262,7 +262,7 @@ jobs:
         BRANCH: {{BRANCH}}
         STATUS: SUCCEEDED
         COLOR: good
-      file: bookit-prototype-3/concourse/tasks/get_commit_info.yml
+      file: bookit-mobile/concourse/tasks/get_commit_info.yml
     - put: slack-alert
       params:
         text: |
