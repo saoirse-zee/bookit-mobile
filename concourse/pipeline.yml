@@ -155,7 +155,10 @@ jobs:
         - Test iPhone Image
         - Test Android Image
     - get: dependency-cache
-    - *handle-dependencies
+    - task: handle dependencies
+      file: bookit-mobile/concourse/tasks/dependencies.yml
+      params:
+        BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_PRODUCTION}}
     - task: Push to Staging
       params:
         EXPO_USERNAME: {{EXPO_USERNAME}}
