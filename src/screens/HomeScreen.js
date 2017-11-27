@@ -4,6 +4,7 @@ import {
   View,
   FlatList,
 } from 'react-native'
+import { FileSystem } from 'expo'
 import { connect } from 'react-redux'
 import { DateTime, Duration } from 'luxon'
 
@@ -36,6 +37,14 @@ class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
+    const fileUri = `${FileSystem.documentDirectory}token`
+    FileSystem.writeAsStringAsync(fileUri, 'This is my special token.')
+      .then(() => {
+        FileSystem.readAsStringAsync(fileUri)
+        .then(result => console.log(result))
+      })
+      .catch(error => console.warn(error))
+
     const { location, dispatch } = this.props
     dispatch(fetchLocations())
     dispatch(fetchBookables(location.id))

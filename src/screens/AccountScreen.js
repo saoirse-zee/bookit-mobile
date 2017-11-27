@@ -2,34 +2,25 @@ import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 
-import { fetchBookings } from '../actions'
-
-class LinksScreen extends React.Component {
+class AccountScreen extends React.Component {
   static navigationOptions = {
-    title: 'Bookings',
+    title: 'Me',
   }
 
   componentDidMount() {
     const { dispatch } = this.props
-    dispatch(fetchBookings())
   }
 
   render() {
-    const { bookings } = this.props
     return (
       <View style={styles.container}>
-        <Text>Bookings list</Text>
-        { bookings.map(b => <Text key={`bookable-${b.id}`}>{b.subject}</Text>) }
+        <Text>Info about the user goes here.</Text>
       </View>
     )
   }
 }
 
-const mapStateToProps = state => ({
-  bookings: state.bookings,
-})
-
-export default connect(mapStateToProps)(LinksScreen)
+export default connect()(AccountScreen)
 
 const styles = StyleSheet.create({
   container: {
