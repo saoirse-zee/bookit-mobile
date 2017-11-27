@@ -46,10 +46,10 @@ jobs:
         BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_INTEGRATION}}
     - task: lint the project
       file: bookit-mobile/concourse/tasks/lint.yml
-  on_failure:
+  on_failure: &failure
     do:
       - task: Get Commit Info
-        file: twig/concourse/tasks/get_commit_info.yml
+        file: bookit-mobile/concourse/tasks/get_commit_info.yml
         params:
           GIT_COMMIT_URL: {{GIT_COMMIT_URL}}
           BRANCH: {{BRANCH}}
@@ -74,19 +74,7 @@ jobs:
     - task: run the unit tests
       file: bookit-mobile/concourse/tasks/run_unit_tests.yml
   on_failure:
-    do:
-      - task: Get Commit Info
-        file: twig/concourse/tasks/get_commit_info.yml
-        params:
-          GIT_COMMIT_URL: {{GIT_COMMIT_URL}}
-          BRANCH: {{BRANCH}}
-          STATUS: FAILED
-          COLOR: danger
-      - put: slack-alert
-        params:
-          text: |
-            Error at step [<https://concourse.buildit.tools/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>]
-          attachments_file: ./commit_info/attachments.json
+    <<: *failure
 - name: Build Android Image
   plan:
     - get: bookit-mobile
@@ -105,19 +93,7 @@ jobs:
         EXPO_PASSWORD: {{EXPO_PASSWORD}}
       file: bookit-mobile/concourse/tasks/build_android.yml
   on_failure:
-    do:
-      - task: Get Commit Info
-        file: twig/concourse/tasks/get_commit_info.yml
-        params:
-          GIT_COMMIT_URL: {{GIT_COMMIT_URL}}
-          BRANCH: {{BRANCH}}
-          STATUS: FAILED
-          COLOR: danger
-      - put: slack-alert
-        params:
-          text: |
-            Error at step [<https://concourse.buildit.tools/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>]
-          attachments_file: ./commit_info/attachments.json
+    <<: *failure
 - name: Build iPhone Image
   plan:
     - get: bookit-mobile
@@ -136,19 +112,7 @@ jobs:
         EXPO_PASSWORD: {{EXPO_PASSWORD}}
       file: bookit-mobile/concourse/tasks/build_iphone.yml
   on_failure:
-    do:
-      - task: Get Commit Info
-        file: twig/concourse/tasks/get_commit_info.yml
-        params:
-          GIT_COMMIT_URL: {{GIT_COMMIT_URL}}
-          BRANCH: {{BRANCH}}
-          STATUS: FAILED
-          COLOR: danger
-      - put: slack-alert
-        params:
-          text: |
-            Error at step [<https://concourse.buildit.tools/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>]
-          attachments_file: ./commit_info/attachments.json
+    <<: *failure
 - name: Test Android Image
   plan:
     - get: bookit-mobile
@@ -171,19 +135,7 @@ jobs:
         DEVICE_POOL_ARN: {{ANDROID_DEVICE_POOL_ARN}}
       file: bookit-mobile/concourse/tasks/integration_tests_android.yml
   on_failure:
-    do:
-      - task: Get Commit Info
-        file: twig/concourse/tasks/get_commit_info.yml
-        params:
-          GIT_COMMIT_URL: {{GIT_COMMIT_URL}}
-          BRANCH: {{BRANCH}}
-          STATUS: FAILED
-          COLOR: danger
-      - put: slack-alert
-        params:
-          text: |
-            Error at step [<https://concourse.buildit.tools/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>]
-          attachments_file: ./commit_info/attachments.json
+    <<: *failure
 - name: Test iPhone Image
   plan:
     - get: bookit-mobile
@@ -206,19 +158,7 @@ jobs:
         DEVICE_POOL_ARN: {{IPHONE_DEVICE_POOL_ARN}}
       file: bookit-mobile/concourse/tasks/integration_tests_iphone.yml
   on_failure:
-    do:
-      - task: Get Commit Info
-        file: twig/concourse/tasks/get_commit_info.yml
-        params:
-          GIT_COMMIT_URL: {{GIT_COMMIT_URL}}
-          BRANCH: {{BRANCH}}
-          STATUS: FAILED
-          COLOR: danger
-      - put: slack-alert
-        params:
-          text: |
-            Error at step [<https://concourse.buildit.tools/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>]
-          attachments_file: ./commit_info/attachments.json
+    <<: *failure
 - name: Push to Staging
   plan:
     - get: bookit-mobile
@@ -237,19 +177,7 @@ jobs:
         EXPO_PASSWORD: {{EXPO_PASSWORD}}
       file: bookit-mobile/concourse/tasks/push_to_staging.yml
   on_failure:
-    do:
-      - task: Get Commit Info
-        file: twig/concourse/tasks/get_commit_info.yml
-        params:
-          GIT_COMMIT_URL: {{GIT_COMMIT_URL}}
-          BRANCH: {{BRANCH}}
-          STATUS: FAILED
-          COLOR: danger
-      - put: slack-alert
-        params:
-          text: |
-            Error at step [<https://concourse.buildit.tools/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>]
-          attachments_file: ./commit_info/attachments.json
+    <<: *failure
 - name: Notify Slack
   plan:
     - get: bookit-mobile
