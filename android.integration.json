@@ -1,7 +1,7 @@
 {
-  "name": "Bookit Mobile (Beta)",
+  "name": "Bookit Mobile (Android Integration)",
   "description": "A booking app for iOS and Android.",
-  "slug": "bookit-mobile-beta",
+  "slug": "bookit-mobile-android-integration",
   "privacy": "unlisted",
   "sdkVersion": "23.0.0",
   "version": "0.0.1",
@@ -15,12 +15,12 @@
   },
   "ios": {
     "supportsTablet": false,
-    "bundleIdentifier": "tools.buildit.bookit.mobile.beta",
+    "bundleIdentifier": "tools.buildit.bookit.mobile.android.integration",
     "config": {
       "usesNonExemptEncryption": false
     }
   },
   "android": {
-    "package": "tools.buildit.bookit.mobile.beta",
+    "package": "tools.buildit.bookit.mobile.android.integration"
   }
 }

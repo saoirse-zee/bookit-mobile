@@ -89,7 +89,8 @@ jobs:
       params:
         EXPO_USERNAME: {{EXPO_USERNAME}}
         EXPO_PASSWORD: {{EXPO_PASSWORD}}
-      file: bookit-mobile/concourse/tasks/build_android.yml
+        BUILD_TARGET: Android
+      file: bookit-mobile/concourse/tasks/build_binary.yml
   on_failure: *failure
 - name: Build iPhone Image
   build_logs_to_retain: 3
@@ -105,7 +106,8 @@ jobs:
       params:
         EXPO_USERNAME: {{EXPO_USERNAME}}
         EXPO_PASSWORD: {{EXPO_PASSWORD}}
-      file: bookit-mobile/concourse/tasks/build_iphone.yml
+        BUILD_TARGET: iOS
+      file: bookit-mobile/concourse/tasks/build_binary.yml
   on_failure: *failure
 - name: Test Android Image
   plan:
@@ -146,7 +148,7 @@ jobs:
         DEVICE_POOL_ARN: {{IPHONE_DEVICE_POOL_ARN}}
       file: bookit-mobile/concourse/tasks/integration_tests_iphone.yml
   on_failure: *failure
-- name: Push to Staging
+- name: Publish to Beta
   build_logs_to_retain: 3
   plan:
     - get: bookit-mobile
@@ -159,11 +161,12 @@ jobs:
       file: bookit-mobile/concourse/tasks/dependencies.yml
       params:
         BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_PRODUCTION}}
-    - task: Push to Staging
+    - task: Publish
       params:
         EXPO_USERNAME: {{EXPO_USERNAME}}
         EXPO_PASSWORD: {{EXPO_PASSWORD}}
-      file: bookit-mobile/concourse/tasks/push_to_staging.yml
+        RELEASE_CHANNEL: v1-beta
+      file: bookit-mobile/concourse/tasks/publish.yml
   on_failure: *failure
 - name: Notify Slack
   build_logs_to_retain: 3
@@ -171,7 +174,7 @@ jobs:
     - get: bookit-mobile
       trigger: true
       passed:
-        - Push to Staging
+        - Publish to Beta
     - task: Get Commit Info
       params:
         GIT_COMMIT_URL: {{GIT_COMMIT_URL}}

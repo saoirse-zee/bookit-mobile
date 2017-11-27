@@ -1,7 +1,16 @@
 #!/bin/bash
 
-BUILD_JSON="expo.integration.json"
 SCRIPTPATH=$(dirname "$(readlink -f "$0")")
+
+if [ "$BUILD_TARGET" = "iOS" ]; then
+  BUILD_JSON="iOS.integration.json"
+  BINARY_NAME="IPA";
+  BUILD_COMMAND="bi";
+elif [ "$BUILD_TARGET" = "Android" ]; then
+  BUILD_JSON="android.integration.json"
+  BINARY_NAME="APK";
+  BUILD_COMMAND="ba";
+fi;
 
 wait_until_previous_build_finishes () {
   COUNT_PREVIOUS=0
@@ -17,9 +26,9 @@ wait_until_previous_build_finishes () {
 wait_until_build_finishes () {
   COUNT_CURRENT=0
 
-  while [ -z "$IOS_APP_URL" ] && [ $COUNT_CURRENT -lt 20 ]; do
-    echo 'Checking if iOS build finished...'
-    IOS_APP_URL=$(exp bs --config ./"$BUILD_JSON" | grep 'IPA:' | awk -F ": " '{print$2}')
+  while [ -z "$APP_URL" ] && [ $COUNT_CURRENT -lt 20 ]; do
+    echo "Checking if $BUILD_TARGET build finished..."
+    APP_URL=$(exp bs --config ./"$BUILD_JSON" | grep "$BINARY_NAME" | awk -F ": " '{print$2}')
     sleep 60
     COUNT_CURRENT=$((COUNT_CURRENT+1))
   done
@@ -30,12 +39,11 @@ yarn global add exp && \
 "${SCRIPTPATH}"/helpers/login_exp.sh && \
 cd bookit-with-deps && \
 wait_until_previous_build_finishes && \
-exp bi --config ./"$BUILD_JSON" && \
+exp "$BUILD_COMMAND" --config ./"$BUILD_JSON" && \
 wait_until_build_finishes
 
-if [ -z "$IOS_APP_URL" ]; then
+if [ -z "$APP_URL" ]; then
   exit 1
 fi
 
-echo "IPA URL:"
-exp bs --config ./"$BUILD_JSON" | grep 'IPA:' | awk -F ": " '{print$2}'
+echo "BINARY_NAME URL: $APP_URL"
