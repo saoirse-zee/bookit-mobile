@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x;
+
 SCRIPTPATH=$(dirname "$(readlink -f "$0")")
 
 EXTRAS=""
@@ -15,4 +17,5 @@ apt-get update && apt-get install -y expect && \
 yarn global add exp && \
 "${SCRIPTPATH}"/helpers/login_exp.sh && \
 cd bookit-with-deps && \
+ls -la && \
 exp publish "$EXTRAS"
