@@ -11,16 +11,16 @@ class TestSampleAndroid(unittest.TestCase):
     desired_caps['platformName'] = 'Android'
     desired_caps['platformVersion'] = '8.1'
     desired_caps['deviceName'] = 'Android Emulator'
-    desired_caps['app'] = 'https://exp-shell-app-assets.s3-us-west-1.amazonaws.com/android%2F%40benaychh%2Fbookit-prototype-3-integration-c38d07b5-ce25-11e7-92e9-0a580a782107-signed.apk'
+    desired_caps['app'] = 'https://s3.amazonaws.com/bookit-mobile-artifacts/integration.apk'
 
     self.driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
 
-    WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, '//android.widget.TextView')))
+    # wait for bookit button to appear
+    WebDriverWait(self.driver, 15).until(EC.presence_of_element_located((By.XPATH, '//android.widget.TextView[@text="Bookit"]')))
   
   def teardown_class(self):
     self.driver.quit()
 
   def test_opens_app_js(self):
-    print(self.driver.page_source)
-    first_text_box_text = self.driver.find_element_by_xpath('//android.widget.TextView[@index="0"]')
-    self.assertIn('wrong', first_text_box_text.text)
+    first_text_box_text = self.driver.find_element_by_xpath('(//android.widget.TextView)[1]')
+    self.assertIn('room in NYC at', first_text_box_text.text)

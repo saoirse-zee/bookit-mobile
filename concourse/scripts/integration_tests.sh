@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e -x
 
 CONST_ANDROID="Android"
 CONST_IOS="iOS"

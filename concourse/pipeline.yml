@@ -58,6 +58,7 @@ jobs:
           BRANCH: {{BRANCH}}
           STATUS: FAILED
           COLOR: danger
+          FOLDER_NAME: bookit-with-deps
       - put: slack-alert
         params:
           text: |
@@ -130,7 +131,7 @@ jobs:
         AWS_REGION: us-west-2
         PROJECT_ARN: {{PROJECT_ARN}}
         DEVICE_POOL_ARN: {{IPHONE_DEVICE_POOL_ARN}}
-        DEVICE: iOS-not-ready-yet
+        DEVICE: iOS
         BINARY: {{IPHONE_S3_BINARY}}
       file: bookit-mobile/concourse/tasks/integration_tests.yml
   on_failure: *failure
