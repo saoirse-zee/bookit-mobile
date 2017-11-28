@@ -58,7 +58,7 @@ jobs:
           BRANCH: {{BRANCH}}
           STATUS: FAILED
           COLOR: danger
-          FOLDER_NAME: bookit-with-deps
+          FOLDER_NAME: bookit-mobile
       - put: slack-alert
         params:
           text: |

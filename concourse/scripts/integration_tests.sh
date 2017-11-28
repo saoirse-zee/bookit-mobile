@@ -3,6 +3,8 @@
 CONST_ANDROID="Android"
 CONST_IOS="iOS"
 
+set -e -x
+
 do_setup () {
 	local script_path
 	script_path=$(dirname "$(readlink -f "$0")")
@@ -17,7 +19,7 @@ upload_binary () {
 		local filename="android.apk"
 		local type="ANDROID_APP"
 	elif [ "$DEVICE" = "$CONST_IOS" ]; then
-		local filename="ios.ipa"
+		local filename="ios.zip"
 		local type="IOS_APP"
 	fi
 
