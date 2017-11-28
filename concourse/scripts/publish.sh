@@ -4,16 +4,19 @@ set -e -x;
 
 scriptpath=$(dirname "$(readlink -f "$0")")
 
-if [ -n "$RELEASE_CHANNEL" ]; then
-  args+=(--release-channel "$RELEASE_CHANNEL")
-fi
+main () {
+	if [ -n "$RELEASE_CHANNEL" ]; then
+		args+=(--release-channel "$RELEASE_CHANNEL")
+	fi
 
-if [ -n "$CONFIG_FILE" ]; then
-  args+=(--config "$CONFIG_FILE")
-fi
+	if [ -n "$CONFIG_FILE" ]; then
+		args+=(--config "$CONFIG_FILE")
+	fi
 
-apt-get update && apt-get install -y expect && \
-yarn global add exp && \
-"${scriptpath}"/helpers/login_exp.sh && \
-cd bookit-with-deps && \
-exp publish "${args[@]}"
+	apt-get update && apt-get install -y expect && \
+	yarn global add exp && \
+	"${scriptpath}"/helpers/login_exp.sh && \
+	cd bookit-with-deps && \
+	exp publish "${args[@]}"
+}
+

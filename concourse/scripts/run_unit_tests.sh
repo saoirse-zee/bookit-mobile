@@ -1,3 +1,7 @@
 #!/bin/bash
 
-cd bookit-with-deps && yarn test:unit
+main () {
+  cd bookit-with-deps && yarn test:unit
+}
+
+main

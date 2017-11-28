@@ -2,4 +2,8 @@
 
 set -e -u -x
 
-cd bookit-with-deps && yarn lint
+main () {
+	cd bookit-with-deps && yarn lint
+}
+
+main

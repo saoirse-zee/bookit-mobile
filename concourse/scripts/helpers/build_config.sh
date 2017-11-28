@@ -1,4 +1,9 @@
 #!/bin/bash
-ESCAPED_URL=$(echo "$BOOKIT_API_BASE_URL" | sed 's#\([]\!\(\)\#\%\@\*\$\/&\-\=[]\)#\\\1#g')
 
-sed "s/<bookitApiBaseUrl>/$ESCAPED_URL/g" ./config-sample.js > ./config.js;
+escaped_url=$(echo "$BOOKIT_API_BASE_URL" | sed 's#\([]\!\(\)\#\%\@\*\$\/&\-\=[]\)#\\\1#g')
+
+main () {
+	sed "s/<bookitApiBaseUrl>/$escaped_url/g" ./config-sample.js > ./config.js;
+}
+
+main
