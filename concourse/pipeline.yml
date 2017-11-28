@@ -75,7 +75,7 @@ jobs:
     - task: run the unit tests
       file: bookit-mobile/concourse/tasks/run_unit_tests.yml
   on_failure: *failure
-- name: Build Android Image
+- name: Publish Integration Testing Code
   build_logs_to_retain: 3
   plan:
     - get: bookit-mobile
@@ -85,44 +85,27 @@ jobs:
         - Run Unit Tests
     - get: dependency-cache
     - *handle-dependencies
-    - task: Build Android Project
+    - task: Publish New Code
       params:
         EXPO_USERNAME: {{EXPO_USERNAME}}
         EXPO_PASSWORD: {{EXPO_PASSWORD}}
-        BUILD_TARGET: Android
-      file: bookit-mobile/concourse/tasks/build_binary.yml
-  on_failure: *failure
-- name: Build iPhone Image
-  build_logs_to_retain: 3
-  plan:
-    - get: bookit-mobile
-      trigger: true
-      passed:
-        - Lint Bookit-Mobile Code Base
-        - Run Unit Tests
-    - get: dependency-cache
-    - *handle-dependencies
-    - task: Build iPhone Project
-      params:
-        EXPO_USERNAME: {{EXPO_USERNAME}}
-        EXPO_PASSWORD: {{EXPO_PASSWORD}}
-        BUILD_TARGET: iOS
-      file: bookit-mobile/concourse/tasks/build_binary.yml
+        CONFIG_FILE: integration.json
+      file: bookit-mobile/concourse/tasks/publish.yml
   on_failure: *failure
 - name: Test Android Image
   plan:
     - get: bookit-mobile
       trigger: true
       passed:
-        - Build Android Image
+        - Publish Integration Testing Code
     - get: dependency-cache
     - *handle-dependencies
     - task: Test Android Project
       params:
         EXPO_USERNAME: {{EXPO_USERNAME}}
         EXPO_PASSWORD: {{EXPO_PASSWORD}}
-        AWS_ACCESS_KEY: {{DEVICEFARM_ACCESS_KEY}}
-        AWS_SECRET_KEY: {{DEVICEFARM_SECRET_KEY}}
+        AWS_ACCESS_KEY: {{AWS_ACCESS_KEY}}
+        AWS_SECRET_KEY: {{AWS_SECRET_KEY}}
         AWS_REGION: us-west-2
         PROJECT_ARN: {{PROJECT_ARN}}
         DEVICE_POOL_ARN: {{ANDROID_DEVICE_POOL_ARN}}
@@ -134,15 +117,15 @@ jobs:
     - get: bookit-mobile
       trigger: true
       passed:
-        - Build iPhone Image
+        - Publish Integration Testing Code
     - get: dependency-cache
     - *handle-dependencies
     - task: Test iPhone Project
       params:
         EXPO_USERNAME: {{EXPO_USERNAME}}
         EXPO_PASSWORD: {{EXPO_PASSWORD}}
-        AWS_ACCESS_KEY: {{DEVICEFARM_ACCESS_KEY}}
-        AWS_SECRET_KEY: {{DEVICEFARM_SECRET_KEY}}
+        AWS_ACCESS_KEY: {{AWS_ACCESS_KEY}}
+        AWS_SECRET_KEY: {{AWS_SECRET_KEY}}
         AWS_REGION: us-west-2
         PROJECT_ARN: {{PROJECT_ARN}}
         DEVICE_POOL_ARN: {{IPHONE_DEVICE_POOL_ARN}}
