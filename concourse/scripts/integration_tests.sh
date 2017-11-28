@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e -x
 
+CONST_ANDROID="Android"
+CONST_IOS="iOS"
+
 do_setup () {
 	local script_path
 	script_path=$(dirname "$(readlink -f "$0")")
@@ -11,10 +14,10 @@ do_setup () {
 }
 
 upload_binary () {
-	if [ "$DEVICE" = "android" ]; then
+	if [ "$DEVICE" = "$CONST_ANDROID" ]; then
 		local filename="android.apk"
 		local type="ANDROID_APP"
-	elif [ "$DEVICE" = "iOS" ]; then
+	elif [ "$DEVICE" = "$CONST_IOS" ]; then
 		local filename="ios.ipa"
 		local type="IOS_APP"
 	fi
@@ -30,9 +33,9 @@ upload_binary () {
 
 
 prepare_tests () {
-	if [ "$DEVICE" = "android" ]; then
+	if [ "$DEVICE" = "$CONST_ANDROID" ]; then
 		local test_folder="android"
-	elif [ "$DEVICE" = "iOS" ]; then
+	elif [ "$DEVICE" = "$CONST_IOS" ]; then
 		local test_folder="ios"
 	fi
 
@@ -72,7 +75,7 @@ wait_for_tests_to_finish () {
 }
 
 main () {
-	if [ "$DEVICE" != "Android" ] && [ "$DEVICE" != "iOS" ]; then
+	if [ "$DEVICE" != "$CONST_ANDROID" ] && [ "$DEVICE" != "$CONST_IOS" ]; then
 		echo "Not configured to work with $DEVICE"
 		exit 1
 	fi
