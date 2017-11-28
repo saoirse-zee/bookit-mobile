@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x -u -x
+set -e -x
 
 do_setup () {
 	local script_path
