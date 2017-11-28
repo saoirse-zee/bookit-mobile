@@ -80,6 +80,7 @@ main () {
 		exit 1
 	fi
 	do_setup && \
+	upload_binary && \
 	prepare_tests && \
 	run_tests && \
 	wait_for_tests_to_finish
