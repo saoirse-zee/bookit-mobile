@@ -6,3 +6,4 @@ workspace
 builds
 .cache
 .vscode
+*.p12
