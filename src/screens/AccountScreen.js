@@ -1,26 +1,36 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
+import Login from '../components/Login'
+import Logout from '../components/Logout'
+import { removeUser } from '../actions'
 
 class AccountScreen extends React.Component {
   static navigationOptions = {
     title: 'Me',
   }
 
-  componentDidMount() {
-    const { dispatch } = this.props
-  }
-
   render() {
+    const { userExists, dispatch } = this.props
     return (
       <View style={styles.container}>
-        <Text>Info about the user goes here.</Text>
+        {
+          userExists ?
+            <Logout
+              logout={() => dispatch(removeUser())}
+            /> :
+            <Login />
+        }
       </View>
     )
   }
 }
 
-export default connect()(AccountScreen)
+const mapStateToProps = state => ({
+  userExists: !!((state.user && state.user.id)), // Minimum criteria for existence
+})
+
+export default connect(mapStateToProps)(AccountScreen)
 
 const styles = StyleSheet.create({
   container: {

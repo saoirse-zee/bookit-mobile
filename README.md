@@ -2,7 +2,7 @@
 
 ![build status](https://concourse.buildit.tools/api/v1/teams/bookit-mobile/pipelines/bookit-mobile/badge "Build Status")
 
-A a booking app written in React Native.
+A booking app written in React Native.
 
 ## Getting started
 Create a file called `config.js` in the project root. It should take the form of `config-sample.js`.
@@ -30,3 +30,10 @@ Delete all bookings. (Check the script and make sure you're pointing to the righ
 ```
 node scripts/delete-all-bookings.js  
 ```
+
+## Facebook auth
+The app uses Facebook for authentication.
+1) Create an "App" at https://developers.facebook.com
+2) Add the "Facebook Login" product
+3) Put Bookit's OAuth redirect URI in the Client OAuth Settings. ![Facebook settings screenshot](./facebook-settings.png)
+4) Put the Facebook app id in `config.js` under the property name 'facebookAppId'.

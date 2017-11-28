@@ -4,7 +4,6 @@ import {
   View,
   FlatList,
 } from 'react-native'
-import { FileSystem } from 'expo'
 import { connect } from 'react-redux'
 import { DateTime, Duration } from 'luxon'
 
@@ -20,6 +19,7 @@ import Button from '../components/Button'
 import TimePicker from '../components/TimePicker'
 import DurationPicker from '../components/DurationPicker'
 import RootModal from '../components/modals/RootModal'
+import LoginWarning from '../components/LoginWarning'
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -37,14 +37,6 @@ class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
-    const fileUri = `${FileSystem.documentDirectory}token`
-    FileSystem.writeAsStringAsync(fileUri, 'This is my special token.')
-      .then(() => {
-        FileSystem.readAsStringAsync(fileUri)
-        .then(result => console.log(result))
-      })
-      .catch(error => console.warn(error))
-
     const { location, dispatch } = this.props
     dispatch(fetchLocations())
     dispatch(fetchBookables(location.id))
@@ -62,6 +54,17 @@ class HomeScreen extends React.Component {
   }
 
   render() {
+    // "Protect" this screen, naively.
+    const { userExists } = this.props
+
+    if (!userExists) {
+      return (
+        <View style={{ marginTop: 90 }}>
+          <LoginWarning currentScreen="home screen" />
+        </View>
+      )
+    }
+
     const {
       location,
       bookables,
@@ -134,6 +137,7 @@ const mapStateToProps = (state) => {
     location: selectedLocation,
     locations,
     bookables,
+    userExists: !!((state.user && state.user.id)), // Minimum criteria for existence
   })
 }
 

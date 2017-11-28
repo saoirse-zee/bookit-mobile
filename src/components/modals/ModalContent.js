@@ -6,15 +6,21 @@ const ModalContent = ({
   title,
   message,
   onOkayPress,
+  children,
 }) => (
   <View>
     <Text style={styles.title}>{title}</Text>
     <Text>{ message }</Text>
-    <View style={styles.button}>
-      <TouchableHighlight onPress={onOkayPress}>
-        <Text style={styles.buttonText}>Okay</Text>
-      </TouchableHighlight>
-    </View>
+    { children }
+    {
+      onOkayPress ? (
+        <View style={styles.button}>
+          <TouchableHighlight onPress={onOkayPress}>
+            <Text style={styles.buttonText}>Okay</Text>
+          </TouchableHighlight>
+        </View>
+      ) : null
+    }
   </View>
 )
 

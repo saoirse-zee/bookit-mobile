@@ -4,7 +4,6 @@ import { Modal, View, StyleSheet } from 'react-native'
 import { hideModal } from '../../actions'
 import BookingSuccessModal from './BookingSuccessModal'
 import BookingFailureModal from './BookingFailureModal'
-import LoginModal from './LoginModal'
 
 const RootModal = ({
   modalType,
@@ -14,7 +13,6 @@ const RootModal = ({
   const MODAL_COMPONENTS = {
     BOOKING_SUCCESS: BookingSuccessModal,
     BOOKING_FAIL: BookingFailureModal,
-    LOGIN: LoginModal,
   }
 
   if (!modalType) {
