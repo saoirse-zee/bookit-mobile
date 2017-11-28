@@ -110,6 +110,7 @@ jobs:
         PROJECT_ARN: {{PROJECT_ARN}}
         DEVICE_POOL_ARN: {{ANDROID_DEVICE_POOL_ARN}}
         DEVICE: Android
+        BINARY: {{ANDROID_S3_BINARY}}
       file: bookit-mobile/concourse/tasks/integration_tests.yml
   on_failure: *failure
 - name: iPhone Integration Tests
@@ -130,6 +131,7 @@ jobs:
         PROJECT_ARN: {{PROJECT_ARN}}
         DEVICE_POOL_ARN: {{IPHONE_DEVICE_POOL_ARN}}
         DEVICE: iOS-not-ready-yet
+        BINARY: {{IPHONE_S3_BINARY}}
       file: bookit-mobile/concourse/tasks/integration_tests.yml
   on_failure: *failure
 - name: Publish to Beta

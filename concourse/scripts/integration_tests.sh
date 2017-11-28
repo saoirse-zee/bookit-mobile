@@ -20,7 +20,7 @@ upload_binary () {
 	fi
 
 	mkdir ./builds && \
-	curl -L -o ./builds/$filename "$BINARY" && \
+	aws s3 cp s3://"$BINARY" ./builds/$filename && \
 	bin=$(aws devicefarm create-upload --project-arn "$PROJECT_ARN" --name "$filename" --type "$type") && \
 	binary_arn=$(echo "$bin" | jq -r '.upload.arn') && \
 	local binary_url && \
