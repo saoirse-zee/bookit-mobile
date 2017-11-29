@@ -79,6 +79,7 @@ main () {
 	if [ "$DEVICE" != "$CONST_ANDROID" ]; then
 		if [ "$DEVICE" = "$CONST_IOS" ]; then
 			echo "placeholder for ios testing on device farm"
+			exit 0
 		else
 			echo "Not configured to work with $DEVICE"
 			exit 1
