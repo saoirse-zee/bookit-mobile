@@ -77,7 +77,7 @@ wait_for_tests_to_finish () {
 
 main () {
 	if [ "$DEVICE" != "$CONST_ANDROID" ] && [ "$DEVICE" != "$CONST_IOS" ]; then
-		if [ "$DEVICE" != "$CONST_IOS" ]; then
+		if [ "$DEVICE" = "$CONST_IOS" ]; then
 			echo "placeholder for ios testing on device farm"
 		else
 			echo "Not configured to work with $DEVICE"
