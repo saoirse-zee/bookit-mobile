@@ -67,7 +67,7 @@ run_tests () {
 wait_for_tests_to_finish () {
 	local count=0
 	result=$(aws devicefarm get-run --arn "$run_arn" | jq -r '.run.result')
-	while [ "$result" = "PENDING" ] && [ $count -lt 20 ]; do  
+	while [ "$result" = "PENDING" ] && [ $count -lt 30 ]; do  
 		echo 'waiting for e2e tests to finish'
 		sleep 60
 		result=$(aws devicefarm get-run --arn "$run_arn" | jq -r '.run.result')
