@@ -3,13 +3,11 @@
 CONST_ANDROID="Android"
 CONST_IOS="iOS"
 
-set -e -x
-
 do_setup () {
 	local script_path
 	script_path=$(dirname "$(readlink -f "$0")")
 	"${script_path}"/helpers/install_aws_cli.sh && \
-	apt-get -y install jq expect zip && \
+	apt-get -y install jq zip && \
 	pip install virtualenv && \
 	cd bookit-with-deps || exit
 }
@@ -19,12 +17,12 @@ upload_binary () {
 		local filename="android.apk"
 		local type="ANDROID_APP"
 	elif [ "$DEVICE" = "$CONST_IOS" ]; then
-		local filename="ios.zip"
+		local filename="ios.ipa"
 		local type="IOS_APP"
 	fi
 
 	mkdir ./builds && \
-	aws s3 cp s3://"$BINARY" ./builds/$filename && \
+	curl -Lo ./builds/$filename "$BINARY"
 	bin=$(aws devicefarm create-upload --project-arn "$PROJECT_ARN" --name "$filename" --type "$type") && \
 	binary_arn=$(echo "$bin" | jq -r '.upload.arn') && \
 	local binary_url && \
@@ -69,8 +67,8 @@ wait_for_tests_to_finish () {
 	result=$(aws devicefarm get-run --arn "$run_arn" | jq -r '.run.result')
 	while [ "$result" = "PENDING" ] && [ $count -lt 20 ]; do  
 		echo 'waiting for e2e tests to finish'
-		result=$(aws devicefarm get-run --arn "$run_arn" | jq -r '.run.result')
 		sleep 60
+		result=$(aws devicefarm get-run --arn "$run_arn" | jq -r '.run.result')
 		count=$((count+1))
 	done
 }
