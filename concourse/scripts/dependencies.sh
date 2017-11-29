@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e -u -x
-
 main () {
   mv dependency-cache/node_modules bookit-mobile && \
   cd bookit-mobile && \

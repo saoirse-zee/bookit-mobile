@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e -x;
-
 scriptpath=$(dirname "$(readlink -f "$0")")
 
 main () {

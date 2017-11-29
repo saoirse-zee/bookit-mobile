@@ -3,8 +3,6 @@
 CONST_ANDROID="Android"
 CONST_IOS="iOS"
 
-set -e -x
-
 do_setup () {
 	local script_path
 	script_path=$(dirname "$(readlink -f "$0")")
