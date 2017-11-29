@@ -77,8 +77,12 @@ wait_for_tests_to_finish () {
 
 main () {
 	if [ "$DEVICE" != "$CONST_ANDROID" ] && [ "$DEVICE" != "$CONST_IOS" ]; then
-		echo "Not configured to work with $DEVICE"
-		exit 1
+		if [ "$DEVICE" != "$CONST_IOS" ]; then
+			echo "placeholder for ios testing on device farm"
+		else
+			echo "Not configured to work with $DEVICE"
+			exit 1
+		fi
 	fi
 	do_setup && \
 	upload_binary && \
