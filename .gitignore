@@ -6,4 +6,5 @@ workspace
 builds
 .cache
 .vscode
+*.p12
 .DS_Store

@@ -5,7 +5,7 @@ import { hideModal } from '../../actions'
 import BookingSuccessModal from './BookingSuccessModal'
 import BookingFailureModal from './BookingFailureModal'
 
-const BookitModal = ({
+const RootModal = ({
   modalType,
   modalProps,
   dispatch,
@@ -38,7 +38,7 @@ const BookitModal = ({
 
 const mapStateToProps = state => state.modal
 
-export default connect(mapStateToProps)(BookitModal)
+export default connect(mapStateToProps)(RootModal)
 
 const styles = StyleSheet.create({
   modal: {
