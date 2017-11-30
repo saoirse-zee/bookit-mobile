@@ -65,7 +65,7 @@ class HomeScreen extends React.Component {
       })
     const formattedBookingDuration =
       `${this.state.bookingDuration.as('minutes')} minutes`
-    const message = `I want a room in NYC at ${formattedStart} for ${formattedBookingDuration}.`
+    const message = `Gimme rooms ${formattedStart} for ${formattedBookingDuration}.`
     return (
       <View style={styles.container}>
         <BookitModal />
