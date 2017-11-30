@@ -1,6 +1,6 @@
 import { BOOKING_SUCCESS, BOOKING_FAIL } from './types'
 import { postBooking } from '../api'
-import { showModal } from './modal'
+import { showModal } from '../actions'
 import { fetchBookings } from './bookings'
 
 export const createBooking = booking => dispatch => postBooking(booking)
