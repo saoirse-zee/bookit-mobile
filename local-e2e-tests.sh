@@ -10,8 +10,9 @@ prepare_tests () {
 }
 
 main () {
-  exp publish --config integration.json
-  prepare_tests
+  echo "This assumes that appium is already running on your computer"
+  exp publish --config local-testing.json && \
+  prepare_tests && \
   py.test ./tests
 }
 

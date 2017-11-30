@@ -1,4 +1,5 @@
 import unittest
+import time
 from appium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -16,11 +17,13 @@ class TestSampleE2eAndroid(unittest.TestCase):
     self.driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
 
     # wait for bookit button to appear
-    WebDriverWait(self.driver, 15).until(EC.presence_of_element_located((By.XPATH, '//android.widget.TextView[@text="Bookit"]')))
+    time.sleep(10)
+    print(self.driver.page_source)
+    WebDriverWait(self.driver, 15).until(EC.presence_of_element_located((By.XPATH, '//android.widget.TextView[@text="Home"]')))
   
   def teardown_class(self):
     self.driver.quit()
 
-  def test_opens_app_js(self):
+  def forces_the_user_to_login(self):
     first_text_box_text = self.driver.find_element_by_xpath('(//android.widget.TextView)[1]')
-    self.assertIn('room in NYC at', first_text_box_text.text)
+    self.assertIn('You need to login to see the home screen.', first_text_box_text.text)

@@ -6,7 +6,8 @@
     "test:unit": "node ./node_modules/jest/bin/jest.js",
     "test:unit-watch": "node ./node_modules/jest/bin/jest.js --watch",
     "lint": "eslint src/",
-    "lint:soft": "yarn lint --rule 'no-console: 1'"
+    "lint:soft": "yarn lint --rule 'no-console: 1'",
+    "e2e": "./local-e2e-tests.sh"
   },
   "jest": {
     "preset": "jest-expo"
