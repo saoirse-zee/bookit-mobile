@@ -168,6 +168,7 @@ jobs:
         BRANCH: {{BRANCH}}
         STATUS: SUCCEEDED
         COLOR: good
+        FOLDER_NAME: bookit-mobile
       file: bookit-mobile/concourse/tasks/get_commit_info.yml
     - put: slack-alert
       params:
