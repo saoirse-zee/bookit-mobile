@@ -58,6 +58,7 @@ jobs:
           BRANCH: {{BRANCH}}
           STATUS: FAILED
           COLOR: danger
+          FOLDER_NAME: bookit-mobile
       - put: slack-alert
         params:
           text: |
@@ -92,7 +93,7 @@ jobs:
         CONFIG_FILE: integration.json
       file: bookit-mobile/concourse/tasks/publish.yml
   on_failure: *failure
-- name: Test Android Image
+- name: Android Integration Tests
   plan:
     - get: bookit-mobile
       trigger: true
@@ -109,10 +110,11 @@ jobs:
         AWS_REGION: us-west-2
         PROJECT_ARN: {{PROJECT_ARN}}
         DEVICE_POOL_ARN: {{ANDROID_DEVICE_POOL_ARN}}
-      file: bookit-mobile/concourse/tasks/integration_tests_android.yml
+        DEVICE: Android
+        BINARY: {{ANDROID_S3_BINARY}}
+      file: bookit-mobile/concourse/tasks/integration_tests.yml
   on_failure: *failure
-- name: Test iPhone Image
-  build_logs_to_retain: 3
+- name: iPhone Integration Tests
   plan:
     - get: bookit-mobile
       trigger: true
@@ -120,7 +122,7 @@ jobs:
         - Publish Integration Testing Code
     - get: dependency-cache
     - *handle-dependencies
-    - task: Test iPhone Project
+    - task: Test iOS Project
       params:
         EXPO_USERNAME: {{EXPO_USERNAME}}
         EXPO_PASSWORD: {{EXPO_PASSWORD}}
@@ -129,7 +131,9 @@ jobs:
         AWS_REGION: us-west-2
         PROJECT_ARN: {{PROJECT_ARN}}
         DEVICE_POOL_ARN: {{IPHONE_DEVICE_POOL_ARN}}
-      file: bookit-mobile/concourse/tasks/integration_tests_iphone.yml
+        DEVICE: iOS
+        BINARY: {{IPHONE_S3_BINARY}}
+      file: bookit-mobile/concourse/tasks/integration_tests.yml
   on_failure: *failure
 - name: Publish to Beta
   build_logs_to_retain: 3
@@ -137,8 +141,8 @@ jobs:
     - get: bookit-mobile
       trigger: true
       passed:
-        - Test iPhone Image
-        - Test Android Image
+        - Android Integration Tests
+        - iPhone Integration Tests
     - get: dependency-cache
     - task: handle dependencies
       file: bookit-mobile/concourse/tasks/dependencies.yml
