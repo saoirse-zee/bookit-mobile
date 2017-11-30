@@ -58,6 +58,7 @@ jobs:
           BRANCH: {{BRANCH}}
           STATUS: FAILED
           COLOR: danger
+          FOLDER_NAME: bookit-mobile
       - put: slack-alert
         params:
           text: |
@@ -75,7 +76,7 @@ jobs:
     - task: run the unit tests
       file: bookit-mobile/concourse/tasks/run_unit_tests.yml
   on_failure: *failure
-- name: Build Android Image
+- name: Publish Integration Testing Code
   build_logs_to_retain: 3
   plan:
     - get: bookit-mobile
@@ -85,82 +86,74 @@ jobs:
         - Run Unit Tests
     - get: dependency-cache
     - *handle-dependencies
-    - task: Build Android Project
+    - task: Publish New Code
       params:
         EXPO_USERNAME: {{EXPO_USERNAME}}
         EXPO_PASSWORD: {{EXPO_PASSWORD}}
-      file: bookit-mobile/concourse/tasks/build_android.yml
+        CONFIG_FILE: integration.json
+      file: bookit-mobile/concourse/tasks/publish.yml
   on_failure: *failure
-- name: Build iPhone Image
-  build_logs_to_retain: 3
+- name: Android Integration Tests
   plan:
     - get: bookit-mobile
       trigger: true
       passed:
-        - Lint Bookit-Mobile Code Base
-        - Run Unit Tests
-    - get: dependency-cache
-    - *handle-dependencies
-    - task: Build iPhone Project
-      params:
-        EXPO_USERNAME: {{EXPO_USERNAME}}
-        EXPO_PASSWORD: {{EXPO_PASSWORD}}
-      file: bookit-mobile/concourse/tasks/build_iphone.yml
-  on_failure: *failure
-- name: Test Android Image
-  plan:
-    - get: bookit-mobile
-      trigger: true
-      passed:
-        - Build Android Image
+        - Publish Integration Testing Code
     - get: dependency-cache
     - *handle-dependencies
     - task: Test Android Project
       params:
         EXPO_USERNAME: {{EXPO_USERNAME}}
         EXPO_PASSWORD: {{EXPO_PASSWORD}}
-        AWS_ACCESS_KEY: {{DEVICEFARM_ACCESS_KEY}}
-        AWS_SECRET_KEY: {{DEVICEFARM_SECRET_KEY}}
+        AWS_ACCESS_KEY: {{AWS_ACCESS_KEY}}
+        AWS_SECRET_KEY: {{AWS_SECRET_KEY}}
         AWS_REGION: us-west-2
         PROJECT_ARN: {{PROJECT_ARN}}
         DEVICE_POOL_ARN: {{ANDROID_DEVICE_POOL_ARN}}
-      file: bookit-mobile/concourse/tasks/integration_tests_android.yml
+        DEVICE: Android
+        BINARY: {{ANDROID_S3_BINARY}}
+      file: bookit-mobile/concourse/tasks/integration_tests.yml
   on_failure: *failure
-- name: Test iPhone Image
-  build_logs_to_retain: 3
+- name: iPhone Integration Tests
   plan:
     - get: bookit-mobile
       trigger: true
       passed:
-        - Build iPhone Image
+        - Publish Integration Testing Code
     - get: dependency-cache
     - *handle-dependencies
-    - task: Test iPhone Project
+    - task: Test iOS Project
       params:
         EXPO_USERNAME: {{EXPO_USERNAME}}
         EXPO_PASSWORD: {{EXPO_PASSWORD}}
-        AWS_ACCESS_KEY: {{DEVICEFARM_ACCESS_KEY}}
-        AWS_SECRET_KEY: {{DEVICEFARM_SECRET_KEY}}
+        AWS_ACCESS_KEY: {{AWS_ACCESS_KEY}}
+        AWS_SECRET_KEY: {{AWS_SECRET_KEY}}
         AWS_REGION: us-west-2
         PROJECT_ARN: {{PROJECT_ARN}}
         DEVICE_POOL_ARN: {{IPHONE_DEVICE_POOL_ARN}}
-      file: bookit-mobile/concourse/tasks/integration_tests_iphone.yml
+        DEVICE: iOS
+        BINARY: {{IPHONE_S3_BINARY}}
+      file: bookit-mobile/concourse/tasks/integration_tests.yml
   on_failure: *failure
-- name: Push to Staging
+- name: Publish to Beta
   build_logs_to_retain: 3
   plan:
     - get: bookit-mobile
       trigger: true
       passed:
-        - Test iPhone Image
-        - Test Android Image
+        - Android Integration Tests
+        - iPhone Integration Tests
     - get: dependency-cache
-    - *handle-dependencies
-    - task: Push to Staging
+    - task: handle dependencies
+      file: bookit-mobile/concourse/tasks/dependencies.yml
+      params:
+        BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_PRODUCTION}}
+    - task: Publish
       params:
         EXPO_USERNAME: {{EXPO_USERNAME}}
         EXPO_PASSWORD: {{EXPO_PASSWORD}}
-      file: bookit-mobile/concourse/tasks/push_to_staging.yml
+        RELEASE_CHANNEL: v1-beta
+      file: bookit-mobile/concourse/tasks/publish.yml
   on_failure: *failure
 - name: Notify Slack
   build_logs_to_retain: 3
@@ -168,7 +161,7 @@ jobs:
     - get: bookit-mobile
       trigger: true
       passed:
-        - Push to Staging
+        - Publish to Beta
     - task: Get Commit Info
       params:
         GIT_COMMIT_URL: {{GIT_COMMIT_URL}}

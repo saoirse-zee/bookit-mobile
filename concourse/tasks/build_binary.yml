@@ -10,4 +10,4 @@ inputs:
   - name: bookit-with-deps
 
 run:
-  path: bookit-with-deps/concourse/scripts/push_to_staging.sh
+  path: bookit-with-deps/concourse/scripts/build_binary.sh
