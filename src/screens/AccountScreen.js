@@ -3,7 +3,6 @@ import { View, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import Login from '../components/Login'
 import Logout from '../components/Logout'
-import { removeUser } from '../actions'
 
 class AccountScreen extends React.Component {
   static navigationOptions = {
@@ -11,23 +10,17 @@ class AccountScreen extends React.Component {
   }
 
   render() {
-    const { userExists, dispatch } = this.props
+    const { userExists } = this.props
     return (
       <View style={styles.container}>
-        {
-          userExists ?
-            <Logout
-              logout={() => dispatch(removeUser())}
-            /> :
-            <Login />
-        }
+        { userExists ? <Logout /> : <Login /> }
       </View>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  userExists: !!((state.user && state.user.id)), // Minimum criteria for existence
+  userExists: state.token, // Minimum criteria for existence
 })
 
 export default connect(mapStateToProps)(AccountScreen)

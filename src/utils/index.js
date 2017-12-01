@@ -20,3 +20,24 @@ export const formatDate =
   (date, zoneName) => (
     DateTime.fromISO(date, { zone: zoneName }).toLocaleString(DateTime.DATETIME_FULL)
   )
+
+/* ============== MS Auth Notes from Bookit Web ==============
+
+See:
+  `utils/azure`
+  `utils/auth`
+  `redux/auth`
+
+=============================== */
+export const getMSAuthUrl = (options, redirectUrl) => (
+  'https://login.microsoftonline.com/common/oauth2/v2.0/authorize' +
+    `?client_id=${options.clientId}` +
+    `&scope=${options.scope}` +
+    `&response_type=${options.responseType}` +
+    `&nonce=${options.nonce}` +
+    `&redirect_uri=${redirectUrl}` +
+    `&response_mode=${options.responseMode}` +
+    `&state=${options.state}` +
+    `&prompt=${options.prompt}` +
+    `&login_hint=${options.loginHint}`
+)

@@ -1,30 +1,30 @@
 import React from 'react'
-import { Image, Button, Text, View } from 'react-native'
 import { connect } from 'react-redux'
+import { Button, View, Text, StyleSheet } from 'react-native'
 import { FileSystem } from 'expo'
-import { userInfoFileUri } from '../../constants/FileSystem'
+import { ShoutyText, MonoText } from './StyledText'
+import { accessTokenFileUri } from '../../constants/FileSystem'
+import { removeToken } from '../actions'
 
 class Logout extends React.Component {
   handlePressAsync = () => {
-    this.props.logout()
-    FileSystem.writeAsStringAsync(userInfoFileUri, JSON.stringify({}))
+    const blankToken = ''
+    FileSystem.writeAsStringAsync(accessTokenFileUri, blankToken)
+      .then(() => {
+        this.props.logout()
+      })
   }
 
   render() {
-    const { user } = this.props
+    const { partialToken } = this.props
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={styles.container}>
         <View style={{ alignItems: 'center', marginBottom: 30 }}>
-          <Image
-            source={{ uri: user && user.picture && user.picture.data.url }}
-            style={{
-              width: 100,
-              height: 100,
-              borderRadius: 50,
-              marginBottom: 10,
-            }}
-          />
-          <Text style={{ fontSize: 20 }}>{user.name}</Text>
+          <ShoutyText>Hey there!</ShoutyText>
+          <Text style={styles.bodyText}>
+            Psst, your access token looks something like this:
+          </Text>
+          <MonoText style={styles.codeHighlightText}>{ partialToken }</MonoText>
         </View>
         <Button title="Log out" onPress={this.handlePressAsync} />
       </View>
@@ -32,8 +32,26 @@ class Logout extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  user: state.user,
+const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch(removeToken()),
 })
 
-export default connect(mapStateToProps)(Logout)
+const mapStateToProps = state => ({
+  partialToken: `${state.token.slice(0, 150)}...`,
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Logout)
+
+const styles = StyleSheet.create({
+  container: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+  bodyText: {
+    fontSize: 12,
+    margin: 15,
+  },
+  codeHighlightText: {
+    color: 'rgba(96,100,109, 0.8)',
+    fontSize: 8,
+    marginLeft: 40,
+    marginRight: 40,
+  },
+})

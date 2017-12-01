@@ -8,13 +8,13 @@ import { AppLoading, Asset, Font, FileSystem } from 'expo'
 import { Ionicons } from '@expo/vector-icons'
 import RootNavigation from './navigation/RootNavigation'
 import root from './src/reducers'
-import { userInfoFileUri } from './constants/FileSystem'
-import { setUser, removeUser, showModal } from './src/actions'
+import { accessTokenFileUri } from './constants/FileSystem'
+import { setUser, removeUser, setToken, removeToken } from './src/actions'
 
-const logger = store => next => (action) => {
+const naiveLogger = store => next => (action) => {
   console.log('dispatching', action)
   const result = next(action)
-  console.log('next state | user', store.getState().user)
+  console.log('next state | token', store.getState().token)
   return result
 }
 
@@ -22,7 +22,7 @@ const store = createStore(
   root,
   applyMiddleware(
     thunk,
-    logger,
+    naiveLogger,
   ),
 )
 
@@ -44,26 +44,23 @@ export default class App extends React.Component {
       'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
     }),
 
-    FileSystem.getInfoAsync(userInfoFileUri)
+    FileSystem.getInfoAsync(accessTokenFileUri)
       .then((getInforesult) => {
         if (getInforesult.exists) {
-          return FileSystem.readAsStringAsync(userInfoFileUri)
-            .then((result) => {
-              const user = JSON.parse(result)
-              // Check if user format is valid. This criteria could be whatever.
-              if (user.id && user.name) {
+          return FileSystem.readAsStringAsync(accessTokenFileUri)
+            .then((token) => {
+              // Check if token format is valid. For now just checking for existence.
+              if (token) {
                 // User is already logged in.
-                store.dispatch(setUser(user))
+                store.dispatch(setToken(token))
               } else {
                 // User data is corrupt. Make them login.
-                store.dispatch(removeUser())
-                store.dispatch(showModal({ modalType: 'LOGIN' }))
+                store.dispatch(removeToken())
               }
             })
         }
         // User not logged in.
-        store.dispatch(removeUser())
-        store.dispatch(showModal({ modalType: 'LOGIN' }))
+        store.dispatch(removeToken())
       })
       .catch(error => console.log(error)),
   ])
