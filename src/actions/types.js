@@ -8,5 +8,5 @@ export const BOOKING_FAIL = 'BOOKING_FAIL'
 export const SHOW_MODAL = 'SHOW_MODAL'
 export const HIDE_MODAL = 'HIDE_MODAL'
 
-export const SET_USER = 'SET_USER'
-export const REMOVE_USER = 'REMOVE_USER'
+export const SET_TOKEN = 'SET_TOKEN'
+export const REMOVE_TOKEN = 'REMOVE_TOKEN'

@@ -31,9 +31,17 @@ Delete all bookings. (Check the script and make sure you're pointing to the righ
 node scripts/delete-all-bookings.js  
 ```
 
-## Facebook auth
-The app uses Facebook for authentication.
-1) Create an "App" at https://developers.facebook.com
-2) Add the "Facebook Login" product
-3) Put Bookit's OAuth redirect URI in the Client OAuth Settings. ![Facebook settings screenshot](./facebook-settings.png)
-4) Put the Facebook app id in `config.js` under the property name 'facebookAppId'.
+## Microsoft auth
+The app uses Microsoft for authentication.
+
+![Microsoft settings screenshot](./microsoft-settings.png)
+
+To configure Bookit Mobile to work with your MS App:
+
+1) Go to the configuration page for your MS app: https://apps.dev.microsoft.com/#/application/<your-app-id>
+
+2) Add a "Native Application".
+
+3) Add Bookit's OAuth redirect URI to the "Custom Redirect URIs" section.
+
+4) Put the relevant MS app details in `config.js`. See `config-sample.js` for a guide on creating a valid `config.js`. (Or ask a friend!)
