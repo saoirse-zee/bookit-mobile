@@ -137,7 +137,7 @@ const mapStateToProps = (state) => {
     location: selectedLocation,
     locations,
     bookables,
-    userExists: !!((state.user && state.user.id)), // Minimum criteria for existence
+    userExists: !!((state.token)), // Minimum criteria for existence
   })
 }
 

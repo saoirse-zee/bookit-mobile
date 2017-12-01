@@ -3,50 +3,41 @@ import { Button, View } from 'react-native'
 import { connect } from 'react-redux'
 import { AuthSession, FileSystem } from 'expo'
 import config from '../../config'
-import { userInfoFileUri } from '../../constants/FileSystem'
-import { setUser } from '../actions'
-
-const FB_APP_ID = config.facebookAppId
+import { getMSAuthUrl } from '../utils'
+import { accessTokenFileUri } from '../../constants/FileSystem'
+import { setToken, hideModal } from '../actions'
 
 class Login extends React.Component {
-  handlePressAsync = async () => {
-    const redirectUrl = AuthSession.getRedirectUrl()
-
-    const result = await AuthSession.startAsync({
-      authUrl:
-        'https://www.facebook.com/v2.8/dialog/oauth?response_type=token' +
-        `&client_id=${FB_APP_ID}` +
-        `&redirect_uri=${encodeURIComponent(redirectUrl)}`,
-    })
+  handleMSLoginPress = async () => {
+    const { msAuthUrlOptions, authRedirectUrl } = config
+    const authUrl = getMSAuthUrl(msAuthUrlOptions, authRedirectUrl)
+    const result = await AuthSession.startAsync({ authUrl })
 
     if (result.type !== 'success') {
-      throw new Error('Failed to auth with Facebook')
+      throw new Error('Failed to auth with Microsoft')
     }
 
     const accessToken = result.params.access_token
-    const userInfoResponse = await fetch(`https://graph.facebook.com/me?access_token=${accessToken}&fields=id,name,picture.type(large)`)
-    const user = await userInfoResponse.json()
-    const stringifiedUser = JSON.stringify(user)
 
-    FileSystem.writeAsStringAsync(userInfoFileUri, stringifiedUser)
+    FileSystem.writeAsStringAsync(accessTokenFileUri, accessToken)
       .then(() => {
-        this.props.login(user)
+        this.props.setMSAccessToken(accessToken)
       })
   }
 
   render() {
     return (
       <View>
-        <Button title="Log in with Facebook" onPress={this.handlePressAsync} />
+        <Button title="Log in with Microsoft" onPress={this.handleMSLoginPress} />
       </View>
     )
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  login: (user) => {
-    dispatch(setUser(user))
-    dispatch({ type: 'HIDE_MODAL' })
+  setMSAccessToken: (token) => {
+    dispatch(setToken(token))
+    dispatch(hideModal())
   },
 })
 
