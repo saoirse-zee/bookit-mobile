@@ -38,6 +38,7 @@ class Login extends React.Component {
     return (
       <View>
         <Button title="Log in with Facebook" onPress={this.handlePressAsync} />
+        <Button title="Log in as a gosh darn hero" onPress={this.props.fakeLogin} />
       </View>
     )
   }
@@ -46,6 +47,18 @@ class Login extends React.Component {
 const mapDispatchToProps = dispatch => ({
   login: (user) => {
     dispatch(setUser(user))
+    dispatch({ type: 'HIDE_MODAL' })
+  },
+  fakeLogin: () => {
+    dispatch(setUser({
+      id: '666',
+      name: 'Calamity Jane',
+      picture: {
+        data: {
+          url: 'https://www.famousbirthdays.com/faces/jane-calamity-image.jpg',
+        },
+      },
+    }))
     dispatch({ type: 'HIDE_MODAL' })
   },
 })
