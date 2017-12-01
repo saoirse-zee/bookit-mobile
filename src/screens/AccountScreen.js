@@ -1,9 +1,10 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { Text, View, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import Login from '../components/Login'
 import Logout from '../components/Logout'
 import { removeUser } from '../actions'
+import config from '../../config.json'
 
 class AccountScreen extends React.Component {
   static navigationOptions = {
@@ -14,6 +15,11 @@ class AccountScreen extends React.Component {
     const { userExists, dispatch } = this.props
     return (
       <View style={styles.container}>
+        {
+          config.nonce ?
+            <Text accessibilityLabel="nonce">{ config.nonce }</Text> :
+          null
+        }
         {
           userExists ?
             <Logout

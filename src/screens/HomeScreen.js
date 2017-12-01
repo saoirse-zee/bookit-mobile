@@ -3,7 +3,6 @@ import {
   StyleSheet,
   View,
   FlatList,
-  Text,
 } from 'react-native'
 import { connect } from 'react-redux'
 import { DateTime, Duration } from 'luxon'
@@ -21,7 +20,6 @@ import TimePicker from '../components/TimePicker'
 import DurationPicker from '../components/DurationPicker'
 import RootModal from '../components/modals/RootModal'
 import LoginWarning from '../components/LoginWarning'
-import config from '../../config.json'
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -60,12 +58,7 @@ class HomeScreen extends React.Component {
     const { userExists } = this.props
 
     if (!userExists) {
-      return config.nonce ? (
-        <View style={{ marginTop: 90 }}>
-          <Text accessibilityLabel="nonce">{ config.nonce }</Text>
-          <LoginWarning currentScreen="home screen" />
-        </View>
-      ) : (
+      return (
         <View style={{ marginTop: 90 }}>
           <LoginWarning currentScreen="home screen" />
         </View>
