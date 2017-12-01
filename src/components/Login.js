@@ -26,9 +26,11 @@ class Login extends React.Component {
   }
 
   render() {
+    const { fakeLogin } = this.props
     return (
       <View>
         <Button title="Log in with Microsoft" onPress={this.handleMSLoginPress} />
+        <Button title="Log in as a hero" onPress={fakeLogin} />
       </View>
     )
   }
@@ -37,6 +39,10 @@ class Login extends React.Component {
 const mapDispatchToProps = dispatch => ({
   setMSAccessToken: (token) => {
     dispatch(setToken(token))
+    dispatch(hideModal())
+  },
+  fakeLogin: () => {
+    dispatch(setToken('Calamity.Jane.will.ride.again'))
     dispatch(hideModal())
   },
 })
