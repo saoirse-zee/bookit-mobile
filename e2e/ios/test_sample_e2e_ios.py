@@ -22,6 +22,6 @@ class TestSampleE2eIos(unittest.TestCase):
   def teardown_class(self):
     self.driver.quit()
 
-  def test_forces_the_user_to_login(self):
+  def dont_test_forces_the_user_to_login(self):
     first_text_box_text = self.driver.find_element_by_xpath('(//XCUIElementTypeStaticText)[1]')
     self.assertIn('You need to log in', first_text_box_text.text)

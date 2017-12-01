@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
 import { RECEIVE_BOOKINGS } from './types'
-import config from '../../config'
+import config from '../../config.json'
 
 const baseUrl = config.bookitApiBaseUrl
 

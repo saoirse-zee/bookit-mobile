@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, View } from 'react-native'
 import { connect } from 'react-redux'
 import { AuthSession, FileSystem } from 'expo'
-import config from '../../config'
+import config from '../../config.json'
 import { userInfoFileUri } from '../../constants/FileSystem'
 import { setUser } from '../actions'
 

@@ -1,5 +1,5 @@
 import { RECEIVE_LOCATIONS } from './types'
-import config from '../../config'
+import config from '../../config.json'
 
 const baseUrl = config.bookitApiBaseUrl
 
