@@ -21,17 +21,20 @@ class TestSampleE2eAndroid(unittest.TestCase):
     desired_caps['app'] = 'https://s3.amazonaws.com/bookit-mobile-artifacts/local-testing.apk'
     self.driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
 
-    WebDriverWait(self.driver, 15).until(EC.presence_of_element_located((By.ID, 'nonce')))
+    WebDriverWait(self.driver, 15).until(EC.presence_of_element_located((By.XPATH, '//android.widget.TextView[@text="?"]')))
+    self.driver.find_element_by_xpath('//android.widget.TextView[@text="?"]').click()
     nonce = self.driver.find_element_by_xpath('//android.widget.TextView[@content-desc="nonce"]')
     count = 0
     while (nonce.text != data["nonce"] and count < 10):
       print('looping')
-      time.sleep(30)
+      time.sleep(45)
       self.driver.close_app()
       self.driver.launch_app()
-      WebDriverWait(self.driver, 15).until(EC.presence_of_element_located((By.XPATH, '//android.widget.TextView[@text="Home"]')))
+      WebDriverWait(self.driver, 15).until(EC.presence_of_element_located((By.XPATH, '//android.widget.TextView[@text="?"]')))
+      self.driver.find_element_by_xpath('//android.widget.TextView[@text="?"]').click()
       nonce = self.driver.find_element_by_xpath('//android.widget.TextView[@content-desc="nonce"]')
       count = count + 1
+    self.driver.find_element_by_xpath('//android.widget.TextView[@text="Home"]').click()
   
   def teardown_class(self):
     self.driver.quit()
