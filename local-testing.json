@@ -1,0 +1,26 @@
+{
+  "name": "Bookit Mobile (Local Testing)",
+  "description": "A booking app for iOS and Android.",
+  "slug": "bookit-mobile-local-testing",
+  "privacy": "unlisted",
+  "sdkVersion": "23.0.0",
+  "version": "0.0.1",
+  "orientation": "portrait",
+  "primaryColor": "#ffffff",
+  "icon": "./assets/images/icon.png",
+  "splash": {
+    "image": "./assets/images/splash.png",
+    "resizeMode": "contain",
+    "backgroundColor": "#ffffff"
+  },
+  "ios": {
+    "supportsTablet": false,
+    "bundleIdentifier": "tools.buildit.bookit.mobile.localtesting",
+    "config": {
+      "usesNonExemptEncryption": false
+    }
+  },
+  "android": {
+    "package": "tools.buildit.bookit.mobile.localtesting"
+  }
+}
