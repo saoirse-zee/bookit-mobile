@@ -19,20 +19,49 @@ yarn test  # Lint the Javascript and run unit tests
 yarn lint  # Run the linter alone
 yarn test:unit  # Run the unit tests alone
 yarn test:unit-watch  # Run the unit tests, and rerun on changes
+yarn e2e  # Run end-to-end tests. See below for setup instructions.
 ```
 
 ## E2E Testing
 
-End-to-end testing is a bit more complicated because it runs the tests on both the iPhone and an Android phone. You need to have [Appium](http://appium.io/) running (command line or gui) as well as have a Android virtual device running (as of 2017/12/04 the best bet is a Pixel with API 27). Appium can start the iPhone emulator for you. E2e tests are written in python so they are compatible with Amazon's device farm. Some notes:
+End-to-end testing is a bit more complicated than the other validations. Our end-to-end tests run against an iPhone simulator and an Android emulator.
 
-* Run the tests with `yarn e2e`
-* Easiest way to get the Android Emulator up is via Android Studio
-* The script that detects if Appium is running is probably not perfect, use `yarn e2e -a` to override the check and run the tests anyway. If you can, fix the script so the next person doesn't have to override anything.
-* The tests will create a `workspace` directory that is gitignored. You are welcome to delete this between tests but it stores all of the python dependencies so deleting it will make the tests take longer to run. You can safely ignore this folder.
-* Expo handles new code differently on different platforms.
-  * On iOS it downloads updates before starting the app so new code is there immediately.
-  * Android downloads the code in the background so the app has to be restarted in order to see new code.
-* If you have the processors/cores, this will attempt to run both Android and iOS tests simultaneously. Android tests will probably take a bit longer because we have to download the new code and restart the app.
+The tests are defined in the `e2e` folder.
+
+### Prerequisites to running end-to-end tests locally
+You need a few prerequisites to run end-to-end tests locally. (This is Mac-specific!)
+
+Install the following programs:
+
+`appium` -- Install with `npm -g install appium`
+
+`virtualenv` -- Install with `pip install virtualenv`
+
+`jq` -- Install with `brew install jq`
+
+`carthage` -- Install with `brew install carthage`
+
+Android Studio -- Download available [here](https://developer.android.com/studio/index.html) and configure Android Emulator
+
+### Run end-to-end tests
+`/Users/<you>/Library/Android/sdk/tools/emulator @Pixel_API_27`  # Run Android Emulator
+
+`export ANDROID_HOME=/Users/<you>/Library/Android/sdk`  # Make your Android Sdk available to Appium
+
+`appium`  # Run Appium server
+
+`yarn e2e`  # Run the tests!
+
+### Notes on end-to-end tests
+- You don't have to start iPhone simulator. Appium does this for you.
+- End-to-end tests are written in Python so they are compatible with Amazon's device farm.
+- The script that detects if Appium is running is known to be a bit flaky. You can use `yarn e2e -a` to override the check and run the tests anyway.
+- The tests will create a `workspace` directory that is gitignored. You are welcome to delete this between tests but it stores all of the python dependencies so deleting it will make the tests take longer to run. You can safely ignore this folder.
+- Expo handles new code differently on different platforms.
+  - On iOS it downloads updates before starting the app so new code is there immediately.
+  - Android downloads the code in the background so the app has to be restarted in order to see new code.
+- If you have the processors/cores, this will attempt to run both Android and iOS tests simultaneously. Android tests will probably take a bit longer because we have to download the new code and restart the app.
+
 
 ## Expo
 
