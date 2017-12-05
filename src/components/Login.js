@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, View } from 'react-native'
 import { connect } from 'react-redux'
-import { AuthSession, FileSystem } from 'expo'
+import { AuthSession, FileSystem, Constants } from 'expo'
 import config from '../../config.json'
 import { getMSAuthUrl } from '../utils'
 import { accessTokenFileUri } from '../../constants/FileSystem'
@@ -11,7 +11,8 @@ class Login extends React.Component {
   handleMSLoginPress = async () => {
     const { msAuthUrlOptions, authRedirectUrl } = config
     const authUrl = getMSAuthUrl(msAuthUrlOptions, authRedirectUrl)
-    const result = await AuthSession.startAsync({ authUrl })
+    const returnUrl = Constants.linkingUri
+    const result = await AuthSession.startAsync({ authUrl, returnUrl })
 
     if (result.type !== 'success') {
       throw new Error('Failed to auth with Microsoft')
@@ -27,10 +28,12 @@ class Login extends React.Component {
 
   render() {
     const { fakeLogin } = this.props
+    const { appOwnership } = Constants
+    const isDev = appOwnership === 'expo'
     return (
       <View>
         <Button title="Log in with Microsoft" onPress={this.handleMSLoginPress} />
-        <Button title="Log in as a hero" onPress={fakeLogin} />
+        { isDev ? <Button title="Log in as a hero" onPress={fakeLogin} /> : null}
       </View>
     )
   }

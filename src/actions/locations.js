@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 import { RECEIVE_LOCATIONS } from './types'
 import config from '../../config.json'
 
@@ -10,6 +12,8 @@ const receiveLocations = json => ({
 
 // eslint-disable-next-line import/prefer-default-export
 export const fetchLocations =
-  () => dispatch => fetch(`${baseUrl}location/`)
-    .then(response => response.json())
+  () => dispatch => axios(`${baseUrl}location/`, {
+    headers: { Authorization: 'Bearer fake-token' },
+  })
+    .then(response => response.data)
     .then(json => dispatch(receiveLocations(json)))
