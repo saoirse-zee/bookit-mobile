@@ -78,6 +78,7 @@ jobs:
         AWS_ACCESS_KEY: {{AWS_ACCESS_KEY}}
         AWS_SECRET_KEY: {{AWS_SECRET_KEY}}
         AWS_REGION: us-west-2
+        BUCKET: {{AWS_BUCKET}}
       file: bookit-mobile/concourse/tasks/run_unit_tests.yml
   on_failure: *failure
 - name: Publish Integration Testing Code
