@@ -32,15 +32,15 @@ create_attachment () {
           "short": true
         },
         {
-          "title": "Commit Message",
-          "value": "$MESSAGE",
-          "short": false
-        },
-        {
           "title": "Coverage Reports",
           "value": "<$REPORTS_URL|Reports>",
           "short": true
         },
+        {
+          "title": "Commit Message",
+          "value": "$MESSAGE",
+          "short": false
+        }
       ]
     }
   ]
