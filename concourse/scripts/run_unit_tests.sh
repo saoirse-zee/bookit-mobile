@@ -2,12 +2,11 @@
 
 main () {
   cd bookit-with-deps && \
-  SHA=$(git rev-parse --short HEAD) && \
   yarn test:unit && \
-  rc=$?
-  yarn badge-coverage
-  cd ..
-  tar -zcf coverage/"$SHA".tar.gz ./bookit-with-deps/coverage
+  rc=$? && \
+  yarn badge-coverage && \
+  ./helpers/install_aws_cli.sh && \
+  aws s3 cp --recursive --quiet --acl public-read ./coverage "$BUCKET"/reports && \
   exit $rc
 }
 

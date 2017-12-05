@@ -27,13 +27,6 @@ resources:
   type: slack-notification
   source:
     url: {{SLACK_NOTIFY_URL}}
-- name: s3-coverage
-  type: s3
-  source:
-    bucket: bookit-mobile-artifacts
-    regexp: coverage/(.*).tar.gz
-    access_key_id: {{AWS_ACCESS_KEY}}
-    secret_access_key: {{AWS_SECRET_KEY}}
 
 jobs:
 - name: Install Dependencies
@@ -81,10 +74,11 @@ jobs:
     - get: dependency-cache
     - *handle-dependencies
     - task: run the unit tests
-      file: bookit-mobile/concourse/tasks/run_unit_tests.yml
-    - put: s3-coverage
       params:
-        file: coverage/coverage.tar.gz
+        AWS_ACCESS_KEY: {{AWS_ACCESS_KEY}}
+        AWS_SECRET_KEY: {{AWS_SECRET_KEY}}
+        AWS_REGION: us-west-2
+      file: bookit-mobile/concourse/tasks/run_unit_tests.yml
   on_failure: *failure
 - name: Publish Integration Testing Code
   build_logs_to_retain: 3
