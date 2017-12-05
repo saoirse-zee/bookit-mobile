@@ -28,10 +28,12 @@ class Login extends React.Component {
 
   render() {
     const { fakeLogin } = this.props
+    const { appOwnership } = Constants
+    const isDev = appOwnership === 'expo'
     return (
       <View>
         <Button title="Log in with Microsoft" onPress={this.handleMSLoginPress} />
-        <Button title="Log in as a hero" onPress={fakeLogin} />
+        { isDev ? <Button title="Log in as a hero" onPress={fakeLogin} /> : null}
       </View>
     )
   }
