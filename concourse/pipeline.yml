@@ -16,7 +16,7 @@ resources:
   type: git
   source: &repo-source
     uri: https://github.com/saoirse-zee/bookit-mobile
-    branch: unit-metrics
+    branch: {{BRANCH}}
 - name: dependency-cache
   type: npm-cache
   source:
@@ -59,6 +59,7 @@ jobs:
           STATUS: FAILED
           COLOR: danger
           FOLDER_NAME: bookit-mobile
+          REPORTS_URL: {{REPORTS_URL}}
       - put: slack-alert
         params:
           text: |
