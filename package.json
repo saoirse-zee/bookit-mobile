@@ -3,14 +3,23 @@
   "private": true,
   "scripts": {
     "test": "yarn lint && yarn test:unit",
-    "test:unit": "node ./node_modules/jest/bin/jest.js",
+    "test:unit": "node ./node_modules/jest/bin/jest.js --coverage",
     "test:unit-watch": "node ./node_modules/jest/bin/jest.js --watch",
     "lint": "eslint src/",
     "lint:soft": "yarn lint --rule 'no-console: 1'",
-    "e2e": "./local-e2e-tests.sh"
+    "e2e": "./local-e2e-tests.sh",
+    "badge-coverage": "lcov-badge-generator -o ./coverage/badge.svg ./coverage/lcov.info"
   },
   "jest": {
-    "preset": "jest-expo"
+    "preset": "jest-expo",
+    "coverageReporters": [
+      "json",
+      "html",
+      "lcov"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{ts,js}"
+    ]
   },
   "dependencies": {
     "@expo/samples": "2.1.1",
@@ -26,6 +35,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^8.0.2",
+    "coverage-percentage": "^0.0.2",
     "eslint": "^4.11.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-compat": "^2.1.0",

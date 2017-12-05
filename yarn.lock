@@ -1433,6 +1433,12 @@ core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
+coverage-percentage@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/coverage-percentage/-/coverage-percentage-0.0.2.tgz#5fd53d1b1563e58ae3eb721afba3926200327cc6"
+  dependencies:
+    lcov-parse "0.0.6"
+
 crc@3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/crc/-/crc-3.3.0.tgz#fa622e1bc388bf257309082d6b65200ce67090ba"
@@ -3143,6 +3149,10 @@ lcid@^1.0.0:
   resolved "https://registry.yarnpkg.com/lcid/-/lcid-1.0.0.tgz#308accafa0bc483a3867b4b6f2b9506251d1b835"
   dependencies:
     invert-kv "^1.0.0"
+
+lcov-parse@0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/lcov-parse/-/lcov-parse-0.0.6.tgz#819e5da8bf0791f9d3f39eea5ed1868187f11175"
 
 left-pad@^1.1.3:
   version "1.2.0"
