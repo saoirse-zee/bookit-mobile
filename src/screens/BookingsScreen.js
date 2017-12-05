@@ -19,8 +19,8 @@ class BookingsScreen extends React.Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props
-    dispatch(fetchBookings())
+    const { dispatch, token } = this.props
+    dispatch(fetchBookings(token))
   }
 
   render() {
@@ -98,6 +98,7 @@ const mapStateToProps = (state) => {
     locations,
     lastUpdated: state.bookings.lastUpdated,
     userExists: !!((state.token)), // Minimum criteria for existence
+    token: state.token,
   }
 }
 

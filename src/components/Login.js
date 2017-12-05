@@ -2,9 +2,10 @@ import React from 'react'
 import { Button, View } from 'react-native'
 import { connect } from 'react-redux'
 import { AuthSession, FileSystem, Constants } from 'expo'
+import jwtDecode from 'jwt-decode'
 import config from '../../config.json'
 import { getMSAuthUrl } from '../utils'
-import { accessTokenFileUri } from '../../constants/FileSystem'
+import { idTokenFileUri } from '../../constants/FileSystem'
 import { setToken, hideModal } from '../actions'
 
 class Login extends React.Component {
@@ -17,12 +18,24 @@ class Login extends React.Component {
     if (result.type !== 'success') {
       throw new Error('Failed to auth with Microsoft')
     }
+    if (result.params.state !== config.msAuthUrlOptions.state) {
+      throw new Error('Possible cross site forgery attack while attempting to auth with Microsoft. Check the `state` key in `config.json`.')
+    }
+    if (!result.params.id_token) {
+      throw new Error('Unexpectedly failed to receive id token from Microsoft.')
+    }
 
-    const accessToken = result.params.access_token
+    const idToken = result.params.id_token
+    // Check that the token is properly formed
+    try {
+      jwtDecode(idToken)
+    } catch (error) {
+      throw new Error(`There was an error decoding the Microsoft id token: ${error.message}`)
+    }
 
-    FileSystem.writeAsStringAsync(accessTokenFileUri, accessToken)
+    FileSystem.writeAsStringAsync(idTokenFileUri, idToken)
       .then(() => {
-        this.props.setMSAccessToken(accessToken)
+        this.props.setMSIdToken(idToken)
       })
   }
 
@@ -40,7 +53,7 @@ class Login extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  setMSAccessToken: (token) => {
+  setMSIdToken: (token) => {
     dispatch(setToken(token))
     dispatch(hideModal())
   },

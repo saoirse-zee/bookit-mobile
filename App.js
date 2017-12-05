@@ -8,13 +8,13 @@ import { AppLoading, Asset, Font, FileSystem } from 'expo'
 import { Ionicons } from '@expo/vector-icons'
 import RootNavigation from './navigation/RootNavigation'
 import root from './src/reducers'
-import { accessTokenFileUri } from './constants/FileSystem'
-import { setUser, removeUser, setToken, removeToken } from './src/actions'
+import { idTokenFileUri } from './constants/FileSystem'
+import { setToken, removeToken } from './src/actions'
 
 const naiveLogger = store => next => (action) => {
   console.log('dispatching', action)
   const result = next(action)
-  console.log('next state | token', store.getState().token)
+  console.log('next state', store.getState())
   return result
 }
 
@@ -44,12 +44,12 @@ export default class App extends React.Component {
       'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
     }),
 
-    FileSystem.getInfoAsync(accessTokenFileUri)
+    FileSystem.getInfoAsync(idTokenFileUri)
       .then((getInforesult) => {
         if (getInforesult.exists) {
-          return FileSystem.readAsStringAsync(accessTokenFileUri)
+          return FileSystem.readAsStringAsync(idTokenFileUri)
             .then((token) => {
-              // Check if token format is valid. For now just checking for existence.
+              // Check if tokenString format is valid. For now just checking for existence.
               if (token) {
                 // User is already logged in.
                 store.dispatch(setToken(token))

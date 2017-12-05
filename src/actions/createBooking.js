@@ -1,12 +1,12 @@
 import { BOOKING_SUCCESS, BOOKING_FAIL } from './types'
-import { postBooking } from '../api'
+import api from '../api'
 import { showModal } from '../actions'
 import { fetchBookings } from './bookings'
 
-export const createBooking = booking => dispatch => postBooking(booking)
+export const createBooking = (booking, token) => dispatch => api.createBooking(booking, token)
   .then((newBooking) => {
     dispatch(bookingSuccess(newBooking))
-    dispatch(fetchBookings())
+    dispatch(fetchBookings(token))
     dispatch(showModal({
       modalType: BOOKING_SUCCESS, // Borrowing the action type for the modal, haha!
     }))

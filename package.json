@@ -16,6 +16,7 @@
     "@expo/samples": "2.1.1",
     "axios": "^0.17.1",
     "expo": "^23.0.0",
+    "jwt-decode": "^2.2.0",
     "luxon": "^0.0.19",
     "react": "16.0.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-23.0.0.tar.gz",
