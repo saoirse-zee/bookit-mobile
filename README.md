@@ -1,6 +1,8 @@
 # Bookit Mobile
 
 ![build status](https://concourse.buildit.tools/api/v1/teams/bookit-mobile/pipelines/bookit-mobile/badge "Build Status")
+[![coverage status](https://s3.amazonaws.com/bookit-mobile-artifacts/reports/badge.svg "Coverage Status")](http://bookit-mobile-artifacts.s3-website-us-east-1.amazonaws.com/reports/)
+
 
 A booking app written in React Native.
 
