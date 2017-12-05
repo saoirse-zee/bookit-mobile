@@ -30,7 +30,7 @@ class Login extends React.Component {
     return (
       <View>
         <Button title="Log in with Microsoft" onPress={this.handleMSLoginPress} />
-        <Button title="Log in as a hero" onPress={fakeLogin} />
+        <Button testID="hero_login" accessibilityLabel="hero login" title="Log in as a hero" onPress={fakeLogin} />
       </View>
     )
   }
