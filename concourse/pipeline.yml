@@ -16,7 +16,7 @@ resources:
   type: git
   source: &repo-source
     uri: https://github.com/saoirse-zee/bookit-mobile
-    branch: {{BRANCH}}
+    branch: unit-metrics
 - name: dependency-cache
   type: npm-cache
   source:
@@ -27,6 +27,13 @@ resources:
   type: slack-notification
   source:
     url: {{SLACK_NOTIFY_URL}}
+- name: s3-coverage
+  type: s3
+  source:
+    bucket: bookit-mobile-artifacts
+    regexp: bookit-mobile-coverage/(.*).tar.gz
+    access_key_id: {{AWS_ACCESS_KEY}}
+    secret_access_key: {{AWS_SECRET_KEY}}
 
 jobs:
 - name: Install Dependencies
@@ -75,6 +82,9 @@ jobs:
     - *handle-dependencies
     - task: run the unit tests
       file: bookit-mobile/concourse/tasks/run_unit_tests.yml
+    - put: s3-coverage
+      params:
+        file: coverage/coverage.tar.gz
   on_failure: *failure
 - name: Publish Integration Testing Code
   build_logs_to_retain: 3

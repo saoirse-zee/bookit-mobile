@@ -9,5 +9,8 @@ image_resource:
 inputs:
   - name: bookit-with-deps
 
+outputs:
+  - name: coverage
+
 run:
   path: bookit-with-deps/concourse/scripts/run_unit_tests.sh
