@@ -59,6 +59,7 @@ jobs:
           STATUS: FAILED
           COLOR: danger
           FOLDER_NAME: bookit-mobile
+          REPORTS_URL: {{REPORTS_URL}}
       - put: slack-alert
         params:
           text: |
@@ -74,6 +75,11 @@ jobs:
     - get: dependency-cache
     - *handle-dependencies
     - task: run the unit tests
+      params:
+        AWS_ACCESS_KEY: {{AWS_ACCESS_KEY}}
+        AWS_SECRET_KEY: {{AWS_SECRET_KEY}}
+        AWS_REGION: us-west-2
+        BUCKET: {{AWS_BUCKET}}
       file: bookit-mobile/concourse/tasks/run_unit_tests.yml
   on_failure: *failure
 - name: Publish Integration Testing Code
@@ -169,6 +175,7 @@ jobs:
         STATUS: SUCCEEDED
         COLOR: good
         FOLDER_NAME: bookit-mobile
+        REPORTS_URL: {{REPORTS_URL}}
       file: bookit-mobile/concourse/tasks/get_commit_info.yml
     - put: slack-alert
       params:

@@ -9,3 +9,4 @@ builds
 .vscode
 *.p12
 .DS_Store
+coverage
