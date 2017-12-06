@@ -18,7 +18,7 @@
       "lcov"
     ],
     "collectCoverageFrom": [
-      "src/**/*.{ts,js}"
+      "src/**/*.{js,jsx}"
     ],
     "coverageThreshold": {
       "global": {
@@ -59,7 +59,6 @@
     "lint:soft"
   ],
   "prepush": [
-    "lint",
-    "test:unit"
+    "lint"
   ]
 }
