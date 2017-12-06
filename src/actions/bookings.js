@@ -1,6 +1,7 @@
+import axios from 'axios'
 import { DateTime } from 'luxon'
 import { RECEIVE_BOOKINGS } from './types'
-import config from '../../config'
+import config from '../../config.json'
 
 const baseUrl = config.bookitApiBaseUrl
 
@@ -12,6 +13,8 @@ const receiveBookings = json => ({
 
 // eslint-disable-next-line import/prefer-default-export
 export const fetchBookings =
-  () => dispatch => fetch(`${baseUrl}booking`)
-    .then(response => response.json())
-    .then(json => dispatch(receiveBookings(json)))
+() => dispatch => axios(`${baseUrl}booking`, {
+  headers: { Authorization: 'Bearer fake-token' },
+})
+  .then(response => response.data)
+  .then(json => dispatch(receiveBookings(json)))

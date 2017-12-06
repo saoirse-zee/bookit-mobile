@@ -1,8 +1,12 @@
 node_modules/**/*
 .expo/**/*
 config.js
+config.json
 credentials.yml
 workspace
 builds
 .cache
 .vscode
+*.p12
+.DS_Store
+coverage

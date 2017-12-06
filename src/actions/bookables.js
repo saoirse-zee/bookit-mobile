@@ -1,5 +1,7 @@
+import axios from 'axios'
+
 import { RECEIVE_BOOKABLES } from './types'
-import config from '../../config'
+import config from '../../config.json'
 
 const baseUrl = config.bookitApiBaseUrl
 
@@ -11,6 +13,8 @@ const receiveBookables = (locationId, json) => ({
 
 // eslint-disable-next-line import/prefer-default-export
 export const fetchBookables =
-  locationId => dispatch => fetch(`${baseUrl}location/${locationId}/bookable`)
-    .then(response => response.json())
+  locationId => dispatch => axios(`${baseUrl}location/${locationId}/bookable`, {
+    headers: { Authorization: 'Bearer fake-token' },
+  })
+    .then(response => response.data)
     .then(json => dispatch(receiveBookables(locationId, json)))

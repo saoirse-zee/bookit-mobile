@@ -3,8 +3,14 @@ import { View, Text, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { DateTime } from 'luxon'
 import BookingItem from '../components/BookingItem'
+import LoginWarning from '../components/LoginWarning'
 import { fetchBookings } from '../actions'
-import { getBookableNameFromId, getBookableLocationIdFromId, getLocationNameFromLocationId, getLocationFromLocationId } from '../utils'
+import {
+  getBookableNameFromId,
+  getBookableLocationIdFromId,
+  getLocationNameFromLocationId,
+  getLocationFromLocationId,
+} from '../utils'
 import colors from '../../constants/Colors'
 
 class BookingsScreen extends React.Component {
@@ -18,17 +24,28 @@ class BookingsScreen extends React.Component {
   }
 
   render() {
+    // "Protect" this screen, naively.
+    const { userExists } = this.props
+
+    if (!userExists) {
+      return (
+        <LoginWarning currentScreen="Bookings" />
+      )
+    }
+
     const {
       bookings,
       bookables,
       locations,
       lastUpdated,
     } = this.props
+
     const formattedLastUpdated = lastUpdated && lastUpdated.toLocaleString({
       hour: 'numeric',
       minute: '2-digit',
       timeZoneName: 'short',
     })
+
     return (
       <View style={styles.container}>
         <View style={styles.updateMessageBox}>
@@ -74,13 +91,16 @@ const mapStateToProps = (state) => {
   const now = DateTime.local()
   const upcomingBookings =
     bookings.items.filter(booking => DateTime.fromISO(booking.end) > now)
+
   return {
     bookings: upcomingBookings,
     bookables,
     locations,
     lastUpdated: state.bookings.lastUpdated,
+    userExists: !!((state.token)), // Minimum criteria for existence
   }
 }
+
 export default connect(mapStateToProps)(BookingsScreen)
 
 const styles = StyleSheet.create({

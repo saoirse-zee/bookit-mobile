@@ -1,7 +1,7 @@
 {
-  "name": "Bookit Mobile (IOS Integration)",
+  "name": "Bookit Mobile (Local Testing)",
   "description": "A booking app for iOS and Android.",
-  "slug": "bookit-mobile-ios-integration",
+  "slug": "bookit-mobile-local-testing",
   "privacy": "unlisted",
   "sdkVersion": "23.0.0",
   "version": "0.0.1",
@@ -15,12 +15,12 @@
   },
   "ios": {
     "supportsTablet": false,
-    "bundleIdentifier": "tools.buildit.bookit.mobile.ios.integration",
+    "bundleIdentifier": "tools.buildit.bookit.mobile.localtesting",
     "config": {
       "usesNonExemptEncryption": false
     }
   },
   "android": {
-    "package": "tools.buildit.bookit.mobile.ios.integration"
+    "package": "tools.buildit.bookit.mobile.localtesting"
   }
 }
