@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import unittest, time, pytest, sys, os
 import time
 import pytest
@@ -27,6 +29,11 @@ class TestSampleE2eIos(unittest.TestCase):
 
   @pytest.mark.run('first')
   def test_logs_the_user_in(self):
-    # Login the user
     self.app.navigation.goToMe()
     self.app.account.loginHero()
+    assert(self.app.account.isLoggedIn()) is True
+
+  @pytest.mark.run(after='test_logs_the_user_in')
+  def test_logs_the_user_out(self):
+    self.app.account.logout()
+    assert(self.app.account.isLoggedIn()) is False

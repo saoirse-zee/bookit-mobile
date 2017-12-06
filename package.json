@@ -8,6 +8,7 @@
     "lint": "eslint src/",
     "lint:soft": "yarn lint --rule 'no-console: 1'",
     "e2e": "./local-e2e-tests.sh",
+    "e2e:push": "./local-e2e-tests.sh PUSH",
     "badge-coverage": "lcov-badge-generator -o ./coverage/badge.svg ./coverage/lcov.info"
   },
   "jest": {

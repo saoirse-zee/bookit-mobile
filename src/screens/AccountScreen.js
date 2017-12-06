@@ -15,7 +15,7 @@ class AccountScreen extends React.Component {
     const { userExists } = this.props
     return (
       <View style={styles.container}>
-        { config.nonce ? <Text testID="nonce" >{ config.nonce }</Text> : null }
+        { config.nonce ? <Text testID="nonce" accessibilityLabel="nonce">{ config.nonce }</Text> : null }
         { userExists ? <Logout /> : <Login /> }
       </View>
     )

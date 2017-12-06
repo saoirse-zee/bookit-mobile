@@ -8,18 +8,23 @@ class Account:
     assert isinstance(driver, webdriver.Remote)
     self.__driver = driver
     self.__device_type = device_type
-    if device_type == Constants.ios:
-      self.__device_map = AppleMap()
-    elif device_type == Constants.android:
-      self.__device_map = AndroidMap()
-    else:
+    if device_type is not Constants.ios and device_type is not Constants.android:
       raise ValueError('Only "' + Constants.ios + '" and "' + Constants.android + '" are valid device types')
 
   def loginHero(self):
     if self.__device_type == Constants.ios:
       return self.__driver.find_element_by_id('hero_login').click()
     elif self.__device_type == Constants.android:
-      return self.__driver.find_element_by_accessibility_id('hero login').click()
+      return self.__driver.find_element_by_xpath('//' + AndroidMap.text + '[@text="LOG IN AS A HERO"]').click()
 
   def isLoggedIn(self):
-    if self.__d
+    if self.__device_type == Constants.ios:
+      return len(self.__driver.find_elements_by_name('Log out')) is not 0
+    elif self.__device_type == Constants.android:
+      return len(self.__driver.find_elements_by_xpath('//' + AndroidMap.text + '[@text="LOG OUT"]')) is not 0
+
+  def logout(self):
+    if self.__device_type == Constants.ios:
+      return self.__driver.find_element_by_name('Log out').click()
+    elif self.__device_type == Constants.android:
+      return self.__driver.find_element_by_xpath('//' + AndroidMap.text + '[@text="LOG OUT"]').click()
