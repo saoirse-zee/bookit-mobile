@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "test": "yarn lint && yarn test:unit",
-    "test:unit": "node ./node_modules/jest/bin/jest.js --coverage",
+    "test:unit": "node ./node_modules/jest/bin/jest.js --coverage --json --outputFile=jest.json",
     "test:unit-watch": "node ./node_modules/jest/bin/jest.js --watch",
     "lint": "eslint src/",
     "lint:soft": "yarn lint --rule 'no-console: 1'",

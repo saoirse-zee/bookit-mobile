@@ -10,3 +10,4 @@ builds
 *.p12
 .DS_Store
 coverage
+jest.json
