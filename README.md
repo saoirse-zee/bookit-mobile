@@ -65,6 +65,9 @@ Android Studio -- Download available [here](https://developer.android.com/studio
 - If you have the processors/cores, this will attempt to run both Android and iOS tests simultaneously. Android tests will probably take a bit longer because we have to download the new code and restart the app.
 
 
+## Testing strategy
+See [this doc](/docs/testing-strategy.md) for a detailed explanation of our testing strategy.
+
 ## Expo
 
 Build configuration is delegated to [Expo](https://expo.io/). Check their docs for complete info, but to get going, you can open the project in Expo's developer environment. This allows you to run the app on simulated devices (iOS and Android). You can also run the app in dev mode on your actual device, which gives you live reload, debugging, and other niceties.
