@@ -74,29 +74,30 @@ wait_for_tests_to_finish () {
 }
 
 main () {
-	if [ "$DEVICE" != "$CONST_ANDROID" ]; then
-		if [ "$DEVICE" = "$CONST_IOS" ]; then
-			echo "placeholder for ios testing on device farm"
-			exit 0
-		else
-			echo "Not configured to work with $DEVICE"
-			exit 1
-		fi
-	fi
-	do_setup && \
-	upload_binary && \
-	prepare_tests && \
-	run_tests && \
-	wait_for_tests_to_finish
-	if [ "$result" != PASSED ]; then
-		echo "Test result: $result"
-		exit 1
-	fi
-	# Cleanup only happens if this passes
-	aws devicefarm delete-run --arn "$run_arn"
-	aws devicefarm delete-upload --arn "$test_package_arn"
-	aws devicefarm delete-upload --arn "$binary_arn"
-	exit 0
+	echo "placeholder"
+	# if [ "$DEVICE" != "$CONST_ANDROID" ]; then
+	# 	if [ "$DEVICE" = "$CONST_IOS" ]; then
+	# 		echo "placeholder for ios testing on device farm"
+	# 		exit 0
+	# 	else
+	# 		echo "Not configured to work with $DEVICE"
+	# 		exit 1
+	# 	fi
+	# fi
+	# do_setup && \
+	# upload_binary && \
+	# prepare_tests && \
+	# run_tests && \
+	# wait_for_tests_to_finish
+	# if [ "$result" != PASSED ]; then
+	# 	echo "Test result: $result"
+	# 	exit 1
+	# fi
+	# # Cleanup only happens if this passes
+	# aws devicefarm delete-run --arn "$run_arn"
+	# aws devicefarm delete-upload --arn "$test_package_arn"
+	# aws devicefarm delete-upload --arn "$binary_arn"
+	# exit 0
 }
 
 main
