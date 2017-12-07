@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { AuthSession, FileSystem, Constants } from 'expo'
 import jwtDecode from 'jwt-decode'
 import config from '../../config.json'
-import { getMSAuthUrl } from '../utils'
+import { getMSAuthUrl, isTestMode } from '../utils'
 import { idTokenFileUri } from '../../constants/FileSystem'
 import { setToken, hideModal } from '../actions'
 
@@ -41,12 +41,14 @@ class Login extends React.Component {
 
   render() {
     const { fakeLogin } = this.props
-    const { appOwnership } = Constants
-    const isDev = appOwnership === 'expo' || Constants.manifest.name.includes('Local Testing')
     return (
       <View>
         <Button title="Log in with Microsoft" onPress={this.handleMSLoginPress} />
-        { isDev ? <Button testID="hero_login" title="Log in as a hero" onPress={fakeLogin} /> : null }
+        {
+          isTestMode() ?
+            <Button testID="hero_login" title="Log in as test user" onPress={fakeLogin} /> :
+            null
+        }
       </View>
     )
   }
