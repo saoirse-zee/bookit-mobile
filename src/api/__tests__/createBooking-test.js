@@ -9,12 +9,14 @@ describe('Booking creator', () => {
       bookingDuration: Duration.fromObject({ minutes: 10 }),
     }
     expect.assertions(1)
-    return expect(createBooking(formData)).rejects.toMatch('createBooking() needs a jwt to identify the user')
+    const expectedError = new Error('createBooking() needs a jwt to identify the user')
+    return expect(createBooking(formData)).rejects.toEqual(expectedError)
   })
 
   test('rejects if booking data is missing', () => {
     expect.assertions(1)
-    return expect(createBooking(undefined, 'im.a.jwt')).rejects.toMatch('createBooking() needs booking data')
+    const expectedError = new Error('createBooking() needs booking data')
+    return expect(createBooking(undefined, 'im.a.jwt')).rejects.toEqual(expectedError)
   })
 
   test('rejects if no bookable is specified', () => {
@@ -24,7 +26,8 @@ describe('Booking creator', () => {
       bookingDuration: Duration.fromObject({ minutes: 10 }),
     }
     expect.assertions(1)
-    return expect(createBooking(formData, 'im.a.jwt')).rejects.toMatch('Please select something to book.')
+    const expectedError = new Error('Please select something to book.')
+    return expect(createBooking(formData, 'im.a.jwt')).rejects.toEqual(expectedError)
   })
 
   test('resolves with the response "data" field on success', () => {

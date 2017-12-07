@@ -1,5 +1,7 @@
 import { DateTime } from 'luxon'
 import { Constants } from 'expo'
+import { showModal } from '../actions/modal'
+import { setError } from '../actions/errors'
 
 export const getBookableNameFromId =
   (bookableId, bookablesArray) => bookablesArray.reduce((result, current) => (
@@ -39,4 +41,9 @@ export const isTestMode = () => {
   const appIsRunningInExpo = Constants.appOwnership === 'expo'
   const appIsUsingTestConfig = Constants.manifest.name.includes('Local Testing')
   return appIsRunningInExpo && appIsUsingTestConfig
+}
+
+export const handleError = (dispatch, error) => {
+  dispatch(setError(error))
+  dispatch(showModal({ modalType: 'ERROR' }))
 }

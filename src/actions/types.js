@@ -10,3 +10,6 @@ export const HIDE_MODAL = 'HIDE_MODAL'
 
 export const SET_TOKEN = 'SET_TOKEN'
 export const REMOVE_TOKEN = 'REMOVE_TOKEN'
+
+export const SET_ERROR = 'SET_ERROR'
+export const REMOVE_ERROR = 'REMOVE_ERROR'

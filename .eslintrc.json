@@ -14,8 +14,7 @@
     "no-use-before-define": 0,
     "react/jsx-filename-extension": 0,
     "react/prop-types": 0,
-    "compat/compat": 0,
-    "prefer-promise-reject-errors": 0
+    "compat/compat": 0
   },
   "env": {
     "jest": true

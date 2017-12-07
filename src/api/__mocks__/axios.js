@@ -10,7 +10,8 @@ axios = (options) => {
       return Promise.resolve(mockPostResponse)
     }
     default: {
-      return Promise.reject('The test runner should not be here.')
+      const error = new Error('The test runner should not be here.')
+      return Promise.reject(error)
     }
   }
 }
