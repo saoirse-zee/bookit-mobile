@@ -49,17 +49,24 @@ prepare_tests () {
 	cd workspace && \
   rm -fr ./tests && \
 	source bin/activate && \
-	pip install pytest pytest-sugar pytest-xdist Appium-Python-Client && \
+	pip install pytest pytest-sugar pytest-xdist pytest-ordering Appium-Python-Client && \
 	cp -fr ../e2e ./tests
 }
 
-main () {
-  setup
-  check_appium_open && \
-  exp publish --config local-testing.json && \
-  prepare_tests && \
-  py.test -d --tx 2*popen//python=python2.7 ./tests
-  teardown
+push_new_code () {
+  if [ "$1" == 'PUSH' ]; then
+    echo " I should be pushing "
+    # setup && \
+    # exp publish --config local-testing.json
+  fi
 }
 
-main
+main () {
+  check_appium_open && \
+  push_new_code "$1" && \
+  prepare_tests && \
+  py.test ./tests
+  # teardown
+}
+
+main $1

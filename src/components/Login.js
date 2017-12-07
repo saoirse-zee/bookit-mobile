@@ -29,11 +29,11 @@ class Login extends React.Component {
   render() {
     const { fakeLogin } = this.props
     const { appOwnership } = Constants
-    const isDev = appOwnership === 'expo'
+    const isDev = appOwnership === 'expo' || Constants.manifest.name.includes('Local Testing')
     return (
       <View>
         <Button title="Log in with Microsoft" onPress={this.handleMSLoginPress} />
-        { isDev ? <Button title="Log in as a hero" onPress={fakeLogin} /> : null}
+        { isDev ? <Button testID="hero_login" title="Log in as a hero" onPress={fakeLogin} /> : null }
       </View>
     )
   }

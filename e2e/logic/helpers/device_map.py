@@ -1,0 +1,2 @@
+class DeviceMap:
+  text = 'string'
