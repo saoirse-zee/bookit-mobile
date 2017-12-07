@@ -1,9 +1,5 @@
-import axios from 'axios'
-
+import api from '../api'
 import { RECEIVE_LOCATIONS } from './types'
-import config from '../../config.json'
-
-const baseUrl = config.bookitApiBaseUrl
 
 const receiveLocations = json => ({
   type: RECEIVE_LOCATIONS,
@@ -12,8 +8,5 @@ const receiveLocations = json => ({
 
 // eslint-disable-next-line import/prefer-default-export
 export const fetchLocations =
-  () => dispatch => axios(`${baseUrl}location/`, {
-    headers: { Authorization: 'Bearer fake-token' },
-  })
-    .then(response => response.data)
-    .then(json => dispatch(receiveLocations(json)))
+  token => dispatch => api.fetchLocations(token)
+    .then(locations => dispatch(receiveLocations(locations)))

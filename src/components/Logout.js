@@ -1,30 +1,27 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Button, View, Text, StyleSheet } from 'react-native'
+import { Button, View, StyleSheet } from 'react-native'
 import { FileSystem } from 'expo'
-import { ShoutyText, MonoText } from './StyledText'
-import { accessTokenFileUri } from '../../constants/FileSystem'
+import jwtDecode from 'jwt-decode'
+import { ShoutyText } from './StyledText'
+import { idTokenFileUri } from '../../constants/FileSystem'
 import { removeToken } from '../actions'
 
 class Logout extends React.Component {
   handlePressAsync = () => {
     const blankToken = ''
-    FileSystem.writeAsStringAsync(accessTokenFileUri, blankToken)
+    FileSystem.writeAsStringAsync(idTokenFileUri, blankToken)
       .then(() => {
         this.props.logout()
       })
   }
 
   render() {
-    const { partialToken } = this.props
+    const { userName } = this.props
     return (
       <View style={styles.container}>
         <View style={{ alignItems: 'center', marginBottom: 30 }}>
-          <ShoutyText>Hey there!</ShoutyText>
-          <Text style={styles.bodyText}>
-            Psst, your access token looks something like this:
-          </Text>
-          <MonoText style={styles.codeHighlightText}>{ partialToken }</MonoText>
+          <ShoutyText>Hi {userName}!</ShoutyText>
         </View>
         <Button title="Log out" onPress={this.handlePressAsync} />
       </View>
@@ -36,9 +33,18 @@ const mapDispatchToProps = dispatch => ({
   logout: () => dispatch(removeToken()),
 })
 
-const mapStateToProps = state => ({
-  partialToken: `${state.token.slice(0, 150)}...`,
-})
+const mapStateToProps = (state) => {
+  const idToken = state.token
+  let decodedToken
+  try {
+    decodedToken = jwtDecode(idToken)
+  } catch (error) {
+    throw new Error(`There was an error decoding the Microsoft id token: ${error.message}`)
+  }
+  return {
+    userName: decodedToken.name,
+  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Logout)
 

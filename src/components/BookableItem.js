@@ -27,6 +27,9 @@ const styles = StyleSheet.create({
   roomName: {
     fontSize: 18,
   },
+  bookedBy: {
+    fontSize: 10,
+  },
   notSelected: {
     borderLeftColor: '#eee',
   },

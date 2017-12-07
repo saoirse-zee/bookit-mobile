@@ -1,22 +1,26 @@
 import axios from 'axios'
-import config from '../../config.json'
+import config from '../../../config.json'
 
 const baseUrl = config.bookitApiBaseUrl
 
-// eslint-disable-next-line
-export const postBooking = formData => new Promise((resolve, reject) => {
+// eslint-disable-next-line import/prefer-default-export
+const createBooking = (formData, token) => new Promise((resolve, reject) => {
+  if (!token) {
+    reject('createBooking() needs a jwt to identify the user')
+  }
+
+  if (!formData) {
+    reject('createBooking() needs booking data')
+  }
+
   const {
     start,
     bookingDuration,
     selectedBookableId,
   } = formData
 
-  if (!formData) {
-    reject(new Error('Please provide a booking.'))
-  }
-
   if (!selectedBookableId) {
-    reject(new Error('Please select something to book.'))
+    reject('Please select something to book.')
   }
 
   const end = start.plus(bookingDuration)
@@ -28,7 +32,12 @@ export const postBooking = formData => new Promise((resolve, reject) => {
     end: formattedEndForAPI,
     subject: 'Booked by Bookit Mobile',
   }
-  axios.post(`${baseUrl}booking`, data)
+  return axios({
+    method: 'post',
+    url: `${baseUrl}booking`,
+    data,
+    headers: { Authorization: `Bearer ${token}` },
+  })
     .then((response) => {
       const newBooking = response.data
       resolve(newBooking)
@@ -38,3 +47,5 @@ export const postBooking = formData => new Promise((resolve, reject) => {
       reject(new Error('Something went wrong when trying to create the booking.'))
     })
 })
+
+export default createBooking

@@ -1,3 +1,4 @@
+
 import React from 'react'
 import {
   StyleSheet,
@@ -37,16 +38,16 @@ class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
-    const { location, dispatch } = this.props
-    dispatch(fetchLocations())
-    dispatch(fetchBookables(location.id))
-    dispatch(fetchBookings())
+    const { location, token, dispatch } = this.props
+    dispatch(fetchLocations(token))
+    dispatch(fetchBookables(location.id, token))
+    dispatch(fetchBookings(token))
   }
 
   handleBookitPress = () => {
-    const { dispatch } = this.props
+    const { dispatch, token } = this.props
     const formData = this.state
-    dispatch(createBooking(formData))
+    dispatch(createBooking(formData, token))
   }
 
   handleBookablePress = (bookableId) => {
@@ -113,6 +114,7 @@ class HomeScreen extends React.Component {
             )}
             keyExtractor={(item => item.id)}
           />
+
         </View>
 
         <Button
@@ -138,6 +140,7 @@ const mapStateToProps = (state) => {
     locations,
     bookables,
     userExists: !!((state.token)), // Minimum criteria for existence
+    token: state.token,
   })
 }
 
