@@ -1,10 +1,12 @@
 import unittest
 import time
 import json
+import pytest
 from appium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from ..logic.app import App
 
 class TestSampleE2eAndroid(unittest.TestCase):
 
@@ -19,8 +21,11 @@ class TestSampleE2eAndroid(unittest.TestCase):
     desired_caps['noReset'] = True
     desired_caps['timeout'] = 90000
     desired_caps['app'] = 'https://s3.amazonaws.com/bookit-mobile-artifacts/local-testing.apk'
-    self.driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
 
+    self.driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
+    self.app = App(self.driver, desired_caps['platformName'])
+
+    # Make sure that the android app has the new code
     WebDriverWait(self.driver, 15).until(EC.presence_of_element_located((By.XPATH, '//android.widget.TextView[@text="?"]')))
     self.driver.find_element_by_xpath('//android.widget.TextView[@text="?"]').click()
     nonce = self.driver.find_element_by_xpath('//android.widget.TextView[@content-desc="nonce"]')
@@ -34,11 +39,18 @@ class TestSampleE2eAndroid(unittest.TestCase):
       self.driver.find_element_by_xpath('//android.widget.TextView[@text="?"]').click()
       nonce = self.driver.find_element_by_xpath('//android.widget.TextView[@content-desc="nonce"]')
       count = count + 1
-    self.driver.find_element_by_xpath('//android.widget.TextView[@text="Home"]').click()
+    self.app.navigation.goToHome()
   
   def teardown_class(self):
     self.driver.quit()
 
-  def test_forces_the_user_to_login(self):
-    first_text_box_text = self.driver.find_element_by_xpath('(//android.widget.TextView[not(@content-desc="nonce")])[1]')
-    self.assertIn('You need to log in to see the home screen.', first_text_box_text.text)
+  @pytest.mark.run('first')
+  def test_logs_the_user_in(self):
+    self.app.navigation.goToMe()
+    self.app.account.loginHero()
+    assert(self.app.account.isLoggedIn()) is True
+
+  @pytest.mark.run(after='test_logs_the_user_in')
+  def test_logs_the_user_out(self):
+    self.app.account.logout()
+    assert(self.app.account.isLoggedIn()) is False

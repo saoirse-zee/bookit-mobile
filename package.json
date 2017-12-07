@@ -3,14 +3,32 @@
   "private": true,
   "scripts": {
     "test": "yarn lint && yarn test:unit",
-    "test:unit": "node ./node_modules/jest/bin/jest.js",
+    "test:unit": "node ./node_modules/jest/bin/jest.js --coverage --json --outputFile=jest.json",
     "test:unit-watch": "node ./node_modules/jest/bin/jest.js --watch",
     "lint": "eslint src/",
     "lint:soft": "yarn lint --rule 'no-console: 1'",
-    "e2e": "./local-e2e-tests.sh"
+    "e2e": "./local-e2e-tests.sh",
+    "e2e:push": "./local-e2e-tests.sh PUSH",
+    "badge-coverage": "lcov-badge-generator -o ./coverage/badge.svg ./coverage/lcov.info"
   },
   "jest": {
-    "preset": "jest-expo"
+    "preset": "jest-expo",
+    "coverageReporters": [
+      "json",
+      "html",
+      "lcov"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 0,
+        "functions": 0,
+        "lines": 0,
+        "statements": 0
+      }
+    }
   },
   "dependencies": {
     "@expo/samples": "2.1.1",
@@ -35,6 +53,7 @@
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.4.0",
     "jest-expo": "^23.0.0",
+    "lcov-badge-generator": "^1.0.5",
     "pre-commit": "^1.2.2",
     "pre-push": "^0.1.1"
   },

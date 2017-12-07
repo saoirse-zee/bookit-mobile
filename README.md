@@ -1,6 +1,8 @@
 # Bookit Mobile
 
 ![build status](https://concourse.buildit.tools/api/v1/teams/bookit-mobile/pipelines/bookit-mobile/badge "Build Status")
+[![coverage status](https://s3.amazonaws.com/bookit-mobile-artifacts/reports/badge.svg "Coverage Status")](http://bookit-mobile-artifacts.s3-website-us-east-1.amazonaws.com/reports/)
+
 
 A booking app written in React Native.
 
@@ -62,6 +64,9 @@ Android Studio -- Download available [here](https://developer.android.com/studio
   - Android downloads the code in the background so the app has to be restarted in order to see new code.
 - If you have the processors/cores, this will attempt to run both Android and iOS tests simultaneously. Android tests will probably take a bit longer because we have to download the new code and restart the app.
 
+
+## Testing strategy
+See [this doc](/docs/testing-strategy.md) for a detailed explanation of our testing strategy.
 
 ## Expo
 
