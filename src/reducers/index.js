@@ -7,6 +7,7 @@ import bookings from './bookings'
 import createBooking from './createBooking'
 import modal from './modal'
 import token from './token'
+import errors from './errors'
 
 const root = combineReducers({
   selectedLocation,
@@ -16,6 +17,7 @@ const root = combineReducers({
   createBooking,
   modal,
   token,
+  errors,
 })
 
 export default root

@@ -5,10 +5,12 @@ const baseUrl = config.bookitApiBaseUrl
 
 const fetchBookables = (locationId, token) => {
   if (!locationId) {
-    return Promise.reject('fetchBookables() needs a `locationId`')
+    const error = new Error('fetchBookables() needs a `locationId`')
+    return Promise.reject(error)
   }
   if (!token) {
-    return Promise.reject('fetchBookables() needs a jwt to identify the user')
+    const error = new Error('fetchBookables() needs a jwt to identify the user')
+    return Promise.reject(error)
   }
   return axios.get(`${baseUrl}location/${locationId}/bookable`, {
     headers: { Authorization: `Bearer ${token}` },

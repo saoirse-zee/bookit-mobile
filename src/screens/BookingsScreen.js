@@ -19,8 +19,10 @@ class BookingsScreen extends React.Component {
   }
 
   componentDidMount() {
-    const { dispatch, token } = this.props
-    dispatch(fetchBookings(token))
+    const { userExists, dispatch, token } = this.props
+    if (userExists) {
+      dispatch(fetchBookings(token))
+    }
   }
 
   render() {

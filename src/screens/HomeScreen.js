@@ -38,10 +38,17 @@ class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
-    const { location, token, dispatch } = this.props
-    dispatch(fetchLocations(token))
-    dispatch(fetchBookables(location.id, token))
-    dispatch(fetchBookings(token))
+    const {
+      userExists,
+      location,
+      token,
+      dispatch,
+    } = this.props
+    if (userExists) {
+      dispatch(fetchLocations(token))
+      dispatch(fetchBookables(location.id, token))
+      dispatch(fetchBookings(token))
+    }
   }
 
   handleBookitPress = () => {
@@ -61,6 +68,7 @@ class HomeScreen extends React.Component {
     if (!userExists) {
       return (
         <View style={{ marginTop: 90 }}>
+          <RootModal />
           <LoginWarning currentScreen="home screen" />
         </View>
       )

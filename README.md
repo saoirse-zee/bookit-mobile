@@ -4,7 +4,7 @@
 [![coverage status](https://s3.amazonaws.com/bookit-mobile-artifacts/reports/badge.svg "Coverage Status")](http://bookit-mobile-artifacts.s3-website-us-east-1.amazonaws.com/reports/)
 
 
-A booking app written in React Native.
+A booking app written in React Native. Click here to see our [CI Dashboard](http://bookit-mobile-artifacts.s3-website-us-east-1.amazonaws.com/).
 
 ## Getting started
 

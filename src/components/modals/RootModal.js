@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Modal, View, StyleSheet } from 'react-native'
 import { hideModal } from '../../actions'
 import BookingSuccessModal from './BookingSuccessModal'
-import BookingFailureModal from './BookingFailureModal'
+import ErrorModal from './ErrorModal'
 
 const RootModal = ({
   modalType,
@@ -12,7 +12,7 @@ const RootModal = ({
 }) => {
   const MODAL_COMPONENTS = {
     BOOKING_SUCCESS: BookingSuccessModal,
-    BOOKING_FAIL: BookingFailureModal,
+    ERROR: ErrorModal,
   }
 
   if (!modalType) {
@@ -28,7 +28,7 @@ const RootModal = ({
     >
       <View style={styles.modal}>
         <SpecificModal
-          {...modalProps}
+          modalProps={modalProps}
           onOkayPress={() => dispatch(hideModal())}
         />
       </View>

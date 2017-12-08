@@ -1,4 +1,7 @@
 import { DateTime } from 'luxon'
+import { Constants } from 'expo'
+import { showModal } from '../actions/modal'
+import { setError } from '../actions/errors'
 
 export const getBookableNameFromId =
   (bookableId, bookablesArray) => bookablesArray.reduce((result, current) => (
@@ -21,14 +24,6 @@ export const formatDate =
     DateTime.fromISO(date, { zone: zoneName }).toLocaleString(DateTime.DATETIME_FULL)
   )
 
-/* ============== MS Auth Notes from Bookit Web ==============
-
-See:
-  `utils/azure`
-  `utils/auth`
-  `redux/auth`
-
-=============================== */
 export const getMSAuthUrl = (options, redirectUrl) => (
   'https://login.microsoftonline.com/common/oauth2/v2.0/authorize' +
     `?client_id=${options.clientId}` +
@@ -41,3 +36,14 @@ export const getMSAuthUrl = (options, redirectUrl) => (
     `&prompt=${options.prompt}` +
     `&login_hint=${options.loginHint}`
 )
+
+export const isTestMode = () => {
+  const appIsRunningInExpo = Constants.appOwnership === 'expo'
+  const appIsUsingTestConfig = Constants.manifest.name.includes('Local Testing')
+  return appIsRunningInExpo && appIsUsingTestConfig
+}
+
+export const handleError = (dispatch, error) => {
+  dispatch(setError(error))
+  dispatch(showModal({ modalType: 'ERROR' }))
+}
