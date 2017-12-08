@@ -23,8 +23,8 @@ append_datapoint () {
 }
 
 main () {
-  # curl -Lo /usr/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 && chmod +x /usr/bin/jq && \
-  # curl -Lo unit-tests.json "https://s3.amazonaws.com/bookit-mobile-artifacts/test-counts/unit-tests.json"
+  curl -Lo /usr/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 && chmod +x /usr/bin/jq && \
+  curl -Lo unit-tests.json "https://s3.amazonaws.com/bookit-mobile-artifacts/test-counts/unit-tests.json"
   local percent
   percent=$(printf "%0.2f\n" "$(npm run percent-covered -s)") #yarn stupidly has no way to run without logging
   local epoch_time
