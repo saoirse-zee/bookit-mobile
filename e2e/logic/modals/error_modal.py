@@ -7,7 +7,7 @@ from appium import webdriver
 from appium.webdriver.common.touch_action import TouchAction
 import time
 
-class BookingFailureModal:
+class ErrorModal:
   def __init__(self, driver, device_type):
     assert isinstance(driver, webdriver.Remote)
     self.__driver = driver
@@ -17,7 +17,7 @@ class BookingFailureModal:
 
   def is_open(self):
     if self.__device_type == Constants.ios:
-      title = self.__driver.find_elements_by_xpath('//XCUIElementTypeStaticText[@name="Booking Error"]')
+      title = self.__driver.find_elements_by_xpath('//XCUIElementTypeStaticText[@name="There was an error :("]')
       return len(title) == 1
 
   def dimiss(self):

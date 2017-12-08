@@ -6,8 +6,27 @@ import jwtDecode from 'jwt-decode'
 import { ShoutyText } from './StyledText'
 import { idTokenFileUri } from '../../constants/FileSystem'
 import { removeToken } from '../actions'
+import { handleError } from '../utils'
 
 class Logout extends React.Component {
+  state = {
+    userName: 'friend',
+  }
+
+  componentWillMount() {
+    const { idToken, handleTokenError } = this.props
+    let decodedToken
+    try {
+      decodedToken = jwtDecode(idToken)
+    } catch (error) {
+      const tokenError = new Error('There was an error decoding the user id token.')
+      handleTokenError(tokenError)
+    }
+    if (decodedToken) {
+      this.setState({ userName: decodedToken.name })
+    }
+  }
+
   handlePressAsync = () => {
     const blankToken = ''
     FileSystem.writeAsStringAsync(idTokenFileUri, blankToken)
@@ -17,7 +36,7 @@ class Logout extends React.Component {
   }
 
   render() {
-    const { userName } = this.props
+    const { userName } = this.state
     return (
       <View style={styles.container}>
         <View style={{ alignItems: 'center', marginBottom: 30 }}>
@@ -31,20 +50,15 @@ class Logout extends React.Component {
 
 const mapDispatchToProps = dispatch => ({
   logout: () => dispatch(removeToken()),
+  handleTokenError: (tokenError) => {
+    dispatch(removeToken())
+    handleError(dispatch, tokenError)
+  },
 })
 
-const mapStateToProps = (state) => {
-  const idToken = state.token
-  let decodedToken
-  try {
-    decodedToken = jwtDecode(idToken)
-  } catch (error) {
-    throw new Error(`There was an error decoding the Microsoft id token: ${error.message}`)
-  }
-  return {
-    userName: decodedToken.name,
-  }
-}
+const mapStateToProps = state => ({
+  idToken: state.token,
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Logout)
 

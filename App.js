@@ -4,12 +4,14 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import { Platform, StatusBar, StyleSheet, View } from 'react-native'
 import { AppLoading, Asset, Font, FileSystem } from 'expo'
+import jwtDecode from 'jwt-decode'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Ionicons } from '@expo/vector-icons'
 import RootNavigation from './navigation/RootNavigation'
 import root from './src/reducers'
 import { idTokenFileUri } from './constants/FileSystem'
-import { setToken, removeToken } from './src/actions'
+import { setToken, removeToken, setError } from './src/actions'
+import { handleError } from './src/utils'
 
 const naiveLogger = store => next => (action) => {
   console.log('dispatching', action)
@@ -22,7 +24,7 @@ const store = createStore(
   root,
   applyMiddleware(
     thunk,
-    naiveLogger,
+    // naiveLogger,
   ),
 )
 
@@ -49,27 +51,23 @@ export default class App extends React.Component {
         if (getInforesult.exists) {
           return FileSystem.readAsStringAsync(idTokenFileUri)
             .then((token) => {
-              // Check if tokenString format is valid. For now just checking for existence.
               if (token) {
+                // Make sure token format is valid.
+                try {
+                  jwtDecode(token)
+                } catch (error) {
+                  const nicerError = new Error('The JWT retrieved from the device file system was corrupt.')
+                  throw nicerError
+                }
                 // User is already logged in.
                 store.dispatch(setToken(token))
-              } else {
-                // User data is corrupt. Make them login.
-                store.dispatch(removeToken())
               }
             })
         }
-        // User not logged in.
-        store.dispatch(removeToken())
-      })
-      .catch(error => console.log(error)),
+      }),
   ])
 
-  handleLoadingError = (error) => {
-    // In this case, you might want to report the error to your error
-    // reporting service, for example Sentry
-    console.warn(error)
-  }
+  handleLoadingError = error => handleError(store.dispatch, error)
 
   handleFinishLoading = () => {
     this.setState({ isLoadingComplete: true })

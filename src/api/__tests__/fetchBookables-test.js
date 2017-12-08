@@ -3,12 +3,14 @@ import fetchBookables from '../bookable/fetch'
 describe('Bookables fetcher', () => {
   test('rejects if location id parameter is missing', () => {
     expect.assertions(1)
-    return expect(fetchBookables(undefined, 'im.a.jwt')).rejects.toMatch('fetchBookables() needs a `locationId`')
+    const expectedError = new Error('fetchBookables() needs a `locationId`')
+    return expect(fetchBookables(undefined, 'im.a.jwt')).rejects.toEqual(expectedError)
   })
 
   test('rejects if token parameter is missing', () => {
     expect.assertions(1)
-    return expect(fetchBookables('location3')).rejects.toMatch('fetchBookables() needs a jwt to identify the user')
+    const expectedError = new Error('fetchBookables() needs a jwt to identify the user')
+    return expect(fetchBookables('location3')).rejects.toEqual(expectedError)
   })
 
   test('fetches an array of bookables', () => {
