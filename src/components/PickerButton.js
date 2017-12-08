@@ -8,21 +8,22 @@ const PickerButton = ({
   onPress,
   unitsLabel,
 }) => (
-  <View style={styles.button}>
-    <Text style={styles.label}>{label}</Text>
-    <TouchableHighlight onPress={onPress}>
+  <TouchableHighlight style={styles.button} onPress={onPress}>
+    <View style={styles.innerView}>
+      <Text style={styles.label}>{label}</Text>
       <Text style={styles.value}>{unitsLabel ? `${value} ${unitsLabel}` : value}</Text>
-    </TouchableHighlight>
-  </View>
+    </View>
+  </TouchableHighlight>
 )
 
 export default PickerButton
 
 const styles = StyleSheet.create({
   button: {
-    flex: 1,
+    margin: 15,
+  },
+  innerView: {
     flexDirection: 'row',
-    marginBottom: 30,
     alignItems: 'flex-end',
   },
   label: {

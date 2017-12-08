@@ -21,19 +21,19 @@ class Navigation:
     if device_type is not Constants.ios and device_type is not Constants.android:
       raise ValueError('Only "' + Constants.ios + '" and "' + Constants.android + '" are valid device types')
 
-  def goToHome(self):
+  def go_to_home(self):
     if self.__device_type is Constants.ios:
       return self.__driver.find_element_by_name(ios_home_text).click()
     elif self.__device_type is Constants.android:
       return self.__driver.find_element_by_xpath('//' + AndroidMap.text + '[@text="' + android_home_text + '"]').click()
 
-  def goToBookings(self):
+  def go_to_bookings(self):
     if self.__device_type is Constants.ios:
       return self.__driver.find_element_by_name(ios_booking_text).click()
     elif self.__device_type is Constants.android:
       return self.__driver.find_element_by_xpath('//' + AndroidMap.text + '[@text="' + android_booking_text + '"]').click()
 
-  def goToMe(self):
+  def go_to_me(self):
     if self.__device_type is Constants.ios:
       return self.__driver.find_element_by_name(ios_account_text).click()
     elif self.__device_type is Constants.android:

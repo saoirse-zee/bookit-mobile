@@ -4,7 +4,7 @@ import ModalContent from './ModalContent'
 
 const BookingFailureModal = ({ failureReason, onOkayPress }) => (
   <ModalContent
-    title="Oh no."
+    title="Booking Error"
     message={failureReason}
     onOkayPress={onOkayPress}
   />

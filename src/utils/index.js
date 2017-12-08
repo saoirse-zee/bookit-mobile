@@ -38,5 +38,5 @@ export const getMSAuthUrl = (options, redirectUrl) => (
 export const isTestMode = () => {
   const appIsRunningInExpo = Constants.appOwnership === 'expo'
   const appIsUsingTestConfig = Constants.manifest.name.includes('Local Testing')
-  return appIsRunningInExpo && appIsUsingTestConfig
+  return appIsRunningInExpo || appIsUsingTestConfig
 }

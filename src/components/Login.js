@@ -60,7 +60,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(hideModal())
   },
   fakeLogin: () => {
-    dispatch(setToken('Calamity.Jane.will.ride.again'))
+    dispatch(setToken('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE1MTI2ODQyNDAsImV4cCI6MTkyMjkxMTQ0MCwiYXVkIjoiYm9va2l0LW1vYmlsZSIsInN1YiI6IlRoaXMgaXMgdGhlIHRlc3RlciIsIk5hbWUiOiJUZXN0IFVzZXIifQ.Dh8xPwNk9JW_PCumKwKLUskfLre3AW2glxNOKEq663s'))
     dispatch(hideModal())
   },
 })

@@ -24,16 +24,24 @@ class TestSampleE2eIos(unittest.TestCase):
     # Wait for the home button to appear - means app has loaded
     WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, '//XCUIElementTypeOther[contains(@name, "Home")]')))
   
-  def teardown_class(self):
-    self.driver.quit()
+  # def teardown_class(self):
+    # self.driver.quit()
 
-  @pytest.mark.run('first')
-  def test_logs_the_user_in(self):
-    self.app.navigation.goToMe()
-    self.app.account.loginHero()
-    assert(self.app.account.isLoggedIn()) is True
+  def test_01_logs_the_user_in(self):
+    self.app.navigation.go_to_me()
+    self.app.account.login_hero()
+    assert self.app.account.is_logged_in()
+  
+  def test_02_can_book_a_room(self):
+    self.app.navigation.go_to_home()
+    self.booked_meeting_time = self.app.home.select_a_random_meeting_time_in_the_future()
+    self.app.home.select_meeting_length(45)
+    self.app.home.bookit()
+    assert self.app.booking_failure_modal.is_open()
+    self.app.booking_failure_modal.dimiss()
 
-  @pytest.mark.run(after='test_logs_the_user_in')
-  def test_logs_the_user_out(self):
-    self.app.account.logout()
-    assert(self.app.account.isLoggedIn()) is False
+
+  # @pytest.mark.run(after='test_logs_the_user_in')
+  # def test_logs_the_user_out(self):
+  #   self.app.account.logout()
+  #   assert(self.app.account.isLoggedIn()) is False
