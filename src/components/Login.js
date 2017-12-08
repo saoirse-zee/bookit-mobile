@@ -4,9 +4,9 @@ import { connect } from 'react-redux'
 import { AuthSession, FileSystem, Constants } from 'expo'
 import jwtDecode from 'jwt-decode'
 import config from '../../config.json'
-import { getMSAuthUrl, isTestMode } from '../utils'
+import { getMSAuthUrl, isTestMode, handleError } from '../utils'
 import { idTokenFileUri } from '../../constants/FileSystem'
-import { setToken, hideModal } from '../actions'
+import { setToken, removeToken, hideModal } from '../actions'
 
 class Login extends React.Component {
   handleMSLoginPress = async () => {
@@ -14,29 +14,40 @@ class Login extends React.Component {
     const authUrl = getMSAuthUrl(msAuthUrlOptions, authRedirectUrl)
     const returnUrl = Constants.linkingUri
     const result = await AuthSession.startAsync({ authUrl, returnUrl })
+    const { handleLoginError } = this.props
 
-    if (result.type !== 'success') {
-      throw new Error('Failed to auth with Microsoft')
-    }
-    if (result.params.state !== config.msAuthUrlOptions.state) {
-      throw new Error('Possible cross site forgery attack while attempting to auth with Microsoft. Check the `state` key in `config.json`.')
-    }
-    if (!result.params.id_token) {
-      throw new Error('Unexpectedly failed to receive id token from Microsoft.')
-    }
+    let idToken
 
-    const idToken = result.params.id_token
-    // Check that the token is properly formed
     try {
+      if (result.type === 'cancel') {
+        throw new Error('The login process was canceled.')
+      }
+      if (result.type !== 'success') {
+        throw new Error('Failed to auth with Microsoft')
+      }
+
+      if (result.params.state !== config.msAuthUrlOptions.state) {
+        throw new Error('Possible cross site forgery attack while attempting to auth with Microsoft. Check the `state` key in `config.json`.')
+      }
+
+      if (result.params && !result.params.id_token) {
+        throw new Error('Unexpectedly failed to receive id token from Microsoft.')
+      }
+
+      // Check that the token is properly formed
+      idToken = result.params.id_token
       jwtDecode(idToken)
     } catch (error) {
-      throw new Error(`There was an error decoding the Microsoft id token: ${error.message}`)
+      handleLoginError(error)
     }
 
-    FileSystem.writeAsStringAsync(idTokenFileUri, idToken)
-      .then(() => {
-        this.props.setMSIdToken(idToken)
-      })
+    // If idToken exists, we can finally log in
+    if (idToken) {
+      FileSystem.writeAsStringAsync(idTokenFileUri, idToken)
+        .then(() => {
+          this.props.setMSIdToken(idToken)
+        })
+    }
   }
 
   render() {
@@ -62,6 +73,10 @@ const mapDispatchToProps = dispatch => ({
   fakeLogin: () => {
     dispatch(setToken('Calamity.Jane.will.ride.again'))
     dispatch(hideModal())
+  },
+  handleLoginError: (authError) => {
+    dispatch(removeToken())
+    handleError(dispatch, authError)
   },
 })
 

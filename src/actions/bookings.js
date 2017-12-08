@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
 import api from '../api'
 import { RECEIVE_BOOKINGS } from './types'
+import { handleError } from '../utils'
 
 const receiveBookings = json => ({
   type: RECEIVE_BOOKINGS,
@@ -12,3 +13,4 @@ const receiveBookings = json => ({
 export const fetchBookings =
   token => dispatch => api.fetchBookings(token)
     .then(bookings => dispatch(receiveBookings(bookings)))
+    .catch(error => handleError(dispatch, error))

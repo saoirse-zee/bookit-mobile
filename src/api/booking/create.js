@@ -6,11 +6,13 @@ const baseUrl = config.bookitApiBaseUrl
 // eslint-disable-next-line import/prefer-default-export
 const createBooking = (formData, token) => new Promise((resolve, reject) => {
   if (!token) {
-    reject('createBooking() needs a jwt to identify the user')
+    const error = new Error('createBooking() needs a jwt to identify the user')
+    reject(error)
   }
 
   if (!formData) {
-    reject('createBooking() needs booking data')
+    const error = new Error('createBooking() needs booking data')
+    reject(error)
   }
 
   const {
@@ -20,7 +22,8 @@ const createBooking = (formData, token) => new Promise((resolve, reject) => {
   } = formData
 
   if (!selectedBookableId) {
-    reject('Please select something to book.')
+    const error = new Error('Please select something to book.')
+    reject(error)
   }
 
   const end = start.plus(bookingDuration)
@@ -44,7 +47,8 @@ const createBooking = (formData, token) => new Promise((resolve, reject) => {
     })
     .catch(() => {
       // TODO: If server passed error message, we could expose that to the user.
-      reject(new Error('Something went wrong when trying to create the booking.'))
+      const error = new Error('Something went wrong when trying to create the booking.')
+      reject(error)
     })
 })
 
