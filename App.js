@@ -14,9 +14,9 @@ import { setToken, removeToken, setError } from './src/actions'
 import { handleError } from './src/utils'
 
 const naiveLogger = store => next => (action) => {
-  console.log('dispatching', action)
+  // console.log('dispatching', action)
   const result = next(action)
-  console.log('next state', store.getState())
+  // console.log('next state', store.getState())
   return result
 }
 

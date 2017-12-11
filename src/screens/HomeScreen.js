@@ -6,7 +6,7 @@ import {
   FlatList,
 } from 'react-native'
 import { connect } from 'react-redux'
-import { DateTime, Duration, Info } from 'luxon'
+import { DateTime, Duration } from 'luxon'
 
 import {
   fetchLocations,
@@ -138,7 +138,6 @@ const mapStateToProps = (state) => {
   const { selectedLocation, locations, bookables } = state
   // Set Booking defaults
   const start = DateTime.local().plus({ hour: 1 })
-  console.log(' lol wtf???', Info.features())
   const bookingDuration = Duration.fromObject({ minutes: 30 })
 
   return ({
