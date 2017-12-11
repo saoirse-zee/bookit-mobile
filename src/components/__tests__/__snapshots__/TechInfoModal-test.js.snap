@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
+exports[`Technical info modal displays a fallback message when nonce is missing 1`] = `
 <View>
   <Text
     accessible={true}
@@ -57,7 +57,7 @@ exports[`renders correctly 1`] = `
         ]
       }
     >
-      https://staging-bookit-api.buildit.tools/v1/
+      boohoo.com
     </Text>
   </View>
   <View
@@ -96,6 +96,158 @@ exports[`renders correctly 1`] = `
       }
     >
       Nonce has not been set.
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "marginTop": 50,
+        "padding": 20,
+      }
+    }
+  >
+    <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      hasTVPreferredFocus={undefined}
+      hitSlop={undefined}
+      isTVSelectable={true}
+      nativeID={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          Object {
+            "backgroundColor": "transparent",
+          },
+          undefined,
+        ]
+      }
+      testID={undefined}
+      tvParallaxProperties={undefined}
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#4F97FF",
+            "fontSize": 24,
+          }
+        }
+      >
+        Okay
+      </Text>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Technical info modal displays the api url and nonce when these values are provided 1`] = `
+<View>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "color": "#4F97FF",
+        "fontSize": 30,
+        "fontWeight": "bold",
+        "marginBottom": 50,
+      }
+    }
+  >
+    Technical info
+  </Text>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+  />
+  <View
+    style={
+      Object {
+        "marginBottom": 20,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          undefined,
+          Object {
+            "color": "#555555",
+          },
+        ]
+      }
+    >
+      Bookit API
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          undefined,
+          Object {
+            "fontFamily": "space-mono",
+          },
+        ]
+      }
+    >
+      boohoo.com
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "marginBottom": 20,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          undefined,
+          Object {
+            "color": "#555555",
+          },
+        ]
+      }
+    >
+      Nonce
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          undefined,
+          Object {
+            "fontFamily": "space-mono",
+          },
+        ]
+      }
+    >
+      Time to nonce.
     </Text>
   </View>
   <View
