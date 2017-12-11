@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, View, TouchableHighlight, Text } from 'react-native'
+import { LabelText } from './StyledText'
 import colors from '../../constants/Colors'
 
 const PickerButton = ({
@@ -9,7 +10,7 @@ const PickerButton = ({
   unitsLabel,
 }) => (
   <View style={styles.button}>
-    <Text style={styles.label}>{label}</Text>
+    <LabelText style={styles.label}>{label}</LabelText>
     <TouchableHighlight onPress={onPress}>
       <Text style={styles.value}>{unitsLabel ? `${value} ${unitsLabel}` : value}</Text>
     </TouchableHighlight>
@@ -26,7 +27,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   label: {
-    color: '#555555',
     width: 60,
   },
   value: {

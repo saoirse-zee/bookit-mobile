@@ -15,3 +15,12 @@ export const ShoutyText = props => (
     }]}
   />
 )
+
+export const LabelText = props => (
+  <Text
+    {...props}
+    style={[props.style, {
+      color: '#555555',
+    }]}
+  />
+)
