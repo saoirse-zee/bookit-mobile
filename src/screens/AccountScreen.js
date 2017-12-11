@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import Login from '../components/Login'
 import Logout from '../components/Logout'
 import { showModal } from '../actions'
+import config from '../../config.json'
 
 class AccountScreen extends React.Component {
   static navigationOptions = {
@@ -28,11 +29,20 @@ const mapStateToProps = state => ({
   userExists: state.token, // Minimum criteria for existence
 })
 
-const mapDispatchToProps = dispatch => ({
-  showTechInfo: () => {
-    dispatch(showModal({ modalType: 'TECHINFO' }))
-  },
-})
+const mapDispatchToProps = (dispatch) => {
+  const { bookitApiBaseUrl, nonce } = config
+  return ({
+    showTechInfo: () => {
+      dispatch(showModal({
+        modalType: 'TECHINFO',
+        modalProps: {
+          bookitApiBaseUrl,
+          nonce,
+        },
+      }))
+    },
+  })
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountScreen)
 

@@ -2,20 +2,22 @@ import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import ModalContent from './ModalContent'
 import { LabelText, MonoText } from '../StyledText'
-import config from '../../../config.json'
 
-const TechInfoModal = ({ onOkayPress }) => (
+const TechInfoModal = ({
+  modalProps,
+  onOkayPress,
+}) => (
   <ModalContent
     title="Technical info"
     onOkayPress={onOkayPress}
   >
     <View style={styles.section}>
       <LabelText>Bookit API</LabelText>
-      <MonoText>{ config.bookitApiBaseUrl }</MonoText>
+      <MonoText>{ modalProps.bookitApiBaseUrl || 'Url has not been set.' }</MonoText>
     </View>
     <View style={styles.section}>
       <LabelText>Nonce</LabelText>
-      <MonoText>{ config.nonce || 'Nonce has not been set.' }</MonoText>
+      <MonoText>{ modalProps.nonce || 'Nonce has not been set.' }</MonoText>
     </View>
   </ModalContent>
 )
