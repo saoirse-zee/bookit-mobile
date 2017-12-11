@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, View } from 'react-native'
+import { Button, View, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { AuthSession, FileSystem, Constants } from 'expo'
 import jwtDecode from 'jwt-decode'
@@ -53,7 +53,7 @@ class Login extends React.Component {
   render() {
     const { fakeLogin } = this.props
     return (
-      <View>
+      <View style={styles.container}>
         <Button title="Log in with Microsoft" onPress={this.handleMSLoginPress} />
         {
           isTestMode() ?
@@ -81,3 +81,11 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(null, mapDispatchToProps)(Login)
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+})

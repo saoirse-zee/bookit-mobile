@@ -1,6 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
+exports[`renders LabelText correctly 1`] = `
+<Text
+  accessible={true}
+  allowFontScaling={true}
+  ellipsizeMode="tail"
+  style={
+    Array [
+      undefined,
+      Object {
+        "color": "#555555",
+      },
+    ]
+  }
+>
+  Snapshot test!
+</Text>
+`;
+
+exports[`renders MonoText correctly 1`] = `
 <Text
   accessible={true}
   allowFontScaling={true}
@@ -10,6 +28,46 @@ exports[`renders correctly 1`] = `
       undefined,
       Object {
         "fontFamily": "space-mono",
+      },
+    ]
+  }
+>
+  Snapshot test!
+</Text>
+`;
+
+exports[`renders ShoutyText correctly 1`] = `
+<Text
+  accessible={true}
+  allowFontScaling={true}
+  ellipsizeMode="tail"
+  style={
+    Array [
+      undefined,
+      Object {
+        "color": "#555",
+        "fontSize": 32,
+        "marginBottom": 50,
+      },
+    ]
+  }
+>
+  Snapshot test!
+</Text>
+`;
+
+exports[`respects optional styles for LabelText 1`] = `
+<Text
+  accessible={true}
+  allowFontScaling={true}
+  ellipsizeMode="tail"
+  style={
+    Array [
+      Object {
+        "color": "tomato",
+      },
+      Object {
+        "color": "#555555",
       },
     ]
   }
