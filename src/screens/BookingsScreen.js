@@ -19,6 +19,13 @@ class BookingsScreen extends React.Component {
     title: 'Bookings',
   }
 
+  componentWillMount() {
+    const { dispatch, userExists, token } = this.props
+    if (userExists) {
+      dispatch(fetchBookings(token))
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     const { dispatch } = this.props
     if (userHasLoggedIn(this.props, nextProps)) {
@@ -77,7 +84,7 @@ class BookingsScreen extends React.Component {
                 bookableName={bookableName}
                 bookableLocationName={bookableLocationName}
                 location={bookableLocation}
-                // onPressItem={id => console.log(id)}
+                onPressItem={id => console.log(id)}
               />
             )
           }) }

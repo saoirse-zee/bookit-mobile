@@ -38,6 +38,20 @@ class HomeScreen extends React.Component {
     bookingDuration: this.props.bookingDuration,
   }
 
+  componentWillMount() {
+    const {
+      dispatch,
+      userExists,
+      token,
+      location,
+    } = this.props
+    if (userExists) {
+      dispatch(fetchLocations(token))
+      dispatch(fetchBookables(location.id, token))
+      dispatch(fetchBookings(token))
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     const { dispatch } = this.props
     if (userHasLoggedIn(this.props, nextProps)) {
