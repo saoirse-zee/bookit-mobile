@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   label: {
-    color: '#555555',
     width: 60,
   },
   value: {
