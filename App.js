@@ -12,10 +12,6 @@ import root from './src/reducers'
 import { idTokenFileUri } from './constants/FileSystem'
 import { setToken, removeToken, setError } from './src/actions'
 import { handleError } from './src/utils'
-import config from './config.json'
-
-console.log(config)
-
 
 const naiveLogger = store => next => (action) => {
   console.log('dispatching', action)
