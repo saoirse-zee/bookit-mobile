@@ -1,6 +1,5 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
-import { Constants } from 'expo'
 import ModalContent from './ModalContent'
 import { LabelText, MonoText } from '../StyledText'
 import config from '../../../config.json'
@@ -17,10 +16,6 @@ const TechInfoModal = ({ onOkayPress }) => (
     <View style={styles.section}>
       <LabelText>Nonce</LabelText>
       <MonoText>{ config.nonce || 'Nonce has not been set.' }</MonoText>
-    </View>
-    <View style={styles.section}>
-      <LabelText>Session ID</LabelText>
-      <MonoText>{ Constants.sessionId }</MonoText>
     </View>
   </ModalContent>
 )
