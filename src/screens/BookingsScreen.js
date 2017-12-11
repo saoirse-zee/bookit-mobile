@@ -51,11 +51,9 @@ class BookingsScreen extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.updateMessageBox}>
-          { lastUpdated ? (
-            <Text style={styles.updateMessageText}>Last updated: { formattedLastUpdated }</Text>
-          ) : (
-            <Text style={styles.updateMessageText}>Loading...</Text>
-          )}
+          <Text style={styles.updateMessageText}>
+            Last updated: { lastUpdated ? formattedLastUpdated : 'Never' }
+          </Text>
         </View>
 
         <View style={styles.bookings}>
