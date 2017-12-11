@@ -20,6 +20,6 @@ class ErrorModal:
       title = self.__driver.find_elements_by_xpath('//XCUIElementTypeStaticText[@name="There was an error :("]')
       return len(title) == 1
 
-  def dimiss(self):
+  def dismiss(self):
     if self.__device_type == Constants.ios:
       self.__driver.find_element_by_xpath('//XCUIElementTypeOther[@name="Okay"]').click()

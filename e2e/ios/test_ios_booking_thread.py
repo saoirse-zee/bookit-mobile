@@ -29,11 +29,11 @@ class TestSampleE2eIos(unittest.TestCase):
   
   def test_02_can_book_a_room(self):
     self.app.navigation.go_to_home()
-    self.booked_meeting_time = self.app.home.select_a_random_meeting_time_in_the_future()
+    self.booked_meeting_time = self.app.home.select_a_meeting_time_in_the_future()
     self.app.home.select_meeting_length(45)
     self.app.home.bookit()
     assert self.app.error_modal.is_open()
-    self.app.error_modal.dimiss()
+    self.app.error_modal.dismiss()
 
 
   # @pytest.mark.run(after='test_logs_the_user_in')

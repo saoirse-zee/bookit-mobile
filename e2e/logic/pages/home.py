@@ -6,6 +6,7 @@ from ..helpers.ios_time import IosTime
 from appium import webdriver
 from appium.webdriver.common.touch_action import TouchAction
 import time
+import arrow
 
 class Home:
   def __init__(self, driver, device_type):
@@ -27,7 +28,7 @@ class Home:
     if self.__device_type == Constants.ios:
       self.__driver.find_element_by_xpath('//XCUIElementTypeButton[@name="OK"]').click()
 
-  def select_a_random_meeting_time_in_the_future(self):
+  def select_a_meeting_time_in_the_future(self):
     if self.__device_type == Constants.ios:
       self.__click_date_button()
       ios_time = IosTime(self.__driver).sync_self_with_picker()
@@ -52,4 +53,8 @@ class Home:
 
   def select_meeting_time(self, date):
     if self.__device_type == Constants.ios:
-      return pick_ios_date(self.__driver)
+      assert isinstance(date, arrow.Arrow)
+      self.__click_date_button()
+      ios_time = IosTime(self.__driver).set_time(date).sync_picker_with_self()
+      self.__click_ok()
+      return new_time
