@@ -24,7 +24,7 @@ const store = createStore(
   root,
   applyMiddleware(
     thunk,
-    // naiveLogger,
+    naiveLogger,
   ),
 )
 
