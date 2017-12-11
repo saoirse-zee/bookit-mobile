@@ -4,10 +4,27 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 import TechInfoModal from '../modals/TechInfoModal'
 
-it('renders correctly', () => {
-  const tree = renderer.create(<TechInfoModal
-    onOkayPress={() => {}}
-  />).toJSON()
+describe('Technical info modal', () => {
+  it('displays the api url and nonce when these values are provided', () => {
+    const tree = renderer.create(<TechInfoModal
+      modalProps={{
+        bookitApiBaseUrl: 'boohoo.com',
+        nonce: 'Time to nonce.',
+      }}
+      onOkayPress={() => {}}
+    />).toJSON()
 
-  expect(tree).toMatchSnapshot()
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('displays a fallback message when nonce is missing', () => {
+    const tree = renderer.create(<TechInfoModal
+      modalProps={{
+        bookitApiBaseUrl: 'boohoo.com',
+      }}
+      onOkayPress={() => {}}
+    />).toJSON()
+
+    expect(tree).toMatchSnapshot()
+  })
 })
