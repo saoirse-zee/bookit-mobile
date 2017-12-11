@@ -25,11 +25,13 @@ class Login extends React.Component {
       if (result.type !== 'success') {
         throw new Error('Failed to auth with Microsoft')
       }
-
+      if (result.params.error) {
+        const errorMessage = `Failed to auth with Microsoft. Received this error: ${result.params.error}`
+        throw new Error(errorMessage)
+      }
       if (result.params.state !== config.msAuthUrlOptions.state) {
         throw new Error('Possible cross site forgery attack while attempting to auth with Microsoft. Check the `state` key in `config.json`.')
       }
-
       if (result.params && !result.params.id_token) {
         throw new Error('Unexpectedly failed to receive id token from Microsoft.')
       }
