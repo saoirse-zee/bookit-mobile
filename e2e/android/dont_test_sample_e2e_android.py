@@ -7,20 +7,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from ..logic.app import App
+from desired_caps import desired_caps
 
 class TestSampleE2eAndroid(unittest.TestCase):
 
   def setup_class(self):
     with open('../config.json') as data_file:    
       data = json.load(data_file)
-
-    desired_caps = {}
-    desired_caps['platformName'] = 'Android'
-    desired_caps['platformVersion'] = '8.1'
-    desired_caps['deviceName'] = 'Android Emulator'
-    desired_caps['noReset'] = True
-    desired_caps['timeout'] = 90000
-    desired_caps['app'] = 'https://s3.amazonaws.com/bookit-mobile-artifacts/local-testing.apk'
 
     self.driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
     self.app = App(self.driver, desired_caps['platformName'])
@@ -41,16 +34,18 @@ class TestSampleE2eAndroid(unittest.TestCase):
       count = count + 1
     self.app.navigation.goToHome()
   
-  def teardown_class(self):
-    self.driver.quit()
+  # def teardown_class(self):
+  #   self.driver.quit()
 
-  @pytest.mark.run('first')
-  def test_logs_the_user_in(self):
-    self.app.navigation.goToMe()
-    self.app.account.loginHero()
-    assert(self.app.account.isLoggedIn()) is True
-
-  @pytest.mark.run(after='test_logs_the_user_in')
-  def test_logs_the_user_out(self):
-    self.app.account.logout()
-    assert(self.app.account.isLoggedIn()) is False
+  def test_01_logs_the_user_in(self):
+    self.app.navigation.go_to_me()
+    self.app.account.login_hero()
+    assert self.app.account.is_logged_in()
+  
+  def test_02_can_book_a_room(self):
+    self.app.navigation.go_to_home()
+    self.booked_meeting_time = self.app.home.select_a_random_meeting_time_in_the_future()
+    self.app.home.select_meeting_length(45)
+    self.app.home.bookit()
+    assert self.app.error_modal.is_open()
+    self.app.error_modal.dimiss()

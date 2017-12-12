@@ -29,7 +29,7 @@ export const formatDate =
 export const isTestMode = () => {
   const appIsRunningInExpo = Constants.appOwnership === 'expo'
   const appIsUsingTestConfig = Constants.manifest.name.includes('Local Testing')
-  return appIsRunningInExpo && appIsUsingTestConfig
+  return appIsRunningInExpo || appIsUsingTestConfig
 }
 
 export const handleError = (dispatch, error) => {

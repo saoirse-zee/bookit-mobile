@@ -10,7 +10,9 @@ const ModalContent = ({
 }) => (
   <View>
     <Text style={styles.title}>{title}</Text>
-    <Text>{ message }</Text>
+    <View accessibilityLabel="status message">
+      <Text>{ message }</Text>
+    </View>
     { children }
     {
       onOkayPress ? (

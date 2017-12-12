@@ -49,7 +49,7 @@ prepare_tests () {
 	cd workspace && \
   rm -fr ./tests && \
 	source bin/activate && \
-	pip install pytest pytest-sugar pytest-xdist pytest-ordering Appium-Python-Client && \
+	pip install pytest pytest-sugar arrow Appium-Python-Client && \
 	cp -fr ../e2e ./tests
 }
 
@@ -65,7 +65,7 @@ main () {
   check_appium_open && \
   push_new_code "$1" && \
   prepare_tests && \
-  py.test ./tests
+  py.test ./tests -s
   # teardown
 }
 
