@@ -22,7 +22,7 @@ import TimePicker from '../components/TimePicker'
 import DurationPicker from '../components/DurationPicker'
 import RootModal from '../components/modals/RootModal'
 import LoginWarning from '../components/LoginWarning'
-import { userHasLoggedIn } from '../utils'
+import { userHasLoggedIn, isFormValid } from '../utils'
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -134,6 +134,7 @@ class HomeScreen extends React.Component {
         <Button
           label="Bookit"
           onPress={this.handleBookitPress}
+          disabled={!isFormValid(this.state)}
         />
       </View>
     )
