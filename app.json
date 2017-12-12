@@ -24,6 +24,18 @@
     "android": {
       "package": "tools.buildit.bookit.mobile",
     },
-    "scheme": "bookit"
+    "scheme": "bookit",
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "buildit",
+            "project": "booit-mobile",
+            "authToken": "03ec90ccd1b5440a9109990096c0b95a8f72d392d4884ea49eab9dc67e68d92b"
+          }
+        }
+      ]
+    }
   }
 }
