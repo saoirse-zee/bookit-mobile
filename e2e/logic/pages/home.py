@@ -4,7 +4,9 @@ from ..helpers.constants import Constants
 from ..helpers.apple_helpers import writeIosPageSource
 from ..helpers.ios_time import IosTime
 from appium import webdriver
-from appium.webdriver.common.touch_action import TouchAction
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 import time
 import arrow
 
@@ -26,7 +28,7 @@ class Home:
 
   def __click_ok(self):
     if self.__device_type == Constants.ios:
-      self.__driver.find_element_by_xpath('//XCUIElementTypeButton[@name="OK"]').click()
+      return self.__driver.find_element_by_xpath('//XCUIElementTypeButton[@name="OK"]').click()
 
   def select_a_meeting_time_in_the_future(self):
     if self.__device_type == Constants.ios:
@@ -37,8 +39,17 @@ class Home:
       ios_time.set_time(new_time).sync_picker_with_self()
       self.__click_ok()
       return new_time
+  
+  def select_meeting_time(self, date):
+    if self.__device_type == Constants.ios:
+      assert isinstance(date, arrow.Arrow)
+      self.__click_date_button()
+      ios_time = IosTime(self.__driver).set_time(date).sync_picker_with_self()
+      self.__click_ok()
+      return new_time
 
   def select_meeting_length(self, length):
+    assert isinstance(length, int)
     valid_lengths = [15, 30, 45, 60]
     if length not in valid_lengths:
       raise ValueError('Only lengths of 15, 30, 45 and 60 are currently allowed, you provided: ', length)
@@ -47,14 +58,10 @@ class Home:
     wheel.send_keys(str(length) + ' minutes')
     self.__click_ok()
 
+  def select_room(self, room):
+    assert isinstance(room, str)
+    self.__driver.find_element_by_xpath('//XCUIElementTypeOther[@name="' + room + ' Room"]').click()
+
   def bookit(self):
     if self.__device_type == Constants.ios:
       self.__driver.find_element_by_xpath('//XCUIElementTypeOther[@name="Bookit"]').click()
-
-  def select_meeting_time(self, date):
-    if self.__device_type == Constants.ios:
-      assert isinstance(date, arrow.Arrow)
-      self.__click_date_button()
-      ios_time = IosTime(self.__driver).set_time(date).sync_picker_with_self()
-      self.__click_ok()
-      return new_time

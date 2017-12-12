@@ -1,5 +1,5 @@
-from pages import navigation, account, home
-from modals import error_modal
+from pages import navigation, account, home, bookings
+from modals import error_modal, booking_success_modal
 from helpers.constants import Constants
 
 class App:
@@ -14,4 +14,6 @@ class App:
     self.navigation = navigation.Navigation(self.__driver, self.__device_type)
     self.account = account.Account(self.__driver, self.__device_type)
     self.home = home.Home(self.__driver, self.__device_type)
+    self.bookings = bookings.Bookings(self.__driver, self.__device_type)
     self.error_modal = error_modal.ErrorModal(self.__driver, self.__device_type)
+    self.booking_success_modal = booking_success_modal.BookingSuccessModal(self.__driver, self.__device_type)

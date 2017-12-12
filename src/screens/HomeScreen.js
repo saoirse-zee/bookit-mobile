@@ -6,7 +6,6 @@ import {
   FlatList,
 } from 'react-native'
 import { connect } from 'react-redux'
-import { Duration } from 'luxon'
 import moment from 'moment'
 import 'moment-timezone'
 
@@ -93,8 +92,7 @@ class HomeScreen extends React.Component {
 
     const formattedStart =
       this.state.start.format('LT')
-    const formattedBookingDuration =
-      `${this.state.bookingDuration.as('minutes')} minutes`
+    const formattedBookingDuration = `${this.state.bookingDuration} minutes`
     const message = `I want a room in NYC at ${formattedStart} for ${formattedBookingDuration}.`
     return (
       <View style={styles.container}>
@@ -112,7 +110,7 @@ class HomeScreen extends React.Component {
 
           <DurationPicker
             label="Length"
-            initialDuration={this.state.bookingDuration.minutes}
+            initialDuration={this.state.bookingDuration}
             onDurationChange={(value) => {
               this.setState({ bookingDuration: value })
             }}
@@ -146,7 +144,7 @@ const mapStateToProps = (state) => {
   const { selectedLocation, locations, bookables } = state
   // Set Booking defaults
   const start = moment().add(1, 'hours').tz(selectedLocation.timeZone)
-  const bookingDuration = Duration.fromObject({ minutes: 30 })
+  const bookingDuration = 30
 
   return ({
     start,

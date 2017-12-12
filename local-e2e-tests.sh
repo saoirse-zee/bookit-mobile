@@ -65,7 +65,7 @@ main () {
   check_appium_open && \
   push_new_code "$1" && \
   prepare_tests && \
-  py.test ./tests
+  py.test ./tests -s
   # teardown
 }
 
