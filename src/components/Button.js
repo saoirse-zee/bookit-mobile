@@ -4,7 +4,7 @@ import colors from '../../constants/Colors'
 
 const Button = ({ label, onPress, disabled = true }) => (
   <TouchableHighlight
-    onPress={disabled ? onPress : null}
+    onPress={disabled ? null : onPress}
   >
     <View style={
         disabled ?
