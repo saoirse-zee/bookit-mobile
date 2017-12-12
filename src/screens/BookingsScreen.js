@@ -64,7 +64,7 @@ class BookingsScreen extends React.Component {
           </Text>
         </View>
 
-        <View style={styles.bookings}>
+        <View style={styles.bookings} accessibilityLabel="List Of Bookings">
           { bookings.map((booking) => {
             // bookables is only populated after the user has been to the Home screen,
             // and only then with the bookables for `location`

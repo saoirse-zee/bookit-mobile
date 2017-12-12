@@ -8,14 +8,14 @@ describe('Test mode indicator', () => {
     expect(isTestMode()).toBe(true)
   })
 
-  test('returns false when the app is built in Expo "standalone" mode', () => {
+  test('returns true when the app is built in Expo "standalone" mode', () => {
     Constants.appOwnership = 'standalone'
     Constants.manifest.name = 'Local Testing'
-    expect(isTestMode()).toBe(false)
+    expect(isTestMode()).toBe(true)
   })
 
   test('returns false when running with the production configuration', () => {
-    Constants.appOwnership = 'expo'
+    Constants.appOwnership = 'standalone'
     Constants.manifest.name = 'Bookit Mobile'
     expect(isTestMode()).toBe(false)
   })

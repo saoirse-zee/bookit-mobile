@@ -17,11 +17,15 @@ exports[`Technical info modal displays a fallback message when nonce is missing 
   >
     Technical info
   </Text>
-  <Text
-    accessible={true}
-    allowFontScaling={true}
-    ellipsizeMode="tail"
-  />
+  <View
+    accessibilityLabel="status message"
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+    />
+  </View>
   <View
     style={
       Object {
@@ -169,11 +173,15 @@ exports[`Technical info modal displays the api url and nonce when these values a
   >
     Technical info
   </Text>
-  <Text
-    accessible={true}
-    allowFontScaling={true}
-    ellipsizeMode="tail"
-  />
+  <View
+    accessibilityLabel="status message"
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+    />
+  </View>
   <View
     style={
       Object {
