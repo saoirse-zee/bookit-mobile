@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import { Platform, StatusBar, StyleSheet, View } from 'react-native'
 import { AppLoading, Asset, Font, FileSystem } from 'expo'
+import Sentry from 'sentry-expo'
 import jwtDecode from 'jwt-decode'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Ionicons } from '@expo/vector-icons'
@@ -12,6 +13,9 @@ import root from './src/reducers'
 import { idTokenFileUri } from './constants/FileSystem'
 import { setToken, removeToken, setError } from './src/actions'
 import { handleError } from './src/utils'
+
+// We send fatal JS errors to Sentry
+Sentry.config('https://0aaa3429acf3499a94795e52887e82e4@sentry.io/258344').install()
 
 const naiveLogger = store => next => (action) => {
   // console.log('dispatching', action)
