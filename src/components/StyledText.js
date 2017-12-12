@@ -11,7 +11,7 @@ export const ShoutyText = props => (
     style={[props.style, {
       color: '#555',
       fontSize: 32,
-      marginBottom: 50,
+      marginBottom: 10,
     }]}
   />
 )

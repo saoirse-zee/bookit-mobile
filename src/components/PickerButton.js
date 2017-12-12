@@ -20,7 +20,7 @@ export default PickerButton
 
 const styles = StyleSheet.create({
   button: {
-    margin: 15,
+    margin: 5,
   },
   innerView: {
     flexDirection: 'row',

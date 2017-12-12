@@ -47,7 +47,7 @@ exports[`renders ShoutyText correctly 1`] = `
       Object {
         "color": "#555",
         "fontSize": 32,
-        "marginBottom": 50,
+        "marginBottom": 10,
       },
     ]
   }
