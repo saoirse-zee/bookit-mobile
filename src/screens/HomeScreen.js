@@ -21,6 +21,7 @@ import TimePicker from '../components/TimePicker'
 import DurationPicker from '../components/DurationPicker'
 import RootModal from '../components/modals/RootModal'
 import LoginWarning from '../components/LoginWarning'
+import { userHasLoggedIn } from '../utils'
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -37,17 +38,12 @@ class HomeScreen extends React.Component {
     bookingDuration: this.props.bookingDuration,
   }
 
-  componentDidMount() {
-    const {
-      userExists,
-      location,
-      token,
-      dispatch,
-    } = this.props
-    if (userExists) {
-      dispatch(fetchLocations(token))
-      dispatch(fetchBookables(location.id, token))
-      dispatch(fetchBookings(token))
+  componentWillReceiveProps(nextProps) {
+    const { dispatch } = this.props
+    if (userHasLoggedIn(this.props, nextProps)) {
+      dispatch(fetchLocations(nextProps.token))
+      dispatch(fetchBookables(nextProps.location.id, nextProps.token))
+      dispatch(fetchBookings(nextProps.token))
     }
   }
 

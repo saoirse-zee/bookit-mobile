@@ -10,6 +10,7 @@ import {
   getBookableLocationIdFromId,
   getLocationNameFromLocationId,
   getLocationFromLocationId,
+  userHasLoggedIn,
 } from '../utils'
 import colors from '../../constants/Colors'
 
@@ -18,10 +19,10 @@ class BookingsScreen extends React.Component {
     title: 'Bookings',
   }
 
-  componentDidMount() {
-    const { userExists, dispatch, token } = this.props
-    if (userExists) {
-      dispatch(fetchBookings(token))
+  componentWillReceiveProps(nextProps) {
+    const { dispatch } = this.props
+    if (userHasLoggedIn(this.props, nextProps)) {
+      dispatch(fetchBookings(nextProps.token))
     }
   }
 
@@ -51,11 +52,9 @@ class BookingsScreen extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.updateMessageBox}>
-          { lastUpdated ? (
-            <Text style={styles.updateMessageText}>Last updated: { formattedLastUpdated }</Text>
-          ) : (
-            <Text style={styles.updateMessageText}>Loading...</Text>
-          )}
+          <Text style={styles.updateMessageText}>
+            Last updated: { lastUpdated ? formattedLastUpdated : 'Never' }
+          </Text>
         </View>
 
         <View style={styles.bookings}>
