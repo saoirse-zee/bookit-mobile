@@ -1,6 +1,8 @@
 import React from 'react'
 import { Modal, Button, DatePickerIOS, Text, View, StyleSheet } from 'react-native'
-import { DateTime } from 'luxon'
+import moment from 'moment'
+import 'moment-timezone'
+
 import PickerButton from './PickerButton'
 
 const getDate = date => (date ? date.toJSDate() : undefined)
@@ -20,11 +22,7 @@ export default class TimePicker extends React.Component {
       bookableTimeZone,
     } = this.props
     const { date } = this.state
-    const formattedStartTime = date.toLocaleString({
-      hour: 'numeric',
-      minute: '2-digit',
-      timeZoneName: 'short',
-    })
+    const formattedStartTime = date.format('LT zz')
     return (
       <View>
         <PickerButton
@@ -36,10 +34,10 @@ export default class TimePicker extends React.Component {
         <Modal visible={this.state.isPickerVisible}>
           <Text style={styles.title}>{label} time</Text>
           <DatePickerIOS
-            date={this.state.date.toJSDate({ zone: bookableTimeZone })}
-            timeZoneOffsetInMinutes={this.state.date.offset}
+            date={date.toDate()}
+            timeZoneOffsetInMinutes={date.utcOffset()}
             onDateChange={(value) => {
-              const newDate = DateTime.fromJSDate(value, { zone: bookableTimeZone })
+              const newDate = moment(value).tz(bookableTimeZone)
               this.setState({ date: newDate })
             }}
             minuteInterval={15}

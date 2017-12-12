@@ -26,15 +26,17 @@ const createBooking = (formData, token) => new Promise((resolve, reject) => {
     reject(error)
   }
 
-  const end = start.plus(bookingDuration)
-  const formattedStartForAPI = `${start.toFormat('yyyy-MM-dd')}T${start.toFormat('TT')}`
-  const formattedEndForAPI = `${end.toFormat('yyyy-MM-dd')}T${end.toFormat('TT')}`
+  const end = start.clone().add(bookingDuration, 'minutes')
+  const formattedStartForAPI = `${start.format('YYYY-MM-DD')}T${start.format('HH:mm:ss')}`
+  const formattedEndForAPI = `${end.format('YYYY-MM-DD')}T${end.format('HH:mm:ss')}`
   const data = {
     bookableId: selectedBookableId,
     start: formattedStartForAPI,
     end: formattedEndForAPI,
     subject: 'Booked by Bookit Mobile',
   }
+
+
   return axios({
     method: 'post',
     url: `${baseUrl}booking`,

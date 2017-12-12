@@ -1,12 +1,13 @@
-import { DateTime, Duration } from 'luxon'
+import moment from 'moment'
+import 'moment-timezone'
 import createBooking from '../booking/create'
 
 describe('Booking creator', () => {
   test('rejects if token parameter is missing', () => {
     const formData = {
       selectedBookableId: '123',
-      start: DateTime.local().plus({ minutes: 15 }).setZone('America/Denver'),
-      bookingDuration: Duration.fromObject({ minutes: 10 }),
+      start: moment().add(15, 'minutes').tz('America/Denver'),
+      bookingDuration: 10,
     }
     expect.assertions(1)
     const expectedError = new Error('createBooking() needs a jwt to identify the user')
@@ -22,8 +23,8 @@ describe('Booking creator', () => {
   test('rejects if no bookable is specified', () => {
     const formData = {
       selectedBookableId: undefined,
-      start: DateTime.local().plus({ minutes: 15 }).setZone('America/Denver'),
-      bookingDuration: Duration.fromObject({ minutes: 10 }),
+      start: moment().add(15, 'minutes').tz('America/Denver'),
+      bookingDuration: 10,
     }
     expect.assertions(1)
     const expectedError = new Error('Please select something to book.')
@@ -33,8 +34,8 @@ describe('Booking creator', () => {
   test('resolves with the response "data" field on success', () => {
     const formData = {
       selectedBookableId: '123',
-      start: DateTime.local().plus({ minutes: 15 }).setZone('America/Denver'),
-      bookingDuration: Duration.fromObject({ minutes: 10 }),
+      start: moment().add(15, 'minutes').tz('America/Denver'),
+      bookingDuration: 10,
     }
     const expectedResponse = { whatever: 'data the server responds with' }
     expect.assertions(1)

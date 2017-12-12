@@ -6,7 +6,9 @@ import {
   FlatList,
 } from 'react-native'
 import { connect } from 'react-redux'
-import { DateTime, Duration } from 'luxon'
+import { Duration } from 'luxon'
+import moment from 'moment'
+import 'moment-timezone'
 
 import {
   fetchLocations,
@@ -21,6 +23,7 @@ import TimePicker from '../components/TimePicker'
 import DurationPicker from '../components/DurationPicker'
 import RootModal from '../components/modals/RootModal'
 import LoginWarning from '../components/LoginWarning'
+import { userHasLoggedIn } from '../utils'
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -37,17 +40,26 @@ class HomeScreen extends React.Component {
     bookingDuration: this.props.bookingDuration,
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const {
-      userExists,
-      location,
-      token,
       dispatch,
+      userExists,
+      token,
+      location,
     } = this.props
     if (userExists) {
       dispatch(fetchLocations(token))
       dispatch(fetchBookables(location.id, token))
       dispatch(fetchBookings(token))
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { dispatch } = this.props
+    if (userHasLoggedIn(this.props, nextProps)) {
+      dispatch(fetchLocations(nextProps.token))
+      dispatch(fetchBookables(nextProps.location.id, nextProps.token))
+      dispatch(fetchBookings(nextProps.token))
     }
   }
 
@@ -80,10 +92,7 @@ class HomeScreen extends React.Component {
     } = this.props
 
     const formattedStart =
-      this.state.start.toLocaleString({
-        hour: 'numeric',
-        minute: '2-digit',
-      })
+      this.state.start.format('LT')
     const formattedBookingDuration =
       `${this.state.bookingDuration.as('minutes')} minutes`
     const message = `I want a room in NYC at ${formattedStart} for ${formattedBookingDuration}.`
@@ -105,8 +114,7 @@ class HomeScreen extends React.Component {
             label="Length"
             initialDuration={this.state.bookingDuration.minutes}
             onDurationChange={(value) => {
-              const bookingDuration = Duration.fromObject({ minutes: value })
-              this.setState({ bookingDuration })
+              this.setState({ bookingDuration: value })
             }}
           />
 
@@ -138,7 +146,7 @@ const mapStateToProps = (state) => {
   const { selectedLocation, locations, bookables } = state
 
   // Set Booking defaults
-  const start = DateTime.local().plus({ hour: 1 }).setZone(selectedLocation.timeZone)
+  const start = moment().add(1, 'hours').tz(selectedLocation.timeZone)
   const bookingDuration = Duration.fromObject({ minutes: 30 })
 
   return ({

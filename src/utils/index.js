@@ -36,3 +36,8 @@ export const handleError = (dispatch, error) => {
   dispatch(setError(error))
   dispatch(showModal({ modalType: 'ERROR' }))
 }
+
+export const userHasLoggedIn = (currentProps, nextProps) => (
+  nextProps.userExists &&
+    (currentProps.userExists !== nextProps.userExists)
+)
