@@ -13,6 +13,7 @@ const BookingItem = ({
 }) => {
   const start = formatDate(booking.start, location.timeZone)
   const end = formatDate(booking.end, location.timeZone)
+  const owner = booking.user.name
 
   return (
     <TouchableHighlight
@@ -26,6 +27,7 @@ const BookingItem = ({
         <Text style={styles.bookingName}>{bookableName} in {location.name}</Text>
         <Text style={styles.date}>Start: {start}</Text>
         <Text style={styles.date}>End: {end}</Text>
+        <Text style={styles.date}>Booked by: {owner}</Text>
       </View>
     </TouchableHighlight>
   )

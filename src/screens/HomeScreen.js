@@ -6,7 +6,9 @@ import {
   FlatList,
 } from 'react-native'
 import { connect } from 'react-redux'
-import { DateTime, Duration } from 'luxon'
+import { Duration } from 'luxon'
+import moment from 'moment'
+import 'moment-timezone'
 
 import {
   fetchLocations,
@@ -36,6 +38,20 @@ class HomeScreen extends React.Component {
     selectedBookableId: this.props.selectedBookableId,
     start: this.props.start,
     bookingDuration: this.props.bookingDuration,
+  }
+
+  componentWillMount() {
+    const {
+      dispatch,
+      userExists,
+      token,
+      location,
+    } = this.props
+    if (userExists) {
+      dispatch(fetchLocations(token))
+      dispatch(fetchBookables(location.id, token))
+      dispatch(fetchBookings(token))
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -76,10 +92,7 @@ class HomeScreen extends React.Component {
     } = this.props
 
     const formattedStart =
-      this.state.start.toLocaleString({
-        hour: 'numeric',
-        minute: '2-digit',
-      })
+      this.state.start.format('LT')
     const formattedBookingDuration =
       `${this.state.bookingDuration.as('minutes')} minutes`
     const message = `I want a room in NYC at ${formattedStart} for ${formattedBookingDuration}.`
@@ -101,8 +114,7 @@ class HomeScreen extends React.Component {
             label="Length"
             initialDuration={this.state.bookingDuration.minutes}
             onDurationChange={(value) => {
-              const bookingDuration = Duration.fromObject({ minutes: value })
-              this.setState({ bookingDuration })
+              this.setState({ bookingDuration: value })
             }}
           />
 
@@ -133,7 +145,7 @@ class HomeScreen extends React.Component {
 const mapStateToProps = (state) => {
   const { selectedLocation, locations, bookables } = state
   // Set Booking defaults
-  const start = DateTime.local().plus({ hour: 1 })
+  const start = moment().add(1, 'hours').tz(selectedLocation.timeZone)
   const bookingDuration = Duration.fromObject({ minutes: 30 })
 
   return ({
