@@ -2,12 +2,23 @@ import React from 'react'
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native'
 import colors from '../../constants/Colors'
 
-const Button = ({ label, onPress }) => (
+const Button = ({ label, onPress, disabled = true }) => (
   <TouchableHighlight
-    onPress={onPress}
+    onPress={disabled ? null : onPress}
   >
-    <View style={styles.button}>
-      <Text style={styles.buttonLabel}>{label}</Text>
+    <View style={
+        disabled ?
+          [styles.button, styles.disabledButton] :
+          styles.button
+        }
+    >
+      <Text style={
+        disabled ?
+          [styles.buttonLabel, styles.disabledButtonLabel] :
+          styles.buttonLabel
+        }
+      >{label}
+      </Text>
     </View>
   </TouchableHighlight>
 )
@@ -22,9 +33,15 @@ const styles = StyleSheet.create({
     backgroundColor: colors.tintColor,
     padding: 30,
   },
+  disabledButton: {
+    backgroundColor: colors.disabled,
+  },
   buttonLabel: {
     color: 'white',
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  disabledButtonLabel: {
+    color: 'gray',
   },
 })
