@@ -5,7 +5,7 @@
     "slug": "bookit-mobile",
     "privacy": "unlisted",
     "sdkVersion": "23.0.0",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "orientation": "portrait",
     "primaryColor": "#ffffff",
     "icon": "./assets/images/icon.png",
@@ -22,7 +22,7 @@
       }
     },
     "android": {
-      "package": "tools.buildit.bookit.mobile",
+      "package": "tools.buildit.bookit.mobile"
     },
     "scheme": "bookit",
     "hooks": {
