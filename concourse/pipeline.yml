@@ -21,6 +21,7 @@ resources:
   type: npm-cache
   source:
     <<: *repo-source
+    yarn-support: true
     paths:
       - package.json
 - name: slack-alert
