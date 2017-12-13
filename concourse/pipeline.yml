@@ -3,7 +3,7 @@ resource_types:
   - name: npm-cache
     type: docker-image
     source:
-      repository: ymedlop/npm-cache-resource
+      repository: benaychh/npm-dependency-cache
       tag: "latest"
   - name: slack-notification
     type: docker-image
@@ -34,6 +34,7 @@ jobs:
   plan:
     - get: bookit-mobile
       trigger: true
+    - get: dependency-cache
 - name: Lint Bookit-Mobile Code Base
   build_logs_to_retain: 3
   plan:
