@@ -1,5 +1,8 @@
 from ..helpers.constants import Constants
 from ..helpers.booking import Booking
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 from appium import webdriver
 
 class BookingSuccessModal:
@@ -12,6 +15,7 @@ class BookingSuccessModal:
 
   def is_open(self):
     if self.__device_type == Constants.ios:
+      self.wait_for_modal()
       title = self.__driver.find_elements_by_xpath('//XCUIElementTypeStaticText[@name="You booked it!"]')
       return len(title) == 1
 
@@ -22,3 +26,7 @@ class BookingSuccessModal:
   def dismiss(self):
     if self.__device_type == Constants.ios:
       self.__driver.find_element_by_xpath('//XCUIElementTypeOther[@name="Okay"]').click()
+
+  def wait_for_modal(self):
+    if self.__device_type == Constants.ios:
+      WebDriverWait(self.__driver, 5).until(EC.presence_of_element_located((By.XPATH, '//XCUIElementTypeStaticText[@name="You booked it!"]')))
