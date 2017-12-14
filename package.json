@@ -4,7 +4,7 @@
   "scripts": {
     "test": "yarn lint && yarn test:unit",
     "test:unit": "node ./node_modules/jest/bin/jest.js --coverage",
-    "test:unit-watch": "node ./node_modules/jest/bin/jest.js --watch",
+    "test:unit:watch": "node ./node_modules/jest/bin/jest.js --watchAll",
     "lint": "eslint src/",
     "lint:soft": "yarn lint --rule 'no-console: 1'",
     "e2e": "./local-e2e-tests.sh",
@@ -13,6 +13,7 @@
     "percent-covered": "coverage-percentage ./coverage/lcov.info --lcov"
   },
   "jest": {
+    "setupTestFrameworkScriptFile": "./setupTest.js",
     "preset": "jest-expo",
     "coverageReporters": [
       "json",
@@ -50,6 +51,8 @@
   "devDependencies": {
     "babel-eslint": "^8.0.2",
     "coverage-percentage": "^0.0.2",
+    "enzyme": "^3.2.0",
+    "enzyme-adapter-react-16": "^1.1.0",
     "eslint": "^4.11.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-compat": "^2.1.0",
@@ -60,7 +63,8 @@
     "jest-expo": "^23.0.0",
     "lcov-badge-generator": "^1.0.5",
     "pre-commit": "^1.2.2",
-    "pre-push": "^0.1.1"
+    "pre-push": "^0.1.1",
+    "react-dom": "16"
   },
   "precommit": [
     "lint:soft"

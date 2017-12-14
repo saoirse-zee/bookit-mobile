@@ -18,3 +18,4 @@ main () {
 	exp publish "${args[@]}"
 }
 
+main
