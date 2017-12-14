@@ -3,6 +3,7 @@
 get_info () {
   cd "$FOLDER_NAME" || exit
   SHA=$(git rev-parse HEAD)
+  TAG=$(git tag --contains "$SHA")
   SHORT_SHA=$(git rev-parse --short HEAD)
   MESSAGE=$(git show -s --format=%B "$SHA")
   COMMITTER=$(git show -s --format=%ce "$SHA")
@@ -24,6 +25,11 @@ create_attachment () {
         {
           "title": "Commit",
           "value": "<$GIT_COMMIT_URL$SHA|$SHORT_SHA>",
+          "short": true
+        },
+        {
+          "title": "Tag (if applicable)",
+          "value": "<$GIT_TAG_URL$TAG|$TAG>",
           "short": true
         },
         {
