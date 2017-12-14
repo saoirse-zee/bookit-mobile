@@ -131,11 +131,13 @@ class HomeScreen extends React.Component {
 
         </View>
 
-        <Button
-          label="Bookit"
-          onPress={this.handleBookitPress}
-          disabled={!isFormValid(this.state)}
-        />
+        <View style={styles.buttonContainer}>
+          <Button
+            label="Bookit"
+            onPress={this.handleBookitPress}
+            disabled={!isFormValid(this.state)}
+          />
+        </View>
       </View>
     )
   }
@@ -163,10 +165,15 @@ export default connect(mapStateToProps)(HomeScreen)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 80,
-    justifyContent: 'space-between',
+    marginTop: 50,
   },
   formFields: {
+    flex: 4,
     marginLeft: 30,
+    marginBottom: 25,
+  },
+  buttonContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
   },
 })
