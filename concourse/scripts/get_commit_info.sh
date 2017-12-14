@@ -93,7 +93,7 @@ EOL
 
 main () {
   get_info
-  if [ -n "$TAG" ]; then
+  if [ -n "$TAG" ] && [ -n "$GIT_TAG_URL" ]; then
     create_attachment
   else
     create_attachment_without_tag

@@ -36,46 +36,46 @@ jobs:
     - get: bookit-mobile
       trigger: true
     - get: dependency-cache
-# - name: Publish App OTA update
-#   build_logs_to_retain: 3
-#   plan:
-#     - get: bookit-mobile
-#       trigger: true
-#       passed:
-#         - Install Dependencies
-#     - get: dependency-cache
-#     - task: handle dependencies
-#       file: bookit-mobile/concourse/tasks/dependencies.yml
-#       params:
-#         BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_PRODUCTION}}
-#     - task: Publish
-#       params:
-#         EXPO_USERNAME: {{EXPO_USERNAME}}
-#         EXPO_PASSWORD: {{EXPO_PASSWORD}}
-#       file: bookit-mobile/concourse/tasks/publish.yml
-#   on_failure: &failure
-#     do:
-#       - task: Get Commit Info
-#         file: bookit-mobile/concourse/tasks/get_commit_info.yml
-#         params:
-#           GIT_COMMIT_URL: {{GIT_COMMIT_URL}}
-#           BRANCH: {{BRANCH}}
-#           STATUS: FAILED
-#           COLOR: danger
-#           FOLDER_NAME: bookit-mobile
-#           REPORTS_URL: {{REPORTS_URL}}
-#       - put: slack-alert
-#         params:
-#           text: |
-#             Error at step [<https://concourse.buildit.tools/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>]
-#           attachments_file: ./commit_info/attachments.json
-- name: Notify Slack
+- name: Publish App OTA update
   build_logs_to_retain: 3
   plan:
     - get: bookit-mobile
       trigger: true
       passed:
         - Install Dependencies
+    - get: dependency-cache
+    - task: handle dependencies
+      file: bookit-mobile/concourse/tasks/dependencies.yml
+      params:
+        BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_PRODUCTION}}
+    - task: Publish
+      params:
+        EXPO_USERNAME: {{EXPO_USERNAME}}
+        EXPO_PASSWORD: {{EXPO_PASSWORD}}
+      file: bookit-mobile/concourse/tasks/publish.yml
+  on_failure: &failure
+    do:
+      - task: Get Commit Info
+        file: bookit-mobile/concourse/tasks/get_commit_info.yml
+        params:
+          GIT_COMMIT_URL: {{GIT_COMMIT_URL}}
+          BRANCH: {{BRANCH}}
+          STATUS: FAILED
+          COLOR: danger
+          FOLDER_NAME: bookit-mobile
+          REPORTS_URL: {{REPORTS_URL}}
+      - put: slack-alert
+        params:
+          text: |
+            Error at step [<https://concourse.buildit.tools/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|$BUILD_JOB_NAME>]
+          attachments_file: ./commit_info/attachments.json
+- name: Notify Slack
+  build_logs_to_retain: 3
+  plan:
+    - get: bookit-mobile
+      trigger: true
+      passed:
+        - Publish App OTA update
     - task: Get Commit Info
       params:
         GIT_COMMIT_URL: {{GIT_COMMIT_URL}}
