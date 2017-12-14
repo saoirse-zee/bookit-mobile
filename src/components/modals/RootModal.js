@@ -27,6 +27,7 @@ const RootModal = ({
     <Modal
       visible={modalType !== null}
       animationType="fade"
+      onRequestClose={() => dispatch(hideModal())}
     >
       <View style={styles.modal}>
         <SpecificModal

@@ -9,7 +9,9 @@ const fetchBookings = (token) => {
     return Promise.reject(error)
   }
   return axios.get(`${baseUrl}booking/`, {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   })
     .then(response => response.data)
 }

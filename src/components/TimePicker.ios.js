@@ -31,7 +31,10 @@ export default class TimePicker extends React.Component {
           onPress={() => { this.setState({ isPickerVisible: true }) }}
         />
 
-        <Modal visible={this.state.isPickerVisible}>
+        <Modal
+          visible={this.state.isPickerVisible}
+          onRequestClose={() => this.setState({ isPickerVisible: false })}
+        >
           <Text style={styles.title}>{label} time</Text>
           <DatePickerIOS
             date={date.toDate()}

@@ -38,7 +38,7 @@ export default TabNavigator(
             iconName = Platform.OS === 'ios' ? `ios-link${focused ? '' : '-outline'}` : 'md-link'
             break
           case 'Account':
-            iconName = Platform.OS === 'ios' ? `ios-person${focused ? '' : '-outline'}` : 'md-user'
+            iconName = Platform.OS === 'ios' ? `ios-person${focused ? '' : '-outline'}` : 'md-person'
             break
         }
         return (
