@@ -28,7 +28,7 @@ create_attachment () {
           "short": true
         },
         {
-          "title": "Tag (if applicable)",
+          "title": "Tag",
           "value": "<$GIT_TAG_URL$TAG|$TAG>",
           "short": true
         },
@@ -53,9 +53,51 @@ create_attachment () {
 EOL
 }
 
+create_attachment_without_tag () {
+  cat >./commit_info/attachments.json <<EOL
+  [
+    {
+      "title": "Build $STATUS",
+      "color": "$COLOR",
+      "fields": [
+        {
+          "title": "Branch",
+          "value": "$BRANCH",
+          "short": true
+        },
+        {
+          "title": "Commit",
+          "value": "<$GIT_COMMIT_URL$SHA|$SHORT_SHA>",
+          "short": true
+        },
+        {
+          "title": "Committer",
+          "value": "$COMMITTER",
+          "short": true
+        },
+        {
+          "title": "Coverage Reports",
+          "value": "<$REPORTS_URL|Reports>",
+          "short": true
+        },
+        {
+          "title": "Commit Message",
+          "value": "$MESSAGE",
+          "short": false
+        }
+      ]
+    }
+  ]
+EOL
+}
+
 main () {
-  get_info && \
-  create_attachment && \
+  get_info
+  if [ -n "$TAG" ]; then
+    create_attachment
+  else
+    create_attachment_without_tag
+  fi
   cat ./commit_info/attachments.json
 }
 
