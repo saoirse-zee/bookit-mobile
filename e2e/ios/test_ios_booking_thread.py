@@ -12,7 +12,7 @@ from desired_caps import desired_caps
 
 result_from_02_booking = None
 class TestSampleE2eIos(unittest.TestCase):
-  
+
 
   def setup_class(self):
     self.driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
@@ -20,7 +20,7 @@ class TestSampleE2eIos(unittest.TestCase):
 
     # Wait for the home button to appear - means app has loaded
     WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, '//XCUIElementTypeOther[contains(@name, "Home")]')))
-  
+
   def teardown_class(self):
     self.driver.quit()
 
@@ -28,7 +28,7 @@ class TestSampleE2eIos(unittest.TestCase):
     self.app.navigation.go_to_me()
     self.app.account.login_hero()
     assert self.app.account.is_logged_in()
-  
+
   def test_02_can_book_a_room(self):
     self.app.navigation.go_to_home()
     self.booked_meeting_time = self.app.home.select_a_meeting_time_in_the_future()
@@ -37,13 +37,14 @@ class TestSampleE2eIos(unittest.TestCase):
     self.app.home.bookit()
     assert self.app.booking_success_modal.is_open()
     self.app.booking_success_modal.dismiss()
-  
+
   def test_03_bookings_show_up_on_bookings_page(self):
     self.app.navigation.go_to_home()
     self.booked_meeting_time = self.app.home.select_a_meeting_time_in_the_future()
     self.app.home.select_meeting_length(60)
     self.app.home.select_room('Red')
     self.app.home.bookit()
+    self.app.booking_success_modal.wait_for_modal()
     result_from_booking = self.app.booking_success_modal.get_booking()
     self.app.booking_success_modal.dismiss()
     self.app.navigation.go_to_bookings()

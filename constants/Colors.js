@@ -1,4 +1,5 @@
 const tintColor = '#4F97FF'
+const disabled = '#4d4d4d'
 
 export default {
   tintColor,
@@ -11,4 +12,5 @@ export default {
   warningText: '#666804',
   noticeBackground: tintColor,
   noticeText: '#fff',
+  disabled,
 }
