@@ -47,6 +47,9 @@ jobs:
     - task: handle dependencies
       file: bookit-mobile/concourse/tasks/dependencies.yml
       params:
+        MS_AUTH_REDIRECT_URL: https://auth.expo.io/@buildit/bookit-mobile-staging
+        MS_AUTH_STATE: {{MS_AUTH_STATE}}
+        MS_AUTH_CLIENT_ID: {{MS_AUTH_CLIENT_ID}}
         BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_PRODUCTION}}
     - task: Publish
       params:
