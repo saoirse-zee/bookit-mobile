@@ -1,13 +1,13 @@
 {
-  "bookitApiBaseUrl": "https://your-api.com/v1/",
+  "bookitApiBaseUrl": "https://staging-bookit-api.buildit.tools/v1/",
   "msAuthUrlOptions": {
-    "clientId": "12345",
-    "responseType": "token",
-    "nonce": "12345",
+    "clientId": "your client id",
+    "responseType": "id_token token",
+    "nonce": "any randomly generated string",
     "responseMode": "fragment",
     "prompt": "login",
-    "state": "12345",
-    "loginHint": "email%40email"
+    "state": "uniqueish-string-to-prevent-crsf-attack",
+    "loginHint": "email@email"
   },
-  "authRedirectUrl": "exp://auth.expo.io/<@your-org>/<your-app>"
+  "authRedirectUrl": "https://auth.expo.io/@buildit/bookit-mobile"
 }
