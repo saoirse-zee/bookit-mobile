@@ -155,7 +155,9 @@ jobs:
     - task: handle dependencies
       file: bookit-mobile/concourse/tasks/dependencies.yml
       params:
-        BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_PRODUCTION}}
+        BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_STAGING}}
+        MS_AUTH_STATE: {{MS_AUTH_STATE}}
+        MS_AUTH_CLIENT_ID: {{MS_AUTH_CLIENT_ID}}
     - task: Publish
       params:
         EXPO_USERNAME: {{EXPO_USERNAME}}
