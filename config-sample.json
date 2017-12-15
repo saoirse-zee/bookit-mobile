@@ -3,7 +3,7 @@
   "msAuthUrlOptions": {
     "clientId": "your client id",
     "responseType": "id_token token",
-    "nonce": "any randomly generated string",
+    "nonce": "any_randomly_generated_string_without_spaces",
     "responseMode": "fragment",
     "prompt": "login",
     "state": "uniqueish-string-to-prevent-crsf-attack",
