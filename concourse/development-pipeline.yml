@@ -51,6 +51,7 @@ jobs:
         BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_INTEGRATION}}
         MS_AUTH_STATE: {{MS_AUTH_STATE}}
         MS_AUTH_CLIENT_ID: {{MS_AUTH_CLIENT_ID}}
+        MS_AUTH_REDIRECT_URL: https://auth.expo.io/@buildit/bookit-mobile-integration
     - task: lint the project
       file: bookit-mobile/concourse/tasks/lint.yml
   on_failure: &failure
@@ -145,7 +146,7 @@ jobs:
         BINARY: {{IPHONE_S3_BINARY}}
       file: bookit-mobile/concourse/tasks/integration_tests.yml
   on_failure: *failure
-- name: Publish to Beta
+- name: Publish to Staging
   build_logs_to_retain: 3
   plan:
     - get: bookit-mobile
@@ -160,6 +161,7 @@ jobs:
         BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_STAGING}}
         MS_AUTH_STATE: {{MS_AUTH_STATE}}
         MS_AUTH_CLIENT_ID: {{MS_AUTH_CLIENT_ID}}
+        MS_AUTH_REDIRECT_URL: https://auth.expo.io/@buildit/bookit-mobile-staging
     - task: Publish
       params:
         EXPO_USERNAME: {{EXPO_USERNAME}}
@@ -173,7 +175,7 @@ jobs:
     - get: bookit-mobile
       trigger: true
       passed:
-        - Publish to Beta
+        - Publish to Staging
     - task: Get Commit Info
       params:
         GIT_COMMIT_URL: {{GIT_COMMIT_URL}}

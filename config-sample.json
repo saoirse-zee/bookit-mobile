@@ -9,5 +9,5 @@
     "state": "uniqueish-string-to-prevent-crsf-attack",
     "loginHint": "email@email"
   },
-  "authRedirectUrl": "https://auth.expo.io/@buildit/bookit-mobile"
+  "authRedirectUrl": "https://auth.expo.io/@<your username>/<your slug> (probably)"
 }
