@@ -49,6 +49,8 @@ jobs:
       file: bookit-mobile/concourse/tasks/dependencies.yml
       params:
         BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_INTEGRATION}}
+        MS_AUTH_STATE: {{MS_AUTH_STATE}}
+        MS_AUTH_CLIENT_ID: {{MS_AUTH_CLIENT_ID}}
     - task: lint the project
       file: bookit-mobile/concourse/tasks/lint.yml
   on_failure: &failure
