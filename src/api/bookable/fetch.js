@@ -12,7 +12,7 @@ const fetchBookables = (locationId, token) => {
     const error = new Error('fetchBookables() needs a jwt to identify the user')
     return Promise.reject(error)
   }
-  return axios.get(`${baseUrl}location/${locationId}/bookable`, {
+  return axios.get(`${baseUrl}location/${locationId}/bookable?expand=bookings`, {
     headers: { Authorization: `Bearer ${token}` },
   })
     .then(response => response.data)

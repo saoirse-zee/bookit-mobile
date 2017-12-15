@@ -12,6 +12,7 @@ const BookableItem = ({ room, onPressItem, selected }) => (
       room.id === selected ? styles.selected : styles.notSelected]}
     >
       <Text style={styles.roomName}>{room.name}</Text>
+      <Text style={styles.roomName}>{room.available ? 'available' : 'nope'}</Text>
     </View>
   </TouchableHighlight>
 )
