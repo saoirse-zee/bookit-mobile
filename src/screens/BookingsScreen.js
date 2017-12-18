@@ -11,6 +11,7 @@ import {
   getLocationNameFromLocationId,
   getLocationFromLocationId,
   userHasLoggedIn,
+  sortBookings,
 } from '../utils'
 import colors from '../../constants/Colors'
 
@@ -101,7 +102,9 @@ const mapStateToProps = (state) => {
   const { bookings, bookables, locations } = state
   const now = DateTime.local()
   const upcomingBookings =
-    bookings.items.filter(booking => DateTime.fromISO(booking.end) > now)
+    bookings.items
+      .sort(sortBookings)
+      .filter(booking => DateTime.fromISO(booking.end) > now)
 
   return {
     bookings: upcomingBookings,
