@@ -5,6 +5,7 @@ import { setError } from '../actions/errors'
 
 export getMSAuthUrl from './getMSAuthUrl'
 export isFormValid from './isFormValid'
+export getBookablesWithAvailability from './getBookablesWithAvailability'
 
 export const getBookableNameFromId =
   (bookableId, bookablesArray) => bookablesArray.reduce((result, current) => (
