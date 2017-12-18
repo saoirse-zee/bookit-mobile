@@ -161,12 +161,12 @@ jobs:
         BOOKIT_API_BASE_URL: {{BOOKIT_API_BASE_URL_STAGING}}
         MS_AUTH_STATE: {{MS_AUTH_STATE}}
         MS_AUTH_CLIENT_ID: {{MS_AUTH_CLIENT_ID}}
-        MS_AUTH_REDIRECT_URL: https://auth.expo.io/@buildit/bookit-mobile-staging
+        MS_AUTH_REDIRECT_URL: https://auth.expo.io/@buildit/bookit-mobile-staging-1
     - task: Publish
       params:
         EXPO_USERNAME: {{EXPO_USERNAME}}
         EXPO_PASSWORD: {{EXPO_PASSWORD}}
-        RELEASE_CHANNEL: v1-beta
+        CONFIG_FILE: staging.json
       file: bookit-mobile/concourse/tasks/publish.yml
   on_failure: *failure
 - name: Notify Slack

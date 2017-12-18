@@ -22,7 +22,7 @@ import TimePicker from '../components/TimePicker'
 import DurationPicker from '../components/DurationPicker'
 import RootModal from '../components/modals/RootModal'
 import LoginWarning from '../components/LoginWarning'
-import { userHasLoggedIn, isFormValid } from '../utils'
+import { userHasLoggedIn, isFormValid, getBookablesWithAvailability } from '../utils'
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -37,6 +37,8 @@ class HomeScreen extends React.Component {
     selectedBookableId: this.props.selectedBookableId,
     start: this.props.start,
     bookingDuration: this.props.bookingDuration,
+    // eslint-disable-next-line
+    location: this.props.location,
   }
 
   componentWillMount() {
@@ -94,6 +96,9 @@ class HomeScreen extends React.Component {
       this.state.start.format('LT')
     const formattedBookingDuration = `${this.state.bookingDuration} minutes`
     const message = `I want a room in NYC at ${formattedStart} for ${formattedBookingDuration}.`
+    const bookingFormData = this.state
+    const bookablesWithAvailability = getBookablesWithAvailability(bookingFormData, bookables)
+
     return (
       <View style={styles.container}>
         <RootModal />
@@ -117,7 +122,7 @@ class HomeScreen extends React.Component {
           />
 
           <FlatList
-            data={bookables}
+            data={bookablesWithAvailability}
             extraData={this.state}
             renderItem={({ item }) => (
               <BookableItem
@@ -146,8 +151,8 @@ class HomeScreen extends React.Component {
 const mapStateToProps = (state) => {
   const { selectedLocation, locations, bookables } = state
   // Set Booking defaults
-  const start = moment().add(1, 'hours').tz(selectedLocation.timeZone)
-  const bookingDuration = 30
+  const start = moment().add(1, 'hours').startOf('hour').tz(selectedLocation.timeZone)
+  const bookingDuration = 30 // minutes
 
   return ({
     start,
