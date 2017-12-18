@@ -4,14 +4,24 @@ import colors from '../../constants/Colors'
 
 const BookableItem = ({ room, onPressItem, selected }) => (
   <TouchableHighlight
-    onPress={() => onPressItem(room.id)}
+    onPress={() => {
+      if (room.available) {
+        onPressItem(room.id)
+      }
+    }}
     underlayColor="#ddd"
   >
     <View style={[
       styles.room,
-      room.id === selected ? styles.selected : styles.notSelected]}
+      room.id === selected ? styles.selected : styles.notSelected,
+    ]}
     >
-      <Text style={styles.roomName}>{room.name}</Text>
+      <Text style={[
+        styles.roomName,
+        room.available ? null : styles.unavailable,
+      ]}
+      >{room.name}
+      </Text>
     </View>
   </TouchableHighlight>
 )
@@ -26,6 +36,9 @@ const styles = StyleSheet.create({
   },
   roomName: {
     fontSize: 18,
+  },
+  unavailable: {
+    color: '#cccccc',
   },
   bookedBy: {
     fontSize: 10,

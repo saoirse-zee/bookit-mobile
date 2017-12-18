@@ -47,10 +47,13 @@ const createBooking = (formData, token) => new Promise((resolve, reject) => {
       const newBooking = response.data
       resolve(newBooking)
     })
-    .catch(() => {
-      // TODO: If server passed error message, we could expose that to the user.
-      const error = new Error('Something went wrong when trying to create the booking.')
-      reject(error)
+    .catch((error) => {
+      let message = 'Something went wrong when trying to create the booking.'
+      if (error.request && error.request.status === 409) {
+        message = 'Your booking conflicts with another booking.'
+      }
+      const bookingError = new Error(message)
+      reject(bookingError)
     })
 })
 
