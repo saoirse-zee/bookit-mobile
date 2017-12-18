@@ -166,7 +166,6 @@ jobs:
       params:
         EXPO_USERNAME: {{EXPO_USERNAME}}
         EXPO_PASSWORD: {{EXPO_PASSWORD}}
-        RELEASE_CHANNEL: v1-beta
       file: bookit-mobile/concourse/tasks/publish.yml
   on_failure: *failure
 - name: Notify Slack
