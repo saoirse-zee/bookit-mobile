@@ -149,7 +149,11 @@ class HomeScreen extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const { selectedLocation, locations, bookables } = state
+  const { selectedLocation, locations, bookablesByLocation } = state
+
+  // Bookables
+  const { items: bookables } = bookablesByLocation[selectedLocation.id] || { items: [] }
+
   // Set Booking defaults
   const start = moment().add(1, 'hours').startOf('hour').tz(selectedLocation.timeZone)
   const bookingDuration = 30 // minutes

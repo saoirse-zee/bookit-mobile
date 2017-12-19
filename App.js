@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import { Platform, StatusBar, StyleSheet, View } from 'react-native'
 import { AppLoading, Asset, Font, FileSystem } from 'expo'
-import logger from 'redux-logger'
+import { createLogger } from 'redux-logger'
 import Sentry from 'sentry-expo'
 import jwtDecode from 'jwt-decode'
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -18,6 +18,9 @@ import { handleError } from './src/utils'
 // We send fatal JS errors to Sentry
 Sentry.config('https://0aaa3429acf3499a94795e52887e82e4@sentry.io/258344').install()
 
+const logger = createLogger({
+  collapsed: (getState, action) => action.type !== 'REQUEST_BOOKABLES',
+})
 /* eslint-disable no-undef */
 const middleware = [thunk]
 if (__DEV__) {
