@@ -64,7 +64,8 @@
     "lcov-badge-generator": "^1.0.5",
     "pre-commit": "^1.2.2",
     "pre-push": "^0.1.1",
-    "react-dom": "16"
+    "react-dom": "16",
+    "redux-logger": "^3.0.6"
   },
   "precommit": [
     "lint:soft"
