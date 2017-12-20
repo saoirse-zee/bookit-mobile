@@ -24,11 +24,11 @@ const requestBookingsFailed = () => ({
 // eslint-disable-next-line import/prefer-default-export
 export const fetchBookings =
   token => (dispatch) => {
-    requestBookings()
+    dispatch(requestBookings())
     api.fetchBookings(token)
       .then(bookings => dispatch(receiveBookings(bookings)))
       .catch((error) => {
-        requestBookingsFailed()
+        dispatch(requestBookingsFailed())
         handleError(dispatch, error)
       })
   }
