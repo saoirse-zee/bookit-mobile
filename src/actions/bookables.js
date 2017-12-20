@@ -27,7 +27,7 @@ export const fetchBookables =
   (locationId, token) => (dispatch) => {
     dispatch(requestBookables(locationId))
 
-    api.fetchBookables(locationId, token)
+    return api.fetchBookables(locationId, token)
       .then(json => dispatch(receiveBookables(locationId, json)))
       .catch((error) => {
         dispatch(requestBookablesFailed())
