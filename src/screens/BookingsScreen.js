@@ -115,7 +115,7 @@ const mapStateToProps = (state) => {
   return {
     bookings: upcomingBookings,
     bookables,
-    locations,
+    locations: locations.items,
     lastUpdated: state.bookings.lastUpdated,
     userExists: !!((state.token)), // Minimum criteria for existence
     token: state.token,
