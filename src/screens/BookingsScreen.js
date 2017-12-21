@@ -99,7 +99,13 @@ class BookingsScreen extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const { bookings, bookables, locations } = state
+  const {
+    selectedLocation, bookings, bookablesByLocation, locations,
+  } = state
+
+  // Bookables
+  const { items: bookables } = bookablesByLocation[selectedLocation.id] || { items: [] }
+
   const now = DateTime.local()
   const upcomingBookings =
     bookings.items
@@ -109,7 +115,7 @@ const mapStateToProps = (state) => {
   return {
     bookings: upcomingBookings,
     bookables,
-    locations,
+    locations: locations.items,
     lastUpdated: state.bookings.lastUpdated,
     userExists: !!((state.token)), // Minimum criteria for existence
     token: state.token,
