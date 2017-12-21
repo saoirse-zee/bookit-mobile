@@ -37,11 +37,9 @@ describe('isMakingNetworkRequest', () => {
       },
     }
     const error = new Error('The params supplied to isMakingNetworkRequest is invalid. Make sure Redux state includes bookings, locations, and bookablesByLocation.')
-
     function tryToGetNetworkActivityStatus() {
       isMakingNetworkRequest(reduxState)
     }
-
     expect(tryToGetNetworkActivityStatus).toThrow(error)
   })
 })

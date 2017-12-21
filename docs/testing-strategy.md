@@ -29,9 +29,15 @@ Example: `src/utils/__tests__/userHasLoggedIn.js`
 
 
 ### Function with side effects
-Use Jest mocks for functions that have side effects, such as throwing errors or dispatching actions. You can then inspect the behavior of the mocks to make sure the side effect happened as expected.
+Use Jest mocks for functions that have side effects, such as dispatching actions. You can then inspect the behavior of the mocks to make sure the side effect happened as expected.
 
 Example: `src/utils/__tests__/handleError-test.js`
+
+
+### Testing for thrown errors
+Sometimes we throw our own errors. We test them by wrapping them in a dummy function, then looking for the error thrown by the dummy.
+
+Example: `src/utils/isMakingNetworkRequest-test.js`
 
 
 ### Functions that call external APIs
