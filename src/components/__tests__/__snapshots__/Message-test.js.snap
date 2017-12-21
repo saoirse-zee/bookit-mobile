@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Message box displays the given message 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#4F97FF",
+      "marginBottom": 30,
+      "padding": 10,
+      "paddingLeft": 30,
+    }
+  }
+>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "color": "white",
+      }
+    }
+  >
+    Hey there, friend.
+  </Text>
+</View>
+`;
+
+exports[`Message box returns nothing when message prop is missing 1`] = `null`;
