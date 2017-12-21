@@ -7,6 +7,7 @@ export getMSAuthUrl from './getMSAuthUrl'
 export isFormValid from './isFormValid'
 export getBookablesWithAvailability from './getBookablesWithAvailability'
 export sortBookings from './sortBookings'
+export isMakingNetworkRequest from './isMakingNetworkRequest'
 
 export const getBookableNameFromId =
   (bookableId, bookablesArray) => bookablesArray.reduce((result, current) => (

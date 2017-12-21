@@ -12,6 +12,7 @@ import {
   getLocationFromLocationId,
   userHasLoggedIn,
   sortBookings,
+  isMakingNetworkRequest,
 } from '../utils'
 import colors from '../../constants/Colors'
 
@@ -106,6 +107,8 @@ const mapStateToProps = (state) => {
   // Bookables
   const { items: bookables } = bookablesByLocation[selectedLocation.id] || { items: [] }
 
+  const isMakingNetworkRequestOhYeah = isMakingNetworkRequest(state)
+
   const now = DateTime.local()
   const upcomingBookings =
     bookings.items
@@ -119,6 +122,7 @@ const mapStateToProps = (state) => {
     lastUpdated: state.bookings.lastUpdated,
     userExists: !!((state.token)), // Minimum criteria for existence
     token: state.token,
+    isMakingNetworkRequest: isMakingNetworkRequestOhYeah,
   }
 }
 
