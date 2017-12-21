@@ -23,7 +23,7 @@ const requestLocationsFailed = () => ({
 export const fetchLocations =
   token => (dispatch) => {
     dispatch(requestLocations())
-    api.fetchLocations(token)
+    return api.fetchLocations(token)
       .then(locations => dispatch(receiveLocations(locations)))
       .catch((error) => {
         dispatch(requestLocationsFailed())
