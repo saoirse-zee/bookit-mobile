@@ -25,7 +25,7 @@ const requestBookingsFailed = () => ({
 export const fetchBookings =
   token => (dispatch) => {
     dispatch(requestBookings())
-    api.fetchBookings(token)
+    return api.fetchBookings(token)
       .then(bookings => dispatch(receiveBookings(bookings)))
       .catch((error) => {
         dispatch(requestBookingsFailed())
