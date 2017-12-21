@@ -1,9 +1,10 @@
 import React from 'react'
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import { Platform, StatusBar, StyleSheet, View } from 'react-native'
 import { AppLoading, Asset, Font, FileSystem } from 'expo'
+import { createLogger } from 'redux-logger'
 import Sentry from 'sentry-expo'
 import jwtDecode from 'jwt-decode'
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -17,19 +18,19 @@ import { handleError } from './src/utils'
 // We send fatal JS errors to Sentry
 Sentry.config('https://0aaa3429acf3499a94795e52887e82e4@sentry.io/258344').install()
 
-const naiveLogger = store => next => (action) => {
-  // console.log('dispatching', action)
-  const result = next(action)
-  // console.log('next state', store.getState())
-  return result
+const logger = createLogger({
+  collapsed: (getState, action) => action.type !== 'REQUEST_BOOKABLES',
+})
+/* eslint-disable no-undef */
+const middleware = [thunk]
+if (__DEV__) {
+  middleware.push(logger)
 }
+/* eslint-enable */
 
 const store = createStore(
   root,
-  applyMiddleware(
-    thunk,
-    naiveLogger,
-  ),
+  applyMiddleware(...middleware),
 )
 
 export default class App extends React.Component {

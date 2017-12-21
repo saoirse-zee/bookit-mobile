@@ -21,7 +21,10 @@ const BookingSuccessModal = ({
 }
 
 const mapStateToProps = (state) => {
-  const { createBooking, bookables, selectedLocation } = state
+  const { createBooking, bookablesByLocation, selectedLocation } = state
+
+  const { items: bookables } = bookablesByLocation[selectedLocation.id] || { items: [] }
+
   const { newBooking } = createBooking
   const { bookableId, start, end } = newBooking
   const bookableName = getBookableNameFromId(bookableId, bookables)

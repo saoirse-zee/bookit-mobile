@@ -11,6 +11,7 @@ import {
   getLocationNameFromLocationId,
   getLocationFromLocationId,
   userHasLoggedIn,
+  sortBookings,
 } from '../utils'
 import colors from '../../constants/Colors'
 
@@ -98,15 +99,23 @@ class BookingsScreen extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const { bookings, bookables, locations } = state
+  const {
+    selectedLocation, bookings, bookablesByLocation, locations,
+  } = state
+
+  // Bookables
+  const { items: bookables } = bookablesByLocation[selectedLocation.id] || { items: [] }
+
   const now = DateTime.local()
   const upcomingBookings =
-    bookings.items.filter(booking => DateTime.fromISO(booking.end) > now)
+    bookings.items
+      .sort(sortBookings)
+      .filter(booking => DateTime.fromISO(booking.end) > now)
 
   return {
     bookings: upcomingBookings,
     bookables,
-    locations,
+    locations: locations.items,
     lastUpdated: state.bookings.lastUpdated,
     userExists: !!((state.token)), // Minimum criteria for existence
     token: state.token,
