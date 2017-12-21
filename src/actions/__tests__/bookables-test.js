@@ -16,7 +16,9 @@ describe('Bookables fetch action', () => {
     return store.dispatch(fetchBookables('LONDON-67', 'this.fake.jwt'))
       .then(() => {
         const actions = store.getActions()
-        expect(actions[0]).toEqual({
+        const firstAction = actions[0]
+
+        expect(firstAction).toEqual({
           type: REQUEST_BOOKABLES,
           locationId: 'LONDON-67',
         })
@@ -28,7 +30,9 @@ describe('Bookables fetch action', () => {
     return store.dispatch(fetchBookables('LONDON-67', 'this.fake.jwt'))
       .then(() => {
         const actions = store.getActions()
-        expect(actions[1]).toEqual({
+        const secondAction = actions[1]
+
+        expect(secondAction).toEqual({
           type: RECEIVE_BOOKABLES,
           locationId: 'LONDON-67',
           bookables: [1, 2, 3], // Mock data defined in `src/api/mocks/axios.js`
@@ -42,7 +46,9 @@ describe('Bookables fetch action', () => {
     return store.dispatch(fetchBookables(oopsForgotToDefineLocation, 'this.fake.jwt'))
       .then(() => {
         const actions = store.getActions()
-        expect(actions[1]).toEqual({
+        const secondAction = actions[1]
+
+        expect(secondAction).toEqual({
           type: REQUEST_BOOKABLES_FAILED,
           locationId: undefined,
         })
