@@ -1,9 +1,10 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { DateTime } from 'luxon'
 import BookingItem from '../components/BookingItem'
 import LoginWarning from '../components/LoginWarning'
+import BookingScreenMessage from '../components/BookingScreenMessage'
 import { fetchBookings } from '../actions'
 import {
   getBookableNameFromId,
@@ -13,7 +14,6 @@ import {
   userHasLoggedIn,
   sortBookings,
 } from '../utils'
-import colors from '../../constants/Colors'
 
 class BookingsScreen extends React.Component {
   static navigationOptions = {
@@ -35,35 +35,23 @@ class BookingsScreen extends React.Component {
   }
 
   render() {
-    // "Protect" this screen, naively.
-    const { userExists } = this.props
+    const {
+      userExists,
+      bookings,
+      bookables,
+      locations,
+    } = this.props
 
+    // "Protect" this screen, naively.
     if (!userExists) {
       return (
         <LoginWarning currentScreen="Bookings" />
       )
     }
 
-    const {
-      bookings,
-      bookables,
-      locations,
-      lastUpdated,
-    } = this.props
-
-    const formattedLastUpdated = lastUpdated && lastUpdated.toLocaleString({
-      hour: 'numeric',
-      minute: '2-digit',
-      timeZoneName: 'short',
-    })
-
     return (
       <View style={styles.container}>
-        <View style={styles.updateMessageBox}>
-          <Text style={styles.updateMessageText}>
-            Last updated: { lastUpdated ? formattedLastUpdated : 'Never' }
-          </Text>
-        </View>
+        <BookingScreenMessage />
 
         <View style={styles.bookings} accessibilityLabel="List Of Bookings">
           { bookings.map((booking) => {
@@ -116,7 +104,6 @@ const mapStateToProps = (state) => {
     bookings: upcomingBookings,
     bookables,
     locations: locations.items,
-    lastUpdated: state.bookings.lastUpdated,
     userExists: !!((state.token)), // Minimum criteria for existence
     token: state.token,
   }
@@ -130,14 +117,5 @@ const styles = StyleSheet.create({
   },
   bookings: {
     paddingLeft: 30,
-  },
-  updateMessageBox: {
-    backgroundColor: colors.tintColor,
-    padding: 10,
-    paddingLeft: 30,
-    marginBottom: 30,
-  },
-  updateMessageText: {
-    color: 'white',
   },
 })

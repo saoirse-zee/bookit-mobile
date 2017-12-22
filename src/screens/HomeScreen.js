@@ -1,4 +1,3 @@
-
 import React from 'react'
 import {
   StyleSheet,
@@ -8,7 +7,6 @@ import {
 import { connect } from 'react-redux'
 import moment from 'moment'
 import 'moment-timezone'
-
 import {
   fetchLocations,
   fetchBookables,
@@ -22,6 +20,7 @@ import TimePicker from '../components/TimePicker'
 import DurationPicker from '../components/DurationPicker'
 import RootModal from '../components/modals/RootModal'
 import LoginWarning from '../components/LoginWarning'
+import HomeScreenMessage from '../components/HomeScreenMessage'
 import { userHasLoggedIn, isFormValid, getBookablesWithAvailability } from '../utils'
 
 class HomeScreen extends React.Component {
@@ -75,9 +74,13 @@ class HomeScreen extends React.Component {
   }
 
   render() {
-    // "Protect" this screen, naively.
-    const { userExists } = this.props
+    const {
+      userExists,
+      location,
+      bookables,
+    } = this.props
 
+    // "Protect" this screen, naively.
     if (!userExists) {
       return (
         <View style={{ marginTop: 90 }}>
@@ -86,11 +89,6 @@ class HomeScreen extends React.Component {
         </View>
       )
     }
-
-    const {
-      location,
-      bookables,
-    } = this.props
 
     const formattedStart =
       this.state.start.format('LT')
@@ -102,6 +100,7 @@ class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         <RootModal />
+        <HomeScreenMessage />
         <View style={styles.formFields}>
           <ShoutyText>{ message }</ShoutyText>
           <TimePicker
