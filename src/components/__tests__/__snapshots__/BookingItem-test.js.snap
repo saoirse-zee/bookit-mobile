@@ -64,7 +64,7 @@ exports[`BookingItem displays the given booking 1`] = `
       }
     >
       Start: 
-      December 13, 2017, 8:30 AM PST
+      January 13, 1996, 2:30 PM PST
     </Text>
     <Text
       accessible={true}
@@ -77,7 +77,7 @@ exports[`BookingItem displays the given booking 1`] = `
       }
     >
       End: 
-      December 13, 2017, 9:30 AM PST
+      January 13, 1996, 3:15 PM PST
     </Text>
     <Text
       accessible={true}
@@ -160,7 +160,7 @@ exports[`BookingItem hides the owner name if the owner is not given 1`] = `
       }
     >
       Start: 
-      December 13, 2017, 8:30 AM PST
+      January 13, 1996, 2:30 PM PST
     </Text>
     <Text
       accessible={true}
@@ -173,7 +173,7 @@ exports[`BookingItem hides the owner name if the owner is not given 1`] = `
       }
     >
       End: 
-      December 13, 2017, 9:30 AM PST
+      January 13, 1996, 3:15 PM PST
     </Text>
   </View>
 </View>
@@ -243,7 +243,7 @@ exports[`BookingItem highlights a selected booking by coloring the left border b
       }
     >
       Start: 
-      December 13, 2017, 8:30 AM PST
+      January 13, 1996, 2:30 PM PST
     </Text>
     <Text
       accessible={true}
@@ -256,7 +256,7 @@ exports[`BookingItem highlights a selected booking by coloring the left border b
       }
     >
       End: 
-      December 13, 2017, 9:30 AM PST
+      January 13, 1996, 3:15 PM PST
     </Text>
     <Text
       accessible={true}

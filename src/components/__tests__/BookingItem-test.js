@@ -1,6 +1,5 @@
 import 'react-native'
 import React from 'react'
-import { DateTime } from 'luxon'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import renderer from 'react-test-renderer'
 import BookingItem from '../BookingItem'
@@ -19,18 +18,8 @@ describe('BookingItem', () => {
           timeZone: 'America/Los_Angeles',
         },
       },
-      start: DateTime.fromObject({
-        day: 13,
-        hour: 8,
-        minute: 30,
-        zone: 'America/Los_Angeles',
-      }),
-      end: DateTime.fromObject({
-        day: 13,
-        hour: 9,
-        minute: 30,
-        zone: 'America/Los_Angeles',
-      }),
+      start: '1996-01-13T14:30',
+      end: '1996-01-13T15:15',
       user: {
         name: 'Johnny Popsqueak',
       },
