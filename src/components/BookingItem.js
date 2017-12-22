@@ -3,14 +3,13 @@ import { StyleSheet, Text, View, TouchableHighlight } from 'react-native'
 import { formatDate } from '../utils'
 import colors from '../../constants/Colors'
 
-
 const BookingItem = ({
   booking,
-  location,
-  bookableName,
   onPressItem,
   selected,
 }) => {
+  const { bookable } = booking
+  const { location } = booking.bookable
   const start = formatDate(booking.start, location.timeZone)
   const end = formatDate(booking.end, location.timeZone)
   const ownerName = booking.user ? booking.user.name : undefined
@@ -24,7 +23,7 @@ const BookingItem = ({
         styles.booking,
         booking.id === selected ? styles.selected : styles.notSelected]}
       >
-        <Text style={styles.bookingName}>{bookableName} in {location.name}</Text>
+        <Text style={styles.bookingName}>{bookable.name} in {location.name}</Text>
         <Text style={styles.date}>Start: {start}</Text>
         <Text style={styles.date}>End: {end}</Text>
         {
