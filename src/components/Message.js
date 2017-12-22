@@ -1,26 +1,41 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, TouchableHighlight } from 'react-native'
 import colors from '../../constants/Colors'
 
-const Message = ({ message }) => (
-  message ? (
-    <View style={styles.container}>
-      <Text style={styles.text}>
-        { message }
-      </Text>
-    </View>
-  ) : null
+const Message = ({ message, onPress, buttonLabel }) => (
+  <View style={message ? styles.container : [styles.container, styles.emptyContainer]}>
+    <Text style={styles.text}>
+      { message }
+    </Text>
+    {
+      onPress ? (
+        <TouchableHighlight
+          onPress={onPress}
+          underlayColor={colors.tintColorDarkened}
+        >
+          <Text style={styles.text}>{buttonLabel}</Text>
+        </TouchableHighlight>
+      ) : null
+    }
+  </View>
 )
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.tintColor,
-    padding: 10,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    maxHeight: 40,
     paddingLeft: 30,
-    marginBottom: 30,
+    backgroundColor: colors.tintColor,
+  },
+  emptyContainer: {
+    backgroundColor: undefined,
   },
   text: {
     color: 'white',
+    padding: 10,
   },
 })
 
