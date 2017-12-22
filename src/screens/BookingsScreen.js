@@ -9,6 +9,7 @@ import { fetchBookings } from '../actions'
 import {
   userHasLoggedIn,
   sortBookings,
+  formatDate,
 } from '../utils'
 
 class BookingsScreen extends React.Component {
@@ -48,16 +49,39 @@ class BookingsScreen extends React.Component {
         <BookingScreenMessage />
 
         <View style={styles.bookings} accessibilityLabel="List Of Bookings">
-          { bookings.map(booking => (
-            <BookingItem
-              key={`booking-${booking.id}`}
-              booking={booking}
-              onPressItem={(id) => {
-                // eslint-disable-next-line
-                console.log(id)
-              }}
-            />
-          )) }
+          { bookings.map((booking) => {
+            const {
+                id,
+                bookable,
+                user,
+                start,
+                end,
+              } = booking
+            const { location } = booking.bookable
+            const locationName = location.name
+            const bookableName = bookable.name
+            const ownerName = user && user.name
+            const formattedStart = formatDate(start, location.timeZone)
+            const formattedEnd = formatDate(end, location.timeZone)
+            const sanitizedBooking = {
+              id,
+              formattedStart,
+              formattedEnd,
+              ownerName,
+              bookableName,
+              locationName,
+            }
+            return (
+              <BookingItem
+                key={`booking-${booking.id}`}
+                booking={sanitizedBooking}
+                onPressItem={(_id) => {
+                  // eslint-disable-next-line
+                  console.log(_id)
+                }}
+              />
+            )
+          }) }
         </View>
       </View>
     )

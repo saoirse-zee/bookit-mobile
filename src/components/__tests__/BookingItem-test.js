@@ -11,18 +11,11 @@ describe('BookingItem', () => {
   beforeEach(() => {
     booking = {
       id: 'BOOKING-ID-44',
-      bookable: {
-        location: {
-          name: 'NYC',
-          id: 'NYC-17',
-          timeZone: 'America/Los_Angeles',
-        },
-      },
-      start: '1996-01-13T14:30',
-      end: '1996-01-13T15:15',
-      user: {
-        name: 'Johnny Popsqueak',
-      },
+      formattedStart: 'January 1, 2017 2:30 PM PST',
+      formattedEnd: 'January 1, 2017 3:15 PM PST',
+      ownerName: 'Johnny Popsqueak',
+      bookableName: 'Leica FaceZoomer XLT-Max',
+      locationName: 'NYC',
     }
   })
 
@@ -51,7 +44,7 @@ describe('BookingItem', () => {
   })
 
   it('hides the owner name if the owner is not given', () => {
-    booking.user = undefined
+    booking.ownerName = undefined
     const component = (
       <BookingItem
         booking={booking}
