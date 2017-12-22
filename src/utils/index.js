@@ -8,6 +8,7 @@ export isFormValid from './isFormValid'
 export getBookablesWithAvailability from './getBookablesWithAvailability'
 export sortBookings from './sortBookings'
 export isMakingNetworkRequest from './isMakingNetworkRequest'
+export getSanitizedBooking from './getSanitizedBooking'
 
 export const formatDate =
   (date, zoneName) => (
