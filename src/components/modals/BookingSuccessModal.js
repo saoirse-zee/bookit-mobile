@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import ModalContent from './ModalContent'
-import { formatDate, getBookableNameFromId } from '../../utils'
+import { getSanitizedBooking } from '../../utils'
 
 const BookingSuccessModal = ({
   bookableName,
@@ -21,18 +21,21 @@ const BookingSuccessModal = ({
 }
 
 const mapStateToProps = (state) => {
-  const { createBooking, bookables, selectedLocation } = state
+  const { createBooking } = state
   const { newBooking } = createBooking
-  const { bookableId, start, end } = newBooking
-  const bookableName = getBookableNameFromId(bookableId, bookables)
-  const formattedStart = formatDate(start, selectedLocation.timeZone)
-  const formattedEnd = formatDate(end, selectedLocation.timeZone)
+  const sanitizedBooking = getSanitizedBooking(newBooking)
+  const {
+    bookableName,
+    formattedStart,
+    formattedEnd,
+    locationName,
+  } = sanitizedBooking
 
   return {
     bookableName,
     formattedStart,
     formattedEnd,
-    locationName: selectedLocation.name,
+    locationName,
   }
 }
 

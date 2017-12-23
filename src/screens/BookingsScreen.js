@@ -1,18 +1,16 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { DateTime } from 'luxon'
 import BookingItem from '../components/BookingItem'
 import LoginWarning from '../components/LoginWarning'
+import BookingScreenMessage from '../components/BookingScreenMessage'
 import { fetchBookings } from '../actions'
 import {
-  getBookableNameFromId,
-  getBookableLocationIdFromId,
-  getLocationNameFromLocationId,
-  getLocationFromLocationId,
   userHasLoggedIn,
+  sortBookings,
+  getSanitizedBooking,
 } from '../utils'
-import colors from '../../constants/Colors'
 
 class BookingsScreen extends React.Component {
   static navigationOptions = {
@@ -34,63 +32,33 @@ class BookingsScreen extends React.Component {
   }
 
   render() {
-    // "Protect" this screen, naively.
-    const { userExists } = this.props
+    const {
+      userExists,
+      bookings,
+    } = this.props
 
+    // "Protect" this screen, naively.
     if (!userExists) {
       return (
         <LoginWarning currentScreen="Bookings" />
       )
     }
 
-    const {
-      bookings,
-      bookables,
-      locations,
-      lastUpdated,
-    } = this.props
-
-    const formattedLastUpdated = lastUpdated && lastUpdated.toLocaleString({
-      hour: 'numeric',
-      minute: '2-digit',
-      timeZoneName: 'short',
-    })
-
     return (
       <View style={styles.container}>
-        <View style={styles.updateMessageBox}>
-          <Text style={styles.updateMessageText}>
-            Last updated: { lastUpdated ? formattedLastUpdated : 'Never' }
-          </Text>
-        </View>
+        <BookingScreenMessage />
 
         <View style={styles.bookings} accessibilityLabel="List Of Bookings">
-          { bookings.map((booking) => {
-            // bookables is only populated after the user has been to the Home screen,
-            // and only then with the bookables for `location`
-            // This works, for now, but need a more robust scheme.
-            const bookableName =
-              getBookableNameFromId(booking.bookableId, bookables)
-            const bookableLocationId =
-              getBookableLocationIdFromId(booking.bookableId, bookables)
-            const bookableLocationName =
-              getLocationNameFromLocationId(bookableLocationId, locations)
-            const bookableLocation =
-              getLocationFromLocationId(bookableLocationId, locations)
-            return (
-              <BookingItem
-                key={`booking-${booking.id}`}
-                booking={booking}
-                bookableName={bookableName}
-                bookableLocationName={bookableLocationName}
-                location={bookableLocation}
-                onPressItem={(id) => {
+          { bookings.map(booking => (
+            <BookingItem
+              key={`booking-${booking.id}`}
+              booking={booking}
+              onPressItem={(_id) => {
                   // eslint-disable-next-line
-                  console.log(id)
+                  console.log(_id)
                 }}
-              />
-            )
-          }) }
+            />
+            )) }
         </View>
       </View>
     )
@@ -98,16 +66,17 @@ class BookingsScreen extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const { bookings, bookables, locations } = state
+  const { bookings } = state
+
   const now = DateTime.local()
   const upcomingBookings =
-    bookings.items.filter(booking => DateTime.fromISO(booking.end) > now)
+    bookings.items
+      .sort(sortBookings)
+      .filter(booking => DateTime.fromISO(booking.end) > now)
+      .map(getSanitizedBooking)
 
   return {
     bookings: upcomingBookings,
-    bookables,
-    locations,
-    lastUpdated: state.bookings.lastUpdated,
     userExists: !!((state.token)), // Minimum criteria for existence
     token: state.token,
   }
@@ -121,14 +90,5 @@ const styles = StyleSheet.create({
   },
   bookings: {
     paddingLeft: 30,
-  },
-  updateMessageBox: {
-    backgroundColor: colors.tintColor,
-    padding: 10,
-    paddingLeft: 30,
-    marginBottom: 30,
-  },
-  updateMessageText: {
-    color: 'white',
   },
 })

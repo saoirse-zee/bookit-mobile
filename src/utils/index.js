@@ -6,22 +6,9 @@ import { setError } from '../actions/errors'
 export getMSAuthUrl from './getMSAuthUrl'
 export isFormValid from './isFormValid'
 export getBookablesWithAvailability from './getBookablesWithAvailability'
-
-export const getBookableNameFromId =
-  (bookableId, bookablesArray) => bookablesArray.reduce((result, current) => (
-    bookableId === current.id ? current.name : result), '')
-
-export const getBookableLocationIdFromId =
-  (bookableId, bookablesArray) => bookablesArray.reduce((result, current) => (
-    bookableId === current.id ? current.locationId : result), '')
-
-export const getLocationNameFromLocationId =
-  (locationId, locationArray) => locationArray.reduce((result, current) => (
-    locationId === current.id ? current.name : result), '')
-
-export const getLocationFromLocationId =
-  (locationId, locationArray) => locationArray.reduce((result, current) => (
-    locationId === current.id ? current : result), '')
+export sortBookings from './sortBookings'
+export isMakingNetworkRequest from './isMakingNetworkRequest'
+export getSanitizedBooking from './getSanitizedBooking'
 
 export const formatDate =
   (date, zoneName) => (
