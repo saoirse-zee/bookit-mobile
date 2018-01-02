@@ -1,2 +1,0 @@
-class DeviceMap:
-  text = 'string'

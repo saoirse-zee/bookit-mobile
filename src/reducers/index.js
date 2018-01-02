@@ -2,7 +2,7 @@ import { combineReducers } from 'redux'
 
 import selectedLocation from './selectedLocation'
 import locations from './locations'
-import bookables from './bookables'
+import bookablesByLocation from './bookablesByLocation'
 import bookings from './bookings'
 import createBooking from './createBooking'
 import modal from './modal'
@@ -12,7 +12,7 @@ import errors from './errors'
 const root = combineReducers({
   selectedLocation,
   locations,
-  bookables,
+  bookablesByLocation,
   bookings,
   createBooking,
   modal,

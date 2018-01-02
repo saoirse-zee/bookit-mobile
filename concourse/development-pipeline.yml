@@ -87,73 +87,14 @@ jobs:
         BUCKET: {{AWS_BUCKET}}
       file: bookit-mobile/concourse/tasks/run_unit_tests.yml
   on_failure: *failure
-- name: Publish Integration Testing Code
-  build_logs_to_retain: 3
-  plan:
-    - get: bookit-mobile
-      trigger: true
-      passed:
-        - Lint Bookit-Mobile Code Base
-        - Run Unit Tests
-    - get: dependency-cache
-    - *handle-dependencies
-    - task: Publish New Code
-      params:
-        EXPO_USERNAME: {{EXPO_USERNAME}}
-        EXPO_PASSWORD: {{EXPO_PASSWORD}}
-        CONFIG_FILE: integration.json
-      file: bookit-mobile/concourse/tasks/publish.yml
-  on_failure: *failure
-- name: Android Integration Tests
-  plan:
-    - get: bookit-mobile
-      trigger: true
-      passed:
-        - Publish Integration Testing Code
-    - get: dependency-cache
-    - *handle-dependencies
-    - task: Test Android Project
-      params:
-        EXPO_USERNAME: {{EXPO_USERNAME}}
-        EXPO_PASSWORD: {{EXPO_PASSWORD}}
-        AWS_ACCESS_KEY: {{AWS_ACCESS_KEY}}
-        AWS_SECRET_KEY: {{AWS_SECRET_KEY}}
-        AWS_REGION: us-west-2
-        PROJECT_ARN: {{PROJECT_ARN}}
-        DEVICE_POOL_ARN: {{ANDROID_DEVICE_POOL_ARN}}
-        DEVICE: Android
-        BINARY: {{ANDROID_S3_BINARY}}
-      file: bookit-mobile/concourse/tasks/integration_tests.yml
-  on_failure: *failure
-- name: iPhone Integration Tests
-  plan:
-    - get: bookit-mobile
-      trigger: true
-      passed:
-        - Publish Integration Testing Code
-    - get: dependency-cache
-    - *handle-dependencies
-    - task: Test iOS Project
-      params:
-        EXPO_USERNAME: {{EXPO_USERNAME}}
-        EXPO_PASSWORD: {{EXPO_PASSWORD}}
-        AWS_ACCESS_KEY: {{AWS_ACCESS_KEY}}
-        AWS_SECRET_KEY: {{AWS_SECRET_KEY}}
-        AWS_REGION: us-west-2
-        PROJECT_ARN: {{PROJECT_ARN}}
-        DEVICE_POOL_ARN: {{IPHONE_DEVICE_POOL_ARN}}
-        DEVICE: iOS
-        BINARY: {{IPHONE_S3_BINARY}}
-      file: bookit-mobile/concourse/tasks/integration_tests.yml
-  on_failure: *failure
 - name: Publish to Staging
   build_logs_to_retain: 3
   plan:
     - get: bookit-mobile
       trigger: true
       passed:
-        - Android Integration Tests
-        - iPhone Integration Tests
+        - Run Unit Tests
+        - Lint Bookit-Mobile Code Base
     - get: dependency-cache
     - task: handle dependencies
       file: bookit-mobile/concourse/tasks/dependencies.yml
